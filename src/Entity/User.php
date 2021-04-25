@@ -5,15 +5,14 @@ namespace App\Entity;
 use App\Entity\Address\City;
 use App\Entity\Address\Country;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -23,22 +22,28 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=80)
      */
     private $last_name;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=80)
      */
     private $first_name;
 
@@ -53,16 +58,6 @@ class User
      * @ORM\JoinColumn(name="country_id", nullable=false)
      */
     private $country_id;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="user_id", orphanRemoval=true)
-     */
-    private $rents;
-
-    public function __construct()
-    {
-        $this->rents = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -81,9 +76,41 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->password;
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -91,6 +118,26 @@ class User
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getLastName(): ?string
@@ -137,36 +184,6 @@ class User
     public function setCountryId(?Country $country_id): self
     {
         $this->country_id = $country_id;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Rent[]
-     */
-    public function getRents(): Collection
-    {
-        return $this->rents;
-    }
-
-    public function addRent(Rent $rent): self
-    {
-        if (!$this->rents->contains($rent)) {
-            $this->rents[] = $rent;
-            $rent->setUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRent(Rent $rent): self
-    {
-        if ($this->rents->removeElement($rent)) {
-            // set the owning side to null (unless already changed)
-            if ($rent->getUserId() === $this) {
-                $rent->setUserId(null);
-            }
-        }
 
         return $this;
     }
