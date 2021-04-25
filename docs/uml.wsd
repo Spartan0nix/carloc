@@ -3,7 +3,7 @@
 package "BusinessRules" #FFF {
     entity User {
         - id
-        - username
+        ' - username
         - email
         - password
         - last_name
@@ -19,7 +19,7 @@ package "BusinessRules" #FFF {
     entity Country {
         - id
         - name
-        - code
+        ' - code
     }
 
     entity Rent {
@@ -32,7 +32,7 @@ package "BusinessRules" #FFF {
         - user_id
     }
 
-    entity Office {
+    entity Offices {
         - id
         - street
         - city_id
@@ -89,10 +89,10 @@ package "BusinessRules" #FFF {
 
     User "Many" --> "One" City : To
     User "Many" --> "One" Country : To
-    Office "Many" --> "One" City : To
+    Offices "Many" --> "One" City : To
     Rent "Many" --* "One" User : To
-    Rent "Many" --* "One" Office : To
-    Rent "Many" --* "One" Office : To
+    Rent "Many" --* "One" Offices : To
+    Rent "Many" --* "One" Offices : To
 
     Rent "One" *-- "One" Car : To
 
