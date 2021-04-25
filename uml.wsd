@@ -32,7 +32,7 @@ package "BusinessRules" #FFF {
         - user_id
     }
 
-    entity Offices {
+    entity Office {
         - id
         - street
         - city_id
@@ -44,13 +44,12 @@ package "BusinessRules" #FFF {
         - id
         - horsepower
         - description
-        - car_id
         - fuel_id
         - brand_id
         - modele_id
-        - type_id
         - color_id
         - gearbox_id
+        - type_id (collection)
         - options_id (collection)
         - image_id (collection)
     }
@@ -90,10 +89,10 @@ package "BusinessRules" #FFF {
 
     User "Many" --> "One" City : To
     User "Many" --> "One" Country : To
-    Offices "Many" --> "One" City : To
+    Office "Many" --> "One" City : To
     Rent "Many" --* "One" User : To
-    Rent "Many" --* "One" Offices : To
-    Rent "Many" --* "One" Offices : To
+    Rent "Many" --* "One" Office : To
+    Rent "Many" --* "One" Office : To
 
     Rent "One" *-- "One" Car : To
 
