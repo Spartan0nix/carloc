@@ -1,0 +1,109 @@
+@startuml UML
+
+package "BusinessRules" #FFF {
+    entity User {
+        - id
+        - username
+        - email
+        - password
+        - last_name
+        - first_name
+        - city_id
+        - country_id
+    }
+    entity City {
+        - id
+        - name 
+        - code
+    }
+    entity Country {
+        - id
+        - name
+        - code
+    }
+
+    entity Rent {
+        - id
+        - price
+        - pickup_date
+        - pickup_office_id
+        - return_date
+        - return_office_id
+        - user_id
+    }
+
+    entity Offices {
+        - id
+        - street
+        - city_id
+        - tel_number
+        - mail
+    }
+
+    entity Car{
+        - id
+        - horsepower
+        - description
+        - car_id
+        - fuel_id
+        - brand_id
+        - modele_id
+        - type_id
+        - color_id
+        - gearbox_id
+        - options_id (collection)
+        - image_id (collection)
+    }
+    entity Fuel{
+        - id
+        - fuel
+    }
+    entity Brand {
+        - id
+        - brand
+    }
+    entity Modele {
+        - id
+        - modele
+    }
+    entity Type {
+        - id
+        - type
+    }
+    entity Color {
+        - id
+        - color
+    }
+    entity Gearbox {
+        - id
+        - gearbox
+    }
+    entity Options {
+        - id
+        - name
+        - description
+    }
+    entity carImage {
+        - id
+        - url 
+    }
+
+    User "Many" --> "One" City : To
+    User "Many" --> "One" Country : To
+    Offices "Many" --> "One" City : To
+    Rent "Many" --* "One" User : To
+    Rent "Many" --* "One" Offices : To
+    Rent "Many" --* "One" Offices : To
+
+    Rent "One" *-- "One" Car : To
+
+    Fuel "One" --o "Many" Car : To
+    Brand "One" --o "Many" Car : To
+    Modele "One" --o "Many" Car : To
+    Type "One" --o "Many" Car : To
+    Color "One" --o "Many" Car : To
+    Gearbox "One" --o "Many" Car : To
+    Options "One" --o "Many" Car : To
+    carImage "One" --o "Many" Car : To
+}
+@enduml
