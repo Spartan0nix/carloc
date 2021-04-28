@@ -1,3 +1,30 @@
-body {
-    // background-color: lightgray;
+:root {
+    --color-default: #727C83;
+    --color-success: #65B872;
+    --color-danger: #EE5044;
+    --color-primary: #1F5CD6;
+    --color-warning: #e6cc3c;
+
+    --alert-primary: #caf0f8;
+    --alert-success: #cfffb3;
+    --alert-warning: #fdf7d6;
+    --alert-error: #FADBDF;
+
+    --progress-bar: #92B9C9;
+    --disable-button: #DCE4E3;
+
+    /* grey */
+    --dark-grey: #374151;
+    --medium-grey: #6B7280;
+    --light-grey: #D1D5DB;
+    --vlight-grey: #F9FAFB;
+
+    /* red */
+    --medium-red: #DC262
 }
+
+/* Pages */
+@import 'pages/homepage.scss';
+
+/* Modules */
+
