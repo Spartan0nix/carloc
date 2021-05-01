@@ -51,10 +51,16 @@ class Offices
      */
     private $return_rents;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="office_id")
+     */
+    private $cars;
+
     public function __construct()
     {
         $this->pickup_rents = new ArrayCollection();
         $this->return_rents = new ArrayCollection();
+        $this->cars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +170,36 @@ class Offices
             // set the owning side to null (unless already changed)
             if ($returnRent->getReturnOfficeId() === $this) {
                 $returnRent->setReturnOfficeId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Car[]
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->setOfficeId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // set the owning side to null (unless already changed)
+            if ($car->getOfficeId() === $this) {
+                $car->setOfficeId(null);
             }
         }
 

@@ -43,12 +43,14 @@ package "BusinessRules" #FFF {
     entity Car{
         - id
         - horsepower
+        - daily_price
         - description
         - fuel_id
         - brand_id
         - modele_id
         - color_id
         - gearbox_id
+        - office_id
         - type_id (collection)
         - options_id (collection)
         - image_id (collection)
@@ -96,6 +98,7 @@ package "BusinessRules" #FFF {
 
     Rent "One" *-- "One" Car : To
 
+    Offices "One" --o "Many" Car: To
     Fuel "One" --o "Many" Car : To
     Brand "One" --o "Many" Car : To
     Modele "One" --o "Many" Car : To
