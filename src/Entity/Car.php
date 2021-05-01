@@ -82,6 +82,17 @@ class Car
      */
     private $image_id;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $daily_price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Offices::class, inversedBy="cars")
+     * @ORM\JoinColumn(name="office_id", nullable=false)
+     */
+    private $office_id;
+
     public function __construct()
     {
         $this->type_id = new ArrayCollection();
@@ -246,6 +257,30 @@ class Car
     public function removeImageId(carImage $imageId): self
     {
         $this->image_id->removeElement($imageId);
+
+        return $this;
+    }
+
+    public function getDailyPrice(): ?int
+    {
+        return $this->daily_price;
+    }
+
+    public function setDailyPrice(int $daily_price): self
+    {
+        $this->daily_price = $daily_price;
+
+        return $this;
+    }
+
+    public function getOfficeId(): ?Offices
+    {
+        return $this->office_id;
+    }
+
+    public function setOfficeId(?Offices $office_id): self
+    {
+        $this->office_id = $office_id;
 
         return $this;
     }
