@@ -23,8 +23,13 @@
     --medium-red: #DC262;
 }
 
+* {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
 /* Pages */
 @import 'pages/homepage.scss';
 
 /* Modules */
-
+@import 'modules/navbar.scss';

@@ -3,8 +3,40 @@
 {% block title 'Accueil' %}
 
 {% block body %}
-<div id="homepage">
+    {% include "components/navbar.html.twig" %}
 
-</div>
-
+    <div id="homepage">
+        <section class="homepage-title">
+            <div class="title-wrapper"></div>
+            <h3>La passion de l'automobile</h3>
+        </section>
+        <section class="homepage-subtitle">
+            <h4>Vous souhaitez louer un véhicule d’exception ?</h4>
+            <p>Fort de son réseau sur l’ensemble de la France, le Carloc dispose d’un large choix de véhicule.</p>
+        </section>
+        <section class="showcase">
+            <div class="showcase-car">
+                <img src="{{ asset('images/homepage/porsche.jpg') }}" alt="showcase-porsche">
+            </div>
+            <div class="showcase-car">
+                <img src="{{ asset('images/homepage/rs3.jpg') }}" alt="showcase-audi">
+            </div>
+            <div class="showcase-car">
+                <img src="{{ asset('images/homepage/volkswagen.jpg') }}" alt="showcase-volkswagen">
+            </div>
+        </section>
+        <section class="showcase">
+            <div class="showcase-car">
+                <img src="{{ asset('images/homepage/m4.jpg') }}" alt="showcase-m4">
+            </div>
+            <div class="showcase-car">
+                <img src="{{ asset('images/homepage/amg-gtr.jpg') }}" alt="showcase-amg-gtr">
+            </div>
+        </section>
+        <section class="showcase">
+            <div class="showcase-car">
+                <img src="{{ asset('images/homepage/m4.jpg') }}" alt="showcase-m4">
+            </div>
+        </section>
+    </div>
 {% endblock %}
