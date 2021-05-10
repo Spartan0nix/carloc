@@ -3,8 +3,6 @@
 {% block title 'Accueil' %}
 
 {% block body %}
-    {% include "components/navbar.html.twig" %}
-
     <div id="homepage">
         <section class="homepage-title">
             <div class="title-wrapper"></div>
@@ -25,18 +23,23 @@
                 <img src="{{ asset('images/homepage/volkswagen.jpg') }}" alt="showcase-volkswagen">
             </div>
         </section>
-        <section class="showcase">
-            <div class="showcase-car">
-                <img src="{{ asset('images/homepage/m4.jpg') }}" alt="showcase-m4">
-            </div>
-            <div class="showcase-car">
-                <img src="{{ asset('images/homepage/amg-gtr.jpg') }}" alt="showcase-amg-gtr">
-            </div>
-        </section>
-        <section class="showcase">
-            <div class="showcase-car">
-                <img src="{{ asset('images/homepage/m4.jpg') }}" alt="showcase-m4">
-            </div>
+        <section class="showcase-section">
+            <article class="showcase-row">
+                <div class="showcase-car">
+                    <img src="{{ asset('images/homepage/m4.jpg') }}" alt="showcase-m4">
+                    <p>Des véhicules aux dernières technologies.</p>
+                </div>
+                <div class="showcase-car">
+                    <img src="{{ asset('images/homepage/amg-gtr.jpg') }}" alt="showcase-amg-gtr">
+                    <p>Des véhicules aux performances incomparables.</p>
+                </div>
+            </article>
+            <article class="showcase-row">
+                <div class="showcase-car">
+                    <img src="{{ asset('images/homepage/old-porsche-911.jpg') }}" alt="porsche-911">
+                    <p>Pour tous les publics</p>
+                </div>
+            </article>
         </section>
     </div>
 {% endblock %}

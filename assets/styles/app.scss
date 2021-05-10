@@ -20,7 +20,7 @@
     --vlight-grey: #F9FAFB;
 
     /* red */
-    --medium-red: #DC262;
+    --medium-red: #D00000;
 }
 
 * {
@@ -33,3 +33,4 @@
 
 /* Modules */
 @import 'modules/navbar.scss';
+@import 'modules/footer.scss';
