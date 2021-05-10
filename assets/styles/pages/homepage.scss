@@ -1,3 +1,125 @@
 #homepage {
-    
+    // min-height: calc(100vh - 61px);
+    min-height: 200vh;
+
+    .homepage-title {
+        height: 300px;
+        position: relative;
+        background-image: url("/public/images/homepage/m3.jpg");
+        background-position: center;
+        background-size: cover;
+        z-index: 0;
+
+        .title-wrapper {
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.3); 
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        h3 {
+            position: absolute;
+            top: 40%;
+            left: 20%;
+            color: var(--vlight-grey);
+            font-size: 3rem;
+            font-weight: 200; 
+            padding: 5px; 
+            z-index: 2;
+        }
+        h3::after {
+            content: "";
+            position: absolute;
+            width: 70%;
+            height: 3px;
+            background-color: var(--color-success);
+            left: 15%;
+            bottom: 0;
+        }
+    }
+
+    .homepage-subtitle {
+        background-color: var(--vlight-grey);
+        text-align: center;
+        padding: 3rem;
+
+        h4 {
+            font-size: 2.4rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin: 1.5rem auto;
+        }
+    }
+
+    .showcase {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid var(--dark-grey);
+
+        .showcase-car:nth-child(2){
+            width: 20%;
+        }
+
+        .showcase-car {
+            width: 30%;
+            img {
+                width: 100%;
+            }
+        }
+    }
+    .showcase-section {
+        display: flex;
+        flex-direction: column;
+
+        .showcase-row {
+            display: flex;
+            justify-content: space-around;
+
+            .showcase-car {
+                width: 40%;
+                padding: 1rem;
+                margin: 2rem;
+                border: 1px solid var(--medium-grey);
+
+                img {
+                    width: 100%;
+                }
+                
+                p {
+                    text-align: center;
+                    margin: 1rem;
+                    font-size: 20px;
+                }
+            }
+        }  
+    } 
+}
+
+@media (max-width: 730px) {
+    #homepage {
+
+        .showcase {
+            flex-direction: column;
+        }
+
+        .showcase-car {
+            width: 75% !important;
+            margin: 1rem;
+        }
+
+        .showcase-section {
+            .showcase-row:first-child {
+                flex-direction: column;
+            }
+            .showcase-car {
+                margin: 2rem auto 2rem auto !important;
+            }
+        }
+    }
 }
