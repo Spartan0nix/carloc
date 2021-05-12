@@ -7,6 +7,7 @@
     position: static;
     top: 0;
     left: 0;
+    transition: min-height 0.2s ease-in-out;
 
     .navbar-logo {
         flex-grow: 0;
@@ -46,5 +47,110 @@
     a {
         color: var(--vlight-grey);
         text-decoration: none;
+    }
+
+    .mobile-nav {
+        display: none;
+        align-items: center;
+        padding: 20px;
+        justify-content: flex-end;
+        align-items: center;
+        transition: border 0.2s ease-in;
+
+        .mobile-nav-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            height: 30px;
+            width: 40px;
+
+            &:hover {
+                cursor: pointer !important;
+            }
+            
+            span {
+                content: "";
+                width: 40px;
+                height: 2px;
+                background-color: var(--vlight-grey);
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 40px;
+                    height: 2px;
+                    background-color: var(--vlight-grey);
+                    transition: transform 0.2s ease-in-out;
+                }
+                &::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 40px;
+                    height: 2px;
+                    background-color: var(--vlight-grey);
+                    transition: transform 0.2s ease-in-out;
+                }
+            }
+        }
+    }
+}
+
+.navbar-open {
+    min-height: 100vh;
+    flex-direction: column-reverse;
+
+    .navbar-logo {
+        visibility: hidden;
+    }
+
+    .navbar-user {
+        display: flex !important;
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    .navbar-links {
+        visibility: visible;
+        flex-direction: column;
+        border-left: none;
+        border-right: none;
+        margin: 1rem 5rem;
+    }
+
+    .mobile-nav {
+        border-bottom: 1px solid var(--vlight-grey);
+        .mobile-nav-btn {
+        
+            span {
+                width: 0px !important;
+    
+                &::after {
+                    transform: rotate(40deg);
+                    top: 13px !important;
+                }
+                &::before {
+                    transform: rotate(-40deg);
+                    bottom: 15px !important;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 940px){
+    .mobile-nav {
+        display: flex !important;
+    }
+    .navbar-user {
+        display: none !important;
+    }
+    .navbar-links {
+        visibility: hidden;
     }
 }
