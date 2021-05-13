@@ -1,12 +1,12 @@
 .navbar-container {
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 60px;
     background-color: var(--dark-grey);
     display: flex;
     border-bottom: 1px solid var(--vlight-grey);
-    position: static;
-    top: 0;
-    left: 0;
     transition: min-height 0.2s ease-in-out;
 
     .navbar-logo {
@@ -51,10 +51,9 @@
 
     .mobile-nav {
         display: none;
-        align-items: center;
-        padding: 20px;
-        justify-content: flex-end;
-        align-items: center;
+        position: absolute;
+        top: 15px;
+        right: 15px;
         transition: border 0.2s ease-in;
 
         .mobile-nav-btn {
@@ -103,10 +102,10 @@
 
 .navbar-open {
     min-height: 100vh;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     .navbar-logo {
-        visibility: hidden;
+        display: flex !important;
     }
 
     .navbar-user {
@@ -116,7 +115,7 @@
     }
 
     .navbar-links {
-        visibility: visible;
+        display: flex !important;
         flex-direction: column;
         border-left: none;
         border-right: none;
@@ -147,10 +146,14 @@
     .mobile-nav {
         display: flex !important;
     }
+    .navbar-logo {
+        border-bottom: 1px solid var(--vlight-grey);
+    }
     .navbar-user {
         display: none !important;
     }
     .navbar-links {
-        visibility: hidden;
+        display: none !important;
+        flex-grow: 0 !important;
     }
 }

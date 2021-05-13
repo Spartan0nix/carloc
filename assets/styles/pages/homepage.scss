@@ -1,5 +1,4 @@
 #homepage {
-    // min-height: calc(100vh - 61px);
     min-height: 200vh;
 
     .homepage-title {
@@ -103,6 +102,11 @@
 
 @media (max-width: 730px) {
     #homepage {
+        .homepage-title {
+            h3 {
+                font-size: 2.5rem;
+            }
+        }
 
         .showcase {
             flex-direction: column;
