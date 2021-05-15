@@ -29,11 +29,14 @@
     font-family: sans-serif;
 }
 /* Pages */
-@import 'pages/homepage.scss';
-@import 'pages/rent_step_1.scss';
+@import 'pages/homepage';
+@import 'pages/rent_step_1';
 
 /* Modules */
+@import "modules/alert";
+@import "modules/animations";
+@import 'modules/button';
 @import 'modules/container';
-@import 'modules/footer.scss';
-@import 'modules/input.scss';
-@import 'modules/navbar.scss';
+@import 'modules/footer';
+@import 'modules/input';
+@import 'modules/navbar';

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
 
-    .user-input {
+    #rent_step_1_form {
         .container {
             display: flex;
             flex-direction: column;
@@ -44,6 +44,9 @@
                 }
             }
         }
+        .form-button {
+            margin-left: 2rem;
+        }
     }
 
     .tuto-container {
@@ -61,6 +64,7 @@
 
             aside {
                 padding: 3rem 2rem 3rem 2rem;
+                max-width: 40%;
                 ul {
                     width: 18rem;
                     margin: 0 auto;
@@ -89,7 +93,9 @@
 
     .tuto-content {
         flex-direction: column;
-
+        aside {
+            max-width: none !important;
+        }
         img {
             width: 70%;
             margin: 0 auto;
