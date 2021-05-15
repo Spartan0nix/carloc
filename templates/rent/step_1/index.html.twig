@@ -4,34 +4,38 @@
 
 {% block body %}
     <main id="rent_step_1">
-        <section class="user-input">
+        <form id="rent_step_1_form" action="{{ path('rent_list') }}" method="POST">
             <div class="container">
+                <input type="hidden" name="token" value="{{ csrf_token('token') }}">
                 <h4>Réserver votre véhicule dès maintenant.</h4>
                 <div class="container-input">
                     <section class="office-selector">
                         <div class="office-pickup input-text">
                             <label>Agence de départ :</label>
-                            <input type="text" placeholder="Entrez une ville ou code postal" id="office-pickup-input">
+                            <input type="text" placeholder="Entrez une ville ou code postal" id="office-pickup-input" name="pickup_office" required>
                         </div>
                         <div class="office-return input-text">
                             <div>
                                 <input type="checkbox" id="same-return-office" checked>
                                 <label for="same-return-office">Agence de retour identique à l’agence de départ :</label>
                             </div>
-                            <input type="text" placeholder="Entrez une ville ou code postal" id="office-return-input">
+                            <input type="text" placeholder="Entrez une ville ou code postal" id="office-return-input" name="return_office">
                         </div>
                     </section>
                     <section class="start-date input-date">
                         <label for="start-date-input">Date de départ :</label>
-                        <input type="date" id="start-date-input">
+                        <input type="date" id="start-date-input" name="start_date" required>
                     </section>
                     <section class="end-date input-date">
                         <label for="end-date-input">Date de retour :</label>
-                        <input type="date" id="end-date-input">
+                        <input type="date" id="end-date-input" name="end_date" required>
                     </section>
                 </div>
+                <div class="form-button">
+                    <button type='submit' class="btn btn-success">Rechercher</button>
+                </div>
             </div>
-        </section>
+        </form>
         <section class="tuto-container">
             <h3>Comment effectuer votre réservation ?</h3>
             <div class="tuto-content">
@@ -56,11 +60,27 @@
                 <img src="{{ asset('images/search-office-page/map.jpg') }}" width="40%" alt="map">
             </div>
         </section>
-        <section class="tuto-contract">
-        
+        <section class="tuto-container">
+            <div class="tuto-content">
+                <img src="{{ asset('images/search-office-page/contrat.jpg') }}" width="40%" alt="contrat">
+                <aside>
+                    <ul>
+                        <li>Rendez-vous dans l’agence choisi avec les documents requis.</li>
+                    </ul>
+                    <p>Une fois les différents documents requis fournis, vous serrez en mesure de signer votre contrat de location et ainsi récupérer votre véhicule.</p>
+                </aside>
+            </div>
         </section>
-        <section class="tuto-return">
-        
+        <section class="tuto-container">
+            <div class="tuto-content">
+                <aside>
+                    <ul>
+                        <li> Profiter de votre location jusqu’à la date de retour</li>
+                    </ul>
+                    <p>Il est possible de retourner le véhicule dans n’importe quelles agences au sein du département d’origine.</p>
+                </aside>
+                <img src="{{ asset('images/search-office-page/moving-car.jpg') }}" width="40%" alt="voiture">
+            </div>
         </section>
     </main>
 {% endblock %}
