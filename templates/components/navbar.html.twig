@@ -9,7 +9,7 @@
     </section>
     <section class="navbar-links">
         <div class="navbar-link">
-            <a href="">Louer</a>
+            <a href="{{ path("rent_index") }}">Louer</a>
         </div>
         <div class="navbar-link">
             <a href="">Contact</a>
@@ -27,10 +27,8 @@
         </div>
     </section>
     <section class="mobile-nav">
-        {# <div class="mobile-nav-div"> #}
-            <button class="mobile-nav-btn" name="Open navbar button">
-                <span></span>
-            </button>
-        {# </div> #}
+        <button class="mobile-nav-btn" name="Open navbar button" aria-label="Open navbar button">
+            <span></span>
+        </button>
     </section>
 </nav>

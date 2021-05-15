@@ -30,7 +30,10 @@
 }
 /* Pages */
 @import 'pages/homepage.scss';
+@import 'pages/rent_step_1.scss';
 
 /* Modules */
-@import 'modules/navbar.scss';
+@import 'modules/container';
 @import 'modules/footer.scss';
+@import 'modules/input.scss';
+@import 'modules/navbar.scss';

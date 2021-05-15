@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Trouver ma location' %}
+
+{% block body %}
+    <main id="rent_step_1">
+        <section class="user-input">
+            <div class="container">
+                <h4>Réserver votre véhicule dès maintenant.</h4>
+                <div class="container-input">
+                    <section class="office-selector">
+                        <div class="office-pickup input-text">
+                            <label>Agence de départ :</label>
+                            <input type="text" placeholder="Entrez une ville ou code postal" id="office-pickup-input">
+                        </div>
+                        <div class="office-return input-text">
+                            <div>
+                                <input type="checkbox" id="same-return-office" checked>
+                                <label for="same-return-office">Agence de retour identique à l’agence de départ :</label>
+                            </div>
+                            <input type="text" placeholder="Entrez une ville ou code postal" id="office-return-input">
+                        </div>
+                    </section>
+                    <section class="start-date input-date">
+                        <label for="start-date-input">Date de départ :</label>
+                        <input type="date" id="start-date-input">
+                    </section>
+                    <section class="end-date input-date">
+                        <label for="end-date-input">Date de retour :</label>
+                        <input type="date" id="end-date-input">
+                    </section>
+                </div>
+            </div>
+        </section>
+        <section class="tuto-container">
+            <h3>Comment effectuer votre réservation ?</h3>
+            <div class="tuto-content">
+                <img src="{{ asset('images/search-office-page/map.jpg') }}" width="40%" alt="map">
+                <aside>
+                    <ul>
+                        <li>Trouvez une agence</li>
+                    </ul>
+                    <p>Récuperez votre véhicule dans l’agence la plus proche de chez vous</p>
+                </aside>
+            </div>
+        </section>
+        <section class="tuto-container">
+            <div class="tuto-content">
+                <aside>
+                    <ul>
+                        <li>Sélectionner votre véhicule</li>
+                    </ul>
+                    <p>Sélectionner le véhicule de votre choix.</p>
+                    <p><i>Certains véhicules ne sont disponibles qu’uniquement dans certaines agences.</i></p>
+                </aside>
+                <img src="{{ asset('images/search-office-page/map.jpg') }}" width="40%" alt="map">
+            </div>
+        </section>
+        <section class="tuto-contract">
+        
+        </section>
+        <section class="tuto-return">
+        
+        </section>
+    </main>
+{% endblock %}
