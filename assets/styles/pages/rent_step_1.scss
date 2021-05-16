@@ -72,6 +72,7 @@
                         text-align: center;
                         font-size: 1.3rem;
                         font-weight: bold;
+                        margin: 0 auto;
                     }
                 }
                 p {
@@ -90,15 +91,25 @@
             flex-direction: column;
         }
     }
+    .tuto-container {
+        margin: 0 auto !important;
 
-    .tuto-content {
-        flex-direction: column;
-        aside {
-            max-width: none !important;
+        &:first-of-type {
+            margin: 2rem auto 0 auto !important;
         }
-        img {
-            width: 70%;
-            margin: 0 auto;
-        }
+
+        .tuto-content {
+            flex-direction: column;
+            aside {
+                max-width: none !important;
+                li {
+                    max-width: 80%;
+                }
+            }
+            img {
+                width: 70%;
+                margin: 0 auto;
+            }
+        } 
     }
 }
