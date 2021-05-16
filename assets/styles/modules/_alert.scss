@@ -30,17 +30,13 @@
     }
 }
 /*----------------------------------------------------------*/
-.alert-primary {
-    background-color: var(--alert-primary);
-    color: var(--color-primary);
-}
 .alert-success {
     background-color: var(--alert-success);
     color: var(--color-success);
 }
 .alert-warning {
     background-color: var(--alert-warning);
-    color: var(--color-warning);
+    color: var(--alert-text-warning);
 }
 .alert-error {
     background-color: var(--alert-error);
