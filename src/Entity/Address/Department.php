@@ -3,15 +3,15 @@
 namespace App\Entity\Address;
 
 use App\Entity\User;
-use App\Repository\Address\CountryRepository;
+use App\Repository\Address\DepartmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CountryRepository::class)
+ * @ORM\Entity(repositoryClass=DepartmentRepository::class)
  */
-class Country
+class Department
 {
     /**
      * @ORM\Id
@@ -81,7 +81,7 @@ class Country
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->setCountryId($this);
+            $user->setDepartmentId($this);
         }
 
         return $this;
@@ -91,8 +91,8 @@ class Country
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getCountryId() === $this) {
-                $user->setCountryId(null);
+            if ($user->getDepartmentId() === $this) {
+                $user->setDepartmentId(null);
             }
         }
 

@@ -50,6 +50,12 @@ class Rent
      */
     private $user_id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Car::class, inversedBy="rents")
+     * @ORM\JoinColumn(name="car_id", nullable=false)
+     */
+    private $car_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +129,18 @@ class Rent
     public function setUserId(?User $user_id): self
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getCarId(): ?Car
+    {
+        return $this->car_id;
+    }
+
+    public function setCarId(?Car $car_id): self
+    {
+        $this->car_id = $car_id;
 
         return $this;
     }

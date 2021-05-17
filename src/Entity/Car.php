@@ -93,11 +93,22 @@ class Car
      */
     private $office_id;
 
+    /**
+     * @ORM\Column(type="string", length=4)
+     */
+    private $release_year;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="car_id", orphanRemoval=true)
+     */
+    private $rents;
+
     public function __construct()
     {
         $this->type_id = new ArrayCollection();
         $this->option_id = new ArrayCollection();
         $this->image_id = new ArrayCollection();
+        $this->rents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +292,48 @@ class Car
     public function setOfficeId(?Offices $office_id): self
     {
         $this->office_id = $office_id;
+
+        return $this;
+    }
+
+    public function getReleaseYear(): ?string
+    {
+        return $this->release_year;
+    }
+
+    public function setReleaseYear(string $release_year): self
+    {
+        $this->release_year = $release_year;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rent[]
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setCarId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getCarId() === $this) {
+                $rent->setCarId(null);
+            }
+        }
 
         return $this;
     }

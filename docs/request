@@ -1,0 +1,8 @@
+SELECT car.id,fuel,brand,modele,color,gearbox,street,horsepower,description,daily_price,release_year
+FROM public.car
+INNER JOIN fuel ON car.fuel_id = fuel.id
+INNER JOIN brand ON car.brand_id = brand.id
+INNER JOIN modele ON car.modele_id = modele.id
+INNER JOIN color ON car.color_id = color.id
+INNER JOIN gearbox ON car.gearbox_id = gearbox.id
+INNER JOIN offices ON car.office_id = offices.id
