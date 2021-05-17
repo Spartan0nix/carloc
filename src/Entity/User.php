@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Address\City;
-use App\Entity\Address\Country;
+use App\Entity\Address\Department;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -54,10 +54,10 @@ class User implements UserInterface
     private $city_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="users")
-     * @ORM\JoinColumn(name="country_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="users")
+     * @ORM\JoinColumn(name="department_id", nullable=false)
      */
-    private $country_id;
+    private $department_id;
 
     public function getId(): ?int
     {
@@ -176,14 +176,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCountryId(): ?Country
+    public function getDepartmentId(): ?Department
     {
-        return $this->country_id;
+        return $this->department_id;
     }
 
-    public function setCountryId(?Country $country_id): self
+    public function setDepartmentId(?Department $department_id): self
     {
-        $this->country_id = $country_id;
+        $this->department_id = $department_id;
 
         return $this;
     }

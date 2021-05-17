@@ -1,0 +1,165 @@
+include :
+  - ./templates.yaml
+
+# ------------------------------------------------------------------------------------
+# Components
+# ------------------------------------------------------------------------------------
+App\Entity\Components\Brand:
+  bmw:
+    brand: BMW
+  mercedesBenz:
+    brand: Mercedes-benz
+  audi:
+    brand: Audi
+  renault:
+    brand: Renault
+  porsche:
+    brand: Porsche
+  suzuki:
+    brand: Suzuki
+
+App\Entity\Components\Color:
+  color{1..5} (extends color):
+
+App\Entity\Components\Fuel:
+  essence:
+    id: 1
+    fuel: Essence
+  diesel:
+    id: 2
+    fuel: Diesel
+  électrique:
+    id: 3
+    fuel: Électrique
+
+App\Entity\Components\Gearbox:
+  manuelle:
+    id: 1
+    gearbox: Manuelle
+  automatique:
+    id: 2
+    gearbox: Automatique
+
+App\Entity\Components\Modele:
+  m2:
+    modele: M2
+  rs3:
+    modele: RS3
+  c63:
+    modele: C63
+  gt3rs:
+    modele: GT3RS
+  swiftSport:
+    modele: SWIFT SPORT
+
+App\Entity\Components\Type:
+  sportive:
+    type: SPORTIVE
+  suv:
+    type: SUV
+  coupe:
+    type: COUPÉ
+  cabriolet:
+    type: CABRIOLET
+  supercar:
+    type: SUPERCAR
+  compact:
+    type: COMPACT
+
+# ------------------------------------------------------------------------------------
+# Office
+# ------------------------------------------------------------------------------------
+App\Entity\Address\Department:
+  departement{1..10} (extends departement):
+
+App\Entity\Address\City:
+  city{1..20} (extends city):
+
+App\Entity\Offices:
+  offices{1..2} (extends offices):
+
+# ------------------------------------------------------------------------------------
+# Car
+# ------------------------------------------------------------------------------------
+App\Entity\Car:
+  M2:
+    horsepower: 370
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@bmw'
+    modele_id: '@m2'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@manuelle'
+    type_id: ['@sportive', '@coupe']
+    daily_price: 250
+    office_id: '@offices<numberBetween(1,2)>'
+    release_year: '2019'
+  RS3:
+    horsepower: 400
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@audi'
+    modele_id: '@rs3'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@automatique'
+    type_id: ['@sportive']
+    daily_price: 400
+    office_id: '@offices<numberBetween(1,2)>'
+    release_year: 2019
+  C63:
+    horsepower: 476
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@mercedesBenz'
+    modele_id: '@c63'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@automatique'
+    type_id: ['@sportive', '@coupe']
+    daily_price: 500
+    office_id: '@offices<numberBetween(1,2)>'
+    release_year: 2018
+  GT3RS:
+    horsepower: 520
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@porsche'
+    modele_id: '@gt3rs'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@automatique'
+    type_id: ['@sportive', '@supercar']
+    daily_price: 1200
+    office_id: '@offices<numberBetween(1,2)>'
+    release_year: 2019
+  SWIFT-SPORT:
+    horsepower: 140
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@suzuki'
+    modele_id: '@swiftSport'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@manuelle'
+    type_id: ['@sportive', '@compact']
+    daily_price: 90
+    office_id: '@offices<numberBetween(1,2)>'
+    release_year: 2018
+
+# ------------------------------------------------------------------------------------
+# User
+# ------------------------------------------------------------------------------------
+App\Entity\User:
+  user{1..10} (extends user):
+
+# ------------------------------------------------------------------------------------
+# Rents
+# ------------------------------------------------------------------------------------
+App\Entity\Rent:
+  rent:
+    price: 9975
+    pickup_date: <date_create()>
+    return_date: <date_create('+3 weeks')>
+    pickup_office_id: '@offices1'
+    return_office_id: '@offices1'
+    user_id: '@user<numberBetween(1,10)>'
+    car_id: '@C63'
+
+
