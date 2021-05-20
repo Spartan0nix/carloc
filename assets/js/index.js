@@ -1,2 +1,4 @@
-import './components/navbar';
-import './components/alert';
+import './event/alert';
+import './event/navbar';
+
+import './controller';

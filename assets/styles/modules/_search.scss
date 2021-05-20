@@ -1,0 +1,38 @@
+.search {
+    position: relative;
+    input[type="text"]{
+        width: 96%;
+    }
+
+    .search-result {
+        position: absolute;
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        height: 15rem;
+        top: 3rem;
+        background-color: var(--vlight-grey);
+        border: 1px solid var(--medium-grey);
+
+        .search-result-element {
+            display: flex;
+            flex-direction: column;
+            padding: 0.4rem;
+            margin: 0.5rem;
+            border-bottom: 1px solid var(--color-primary);
+
+            .office-street {
+                margin: 0.4rem;
+                font-size: 1.3rem;
+            }
+            .office-email, .office-phone {
+                font-size: 1rem;
+            }
+
+            &:hover {
+                background-color: var(--light-grey);
+                cursor: pointer;
+            }
+        }
+    }
+}
