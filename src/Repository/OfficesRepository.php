@@ -19,32 +19,14 @@ class OfficesRepository extends ServiceEntityRepository
         parent::__construct($registry, Offices::class);
     }
 
-    // /**
-    //  * @return Offices[] Returns an array of Offices objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
+    public function searchOffices(String $office) {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('o.street LIKE :val')
+            ->setParameter('val', '%'.$office.'%')
             ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(8)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Offices
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
