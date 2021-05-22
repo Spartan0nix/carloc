@@ -42,6 +42,21 @@
                         margin-right: 0.4rem;
                     }
                 }
+
+                .office-return {
+                    .search {
+                        display: none;
+                    }
+    
+                    &.diff-return-office {
+                        .search {
+                            display: block;
+                        }
+                    }
+                    label:hover, input[type="checkbox"]:hover {
+                        cursor: pointer;
+                    }
+                }
             }
         }
         .form-button {
@@ -90,26 +105,26 @@
         .container-input {
             flex-direction: column;
         }
-    }
-    .tuto-container {
-        margin: 0 auto !important;
-
-        &:first-of-type {
-            margin: 2rem auto 0 auto !important;
-        }
-
-        .tuto-content {
-            flex-direction: column;
-            aside {
-                max-width: none !important;
-                li {
-                    max-width: 80%;
+        .tuto-container {
+            margin: 0 auto !important;
+    
+            &:first-of-type {
+                margin: 2rem auto 0 auto !important;
+            }
+    
+            .tuto-content {
+                flex-direction: column;
+                aside {
+                    max-width: none !important;
+                    li {
+                        max-width: 80%;
+                    }
                 }
-            }
-            img {
-                width: 70%;
-                margin: 0 auto;
-            }
-        } 
-    }
+                img {
+                    width: 70%;
+                    margin: 0 auto;
+                }
+            } 
+        }
+    } 
 }

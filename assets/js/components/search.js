@@ -7,7 +7,7 @@ export class Search extends HTMLElement {
         var id = this.dataset.id;
         var name = this.dataset.name;
 
-        this.innerHTML = `<input type="text" placeholder="${placeholder}" id="${id}" required>
+        this.innerHTML = `<input type="text" placeholder="${placeholder}" id="${id}">
                             <input type="hidden" name="${name}">
                             <div class="search-result"></div> 
                         `;
@@ -33,10 +33,10 @@ export class SearchOffices extends Search {
                 try {
                     let response = await fetch(`${URL_OFFICE}?q=${encodeURI(input.value)}`)
                     if(response.ok) {
-                        let data = await this.processJson(response)
+                        let data = await response.json()
                         this.updateSearchResult(data.data)
                     } else {
-                        let error = await this.processJson(response)
+                        let error = await response.json()
                         this.notFound(error)
                     }
                 } catch (error) {
@@ -44,9 +44,14 @@ export class SearchOffices extends Search {
                 }
             },300)          
         })  
-        input.addEventListener('focus', () => {
-            children[2].style.display = 'flex'
+
+        input.addEventListener('click', () => {
+            children[0].closest('.search').classList.toggle('open-search-result')
         })
+
+        // input.addEventListener('blur', () => {
+        //     children[2].style.display = 'none'
+        // })
     }
 
     
@@ -72,19 +77,15 @@ export class SearchOffices extends Search {
 
     addOffice(event) {
         let userInput = Array.from(this.children)[0]
-        let input = Array.from(this.children)[1]
+        let form_input = Array.from(this.children)[1]
         let container = Array.from(this.children)[2]
         let searchElement = event.closest('.search-result-element');
 
         userInput.value = searchElement.querySelector('.office-street').innerHTML
-        input.value = searchElement.dataset.officeid;
+        form_input.value = searchElement.dataset.officeid;
         container.style.display = 'none'
     }
 
-
-    async processJson(response){
-        return response.json()
-    }
 
     async notFound(error){
         let container = Array.from(this.children)[2]
