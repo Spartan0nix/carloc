@@ -14,10 +14,8 @@ App\Entity\Address\City:
 
 App\Entity\Offices:
   offices (template):
-    # street: '<streetAddress()>'
-    # tel_number: '<phoneNumber()>'
-    street: '<secondaryAddress()>'
-    tel_number: serviceNumber()
+    street: '<streetAddress()>'
+    tel_number: '<phoneNumber()>'
     email: '<companyEmail()>'
     city_id: '@city<numberBetween(1,20)>'
 
