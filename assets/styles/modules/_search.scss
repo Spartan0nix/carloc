@@ -6,6 +6,7 @@
 
     .search-result {
         position: absolute;
+        z-index: 10;
         display: none;
         flex-direction: column;
         width: 100%;
@@ -33,6 +34,12 @@
                 background-color: var(--light-grey);
                 cursor: pointer;
             }
+        }
+    }
+
+    &.open-search-result {
+        .search-result {
+            display: flex !important;
         }
     }
 }
