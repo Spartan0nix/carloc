@@ -41,7 +41,9 @@ class CarController extends AbstractController
             $rentInfo['start_date'] = $req['start_date'];
             $rentInfo['end_date'] = $req['end_date'];
 
-            dump($req);
+            $cars = $this->repository->findAvailableCar($req['pickup_office']);
+
+            dump($cars);
         }
         
         return $this->render('rent/step_2/index.html.twig', [

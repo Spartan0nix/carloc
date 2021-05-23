@@ -3,7 +3,6 @@
 package "BusinessRules" #FFF {
     entity User {
         - id
-        ' - username
         - email
         - password
         - last_name

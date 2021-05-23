@@ -36,7 +36,14 @@ class CarRepository extends ServiceEntityRepository
     }
     */
 
-    public function findAvailableCar(){
-        
+    public function findAvailableCar(int $office){
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.office_id = :office')
+            ->setParameter('office', $office)
+            ->orderBy('c.daily_price', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }
