@@ -25,6 +25,8 @@ class CarController extends AbstractController
 
         if($request->request){
             $req = $request->request->all();
+            $rentInfo = array();
+
             if(!$this->isCsrfTokenValid('token', $req['token'])){
                 $this->addFlash("error","Erreur lors de la recherche.");
                 return $this->redirectToRoute('rent_index');
@@ -34,9 +36,16 @@ class CarController extends AbstractController
                 $req['return_office'] = $req['pickup_office'];
             }
 
+            $rentInfo['pickup_office'] = $req['pickup_office'];
+            $rentInfo['return_office'] = $req['return_office'];
+            $rentInfo['start_date'] = $req['start_date'];
+            $rentInfo['end_date'] = $req['end_date'];
+
             dump($req);
         }
         
-        return $this->render('rent/step_2/index.html.twig');
+        return $this->render('rent/step_2/index.html.twig', [
+            'rentInfo' => $rentInfo
+        ]);
     }
 }

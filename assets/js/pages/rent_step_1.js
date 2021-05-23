@@ -20,13 +20,11 @@ if(document.getElementById('rent_step_1')){
         returnOfficeContainer.querySelector('input[type="text"]').required = false;
     },50)
     
-
-    var returnOfficeCheckbox = document.getElementById('same-return-office');
     returnOfficeCheckbox.addEventListener('click', () => {
-        if(container.classList.contains('diff-return-office')){
+        if(returnOfficeContainer.classList.contains('diff-return-office')){
             returnOfficeContainer.querySelector('input[type="text"]').value = ''
             returnOfficeContainer.querySelector('input[type="hidden"]').value = ''
         }
-        container.classList.toggle('diff-return-office');
+        returnOfficeContainer.classList.toggle('diff-return-office');
     })
 }
