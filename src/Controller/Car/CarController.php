@@ -2,6 +2,7 @@
 
 namespace App\Controller\Car;
 
+use App\Controller\Normalizer\CarNormalizer;
 use App\Repository\CarRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,10 +14,15 @@ class CarController extends AbstractController
      * @var CarRepository
      */
     private $repository;
+    /**
+     * @var CarNormalizer
+     */
+    private $carNormalizer;
 
-    public function __construct(CarRepository $carRepository)
+    public function __construct(CarRepository $carRepository, CarNormalizer $carNormalizer)
     {
         $this->repository = $carRepository;
+        $this->carNormalizer = $carNormalizer;
     }
 
     
@@ -43,7 +49,12 @@ class CarController extends AbstractController
 
             $cars = $this->repository->findAvailableCar($req['pickup_office']);
 
-            dump($cars);
+            $normalizeCar = array();
+            foreach($cars as $car){
+                array_push($normalizeCar, $this->carNormalizer->normalize($car));
+            }
+
+            dump($normalizeCar);
         }
         
         return $this->render('rent/step_2/index.html.twig', [
