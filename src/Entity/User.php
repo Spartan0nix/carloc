@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Entity\Address\City;
 use App\Entity\Address\Department;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -58,6 +60,16 @@ class User implements UserInterface
      * @ORM\JoinColumn(name="department_id", nullable=false)
      */
     private $department_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="user_id", orphanRemoval=true)
+     */
+    private $rents;
+
+    public function __construct()
+    {
+        $this->rents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -184,6 +196,36 @@ class User implements UserInterface
     public function setDepartmentId(?Department $department_id): self
     {
         $this->department_id = $department_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rent[]
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getUserId() === $this) {
+                $rent->setUserId(null);
+            }
+        }
 
         return $this;
     }

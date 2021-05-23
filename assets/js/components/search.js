@@ -8,6 +8,12 @@ export class Search extends HTMLElement {
         var name = this.dataset.name;
 
         this.innerHTML = `<input type="text" placeholder="${placeholder}" id="${id}">
+                            <span class="close-search">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M18 15l-6 -6l-6 6h12" transform="rotate(180 12 12)" />
+                                </svg>
+                            </span>
                             <input type="hidden" name="${name}">
                             <div class="search-result"></div> 
                         `;
@@ -46,18 +52,12 @@ export class SearchOffices extends Search {
         })  
 
         input.addEventListener('click', () => {
-            children[0].closest('.search').classList.toggle('open-search-result')
+            this.toggleSearchResult();
         })
-
-        // input.addEventListener('blur', () => {
-        //     children[2].style.display = 'none'
-        // })
     }
 
-    
-
     async updateSearchResult(data){
-        let container = Array.from(this.children)[2]
+        let container = this.children[3]
         container.innerHTML = '';
         data.forEach(office => {
             container.innerHTML += `<div class='search-result-element' data-officeid='${office.id}'>
@@ -74,21 +74,22 @@ export class SearchOffices extends Search {
         })
     }
 
-
     addOffice(event) {
-        let userInput = Array.from(this.children)[0]
-        let form_input = Array.from(this.children)[1]
-        let container = Array.from(this.children)[2]
+        let userInput = this.children[0]
+        let form_input = this.children[2]
         let searchElement = event.closest('.search-result-element');
 
         userInput.value = searchElement.querySelector('.office-street').innerHTML
         form_input.value = searchElement.dataset.officeid;
-        container.style.display = 'none'
+        this.toggleSearchResult();
     }
 
+    toggleSearchResult(){
+        this.children[0].closest('.search').classList.toggle('open-search-result')
+    }
 
     async notFound(error){
-        let container = Array.from(this.children)[2]
+        this.children[3]
         container.innerHTML = `<div class='search-result-element search-not-found'>
                                     ${error.message}
                                 </div>`

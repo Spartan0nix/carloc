@@ -36,15 +36,14 @@ class CarRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Car
-    {
+    public function findAvailableCar(int $office){
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.office_id = :office')
+            ->setParameter('office', $office)
+            ->orderBy('c.daily_price', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
 }
