@@ -55,10 +55,12 @@ class CarController extends AbstractController
             }
 
             dump($normalizeCar);
+            dump($rentInfo);
         }
         
         return $this->render('rent/step_2/index.html.twig', [
-            'rentInfo' => $rentInfo
+            'rentInfo' => $rentInfo,
+            'cars' => $normalizeCar
         ]);
     }
 }
