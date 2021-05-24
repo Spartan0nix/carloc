@@ -1,12 +1,32 @@
 import { generateAlert } from './alert'
 
-export class Search extends HTMLElement {
+ export class Search extends HTMLElement {
     connectedCallback() {
         this.classList.add('search');
-        var placeholder = this.dataset.placeholder;
-        var id = this.dataset.id;
-        var name = this.dataset.name;
+        /**
+         * Retrieve search configuration element
+         */
+        let placeholder = this.dataset.placeholder;
+        let id = this.dataset.id;
+        let name = this.dataset.name;
+        let type = this.dataset.type;
 
+        /**
+         * Choose between the different type of search
+         * @var String type
+         */
+        switch (type) {
+            case "office":
+                var URL = '/recherche/offices/';
+                break;
+        
+            default:
+                break;
+        }
+
+        /**
+         * Add the default HTML structure of the search element
+         */
         this.innerHTML = `<input type="text" placeholder="${placeholder}" id="${id}">
                             <span class="close-search">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -17,79 +37,105 @@ export class Search extends HTMLElement {
                             <input type="hidden" name="${name}">
                             <div class="search-result"></div> 
                         `;
-    }
-}
 
-const URL_OFFICE = '/recherche/offices/';
+        /**
+         * Set a timeout to allow the rendering in the dom of the previous HTML
+         */
+        setTimeout( () => {
+            let children = Array.from(this.children)
+            let input = children[0]
+            let timer;
 
-export class SearchOffices extends Search {
-    constructor(){
-        super()
-    }
-    
-    connectedCallback(){
-        super.connectedCallback()
-        var children = Array.from(this.children)
-        var input = children[0]
-        let timer;
+            /**
+             * Toggle the search result container
+             */
+            input.addEventListener('click', () => {
+                this.toggleSearchResult();
+            })
 
-        input.addEventListener('input', () => {
-            clearTimeout(timer);
-            timer = setTimeout( async () => {
-                try {
-                    let response = await fetch(`${URL_OFFICE}?q=${encodeURI(input.value)}`)
-                    if(response.ok) {
-                        let data = await response.json()
-                        this.updateSearchResult(data.data)
-                    } else {
-                        let error = await response.json()
-                        this.notFound(error)
+            /**
+             * Fetch the data
+             */
+            input.addEventListener('input', () => {
+                // Clear the timer
+                clearTimeout(timer);
+                /**
+                 * Wait 300ms before fetching the data to prevent multiple request
+                 */
+                timer = setTimeout( async () => {
+                    try {
+                        let response = await fetch(`${URL}?q=${encodeURI(input.value)}`)
+                        if(response.ok) {
+                            let data = await response.json()
+                            this.updateSearchResult(data.data)
+                        } else {
+                            let error = await response.json()
+                            this.notFound(error)
+                        }
+                    } catch (error) {
+                        generateAlert("error", "Erreur durant la résolution de la requête.")
                     }
-                } catch (error) {
-                    generateAlert("error", "Erreur durant la résolution de la requête.")
-                }
-            },300)          
-        })  
+                },300)          
+            })   
 
-        input.addEventListener('click', () => {
-            this.toggleSearchResult();
-        })
+        },50)
     }
 
+    /**
+     * Update the search result container
+     * @param {Object} data 
+     */
     async updateSearchResult(data){
         let container = this.children[3]
+        // Remove any leftover content
         container.innerHTML = '';
-        data.forEach(office => {
-            container.innerHTML += `<div class='search-result-element' data-officeid='${office.id}'>
-                                        <p class='office-street'>${office.street}</p>
-                                        <p class='office-email'>${office.email}</p>
-                                        <p class='office-phone'>${office.tel_number}</p>
-                                    </div>`
+
+        data.forEach(element => {
+            let result = "";
+            // If no id field is return, this will still wrap each <p> inside a <div> element
+            result = `<div class='search-result-element'>`
+            Object.keys(element).forEach(item => {
+                if(item === "id"){
+                    result = `<div class='search-result-element' data-elementid='${element[item]}'>`
+                } else {
+                    result += `<p class='search-result-row'>${element[item]}</p>`
+                }
+            })
+            result += "</div>"
+            // Update the search result container innerHTML
+            container.innerHTML += result;
         })
 
         document.addEventListener('click', (event) =>{
             if(event.target.closest('.search-result-element') && !event.target.closest('.search-not-found')){
-                this.addOffice(event.target);
+                event.stopPropagation();
+                this.addElement(event.target);
             }
         })
     }
 
-    addOffice(event) {
+    addElement(event) {
         let userInput = this.children[0]
         let form_input = this.children[2]
-        let searchElement = event.closest('.search-result-element');
+        let element = event.closest('.search-result-element');
 
-        userInput.value = searchElement.querySelector('.office-street').innerHTML
-        form_input.value = searchElement.dataset.officeid;
-        this.toggleSearchResult();
-    }
+        // userInput.value = element.querySelector('p').innerHTML
+        // form_input.value = element.dataset.elementid;
+        // this.toggleSearchResult();
+        console.log(element)
+        // console.log(form_input)
+        // console.log(element)
+    } 
 
-    toggleSearchResult(){
+    /**
+     * Toggle the search result container by adding the open-search-result class to the .search parent
+     */
+     toggleSearchResult(){
         this.children[0].closest('.search').classList.toggle('open-search-result')
     }
 
     async notFound(error){
-        this.children[3]
+        let container = this.children[3]
         container.innerHTML = `<div class='search-result-element search-not-found'>
                                     ${error.message}
                                 </div>`
