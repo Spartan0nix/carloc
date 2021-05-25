@@ -49,8 +49,8 @@ import { generateAlert } from './alert'
             /**
              * Toggle the search result container
              */
-            input.addEventListener('click', () => {
-                this.toggleSearchResult();
+            input.addEventListener('click', (event) => {
+                this.toggleSearchResult(event.target.closest('.search'));
             })
 
             /**
@@ -76,7 +76,14 @@ import { generateAlert } from './alert'
                         generateAlert("error", "Erreur durant la résolution de la requête.")
                     }
                 },300)          
-            })   
+            })
+            
+            document.addEventListener('click', (event) =>{
+                if(event.target.closest('.search-result-element') && !event.target.closest('.search-not-found')){
+                    event.stopImmediatePropagation ();
+                    this.addElement(event.target);
+                }
+            })
 
         },50)
     }
@@ -104,34 +111,25 @@ import { generateAlert } from './alert'
             result += "</div>"
             // Update the search result container innerHTML
             container.innerHTML += result;
-        })
-
-        document.addEventListener('click', (event) =>{
-            if(event.target.closest('.search-result-element') && !event.target.closest('.search-not-found')){
-                event.stopPropagation();
-                this.addElement(event.target);
-            }
-        })
+        })   
     }
 
     addElement(event) {
-        let userInput = this.children[0]
-        let form_input = this.children[2]
+        let searchContainer = event.closest('.search');
+        let userInput = searchContainer.querySelector('input[type="text"]')
+        let form_input = searchContainer.querySelector('input[type="hidden"]')
         let element = event.closest('.search-result-element');
 
-        // userInput.value = element.querySelector('p').innerHTML
-        // form_input.value = element.dataset.elementid;
-        // this.toggleSearchResult();
-        console.log(element)
-        // console.log(form_input)
-        // console.log(element)
+        userInput.value = element.querySelector('p').innerHTML
+        form_input.value = element.dataset.elementid;
+        this.toggleSearchResult(event.closest('.search'));
     } 
 
     /**
      * Toggle the search result container by adding the open-search-result class to the .search parent
      */
-     toggleSearchResult(){
-        this.children[0].closest('.search').classList.toggle('open-search-result')
+     toggleSearchResult(searchContainer){
+        searchContainer.classList.toggle('open-search-result')
     }
 
     async notFound(error){
