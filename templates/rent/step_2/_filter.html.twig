@@ -1,47 +1,54 @@
 <section id="filter-section">
-    <form action="" id="filter-form">
-        <div class="filter-input input-text">
-            <js-search-offices 
-                data-placeholder="Toutes les marques"
-                data-id="brand_filter"
-                data-name="brand_filter"
-                data-listId="brands"
-            ></js-search-offices>
-        </div>
-        <div class="filter-input input-text">
-            <js-search-offices 
-                data-placeholder="Tous les modèles"
-                data-id="modele_filter"
-                data-name="modele_filter"
-                data-listId="modeles"
-            ></js-search-offices>
-        </div>
-        <div class="filter-input input-text">
-            <js-search-offices 
-                data-placeholder="Toutes les catégories"
-                data-id="category_filter"
-                data-name="category_filter"
-                data-listId="categories"
-            ></js-search-offices>
-        </div>
-        <div class="filter-input input-text">
-            <js-search-offices 
-                data-placeholder="Toutes les énergies"
-                data-id="fuel_filter"
-                data-name="fuel_filter"
-                data-listId="fuels"
-            ></js-search-offices>
-        </div>
-        <div class="filter-input input-text">
-            <js-search-offices 
-                data-placeholder="Toutes les boites"
-                data-id="gearbox_filter"
-                data-name="gearbox_filter"
-                data-listId="gearboxs"
-            ></js-search-offices>
-        </div>
-        <div class="filter-input filter-submit">
-            <button type="submit" class="btn btn-primary">Rechercher</button>
-        </div>
-    </form>
+    <div id="filter-section-wrapper">
+        <form action="" id="filter-form">
+            <div class="filter-input input-text">
+                <js-search
+                    data-placeholder="Toutes les marques"
+                    data-id="brand_filter"
+                    data-name="brand_filter"
+                    data-listId="brands"
+                    data-type="brand"
+                ></js-search>
+            </div>
+            <div class="filter-input input-text">
+                <js-search 
+                    data-placeholder="Tous les modèles"
+                    data-id="model_filter"
+                    data-name="model_filter"
+                    data-listId="models"
+                    data-type="model"
+                ></js-search>
+            </div>
+            <div class="filter-input input-text">
+                <js-search 
+                    data-placeholder="Toutes les catégories"
+                    data-id="type_filter"
+                    data-name="type_filter"
+                    data-listId="types"
+                    data-type="type"
+                ></js-search>
+            </div>
+            <div class="filter-input input-text">
+                <js-search 
+                    data-placeholder="Toutes les énergies"
+                    data-id="fuel_filter"
+                    data-name="fuel_filter"
+                    data-listId="fuels"
+                    data-type="fuel"
+                ></js-search>
+            </div>
+            <div class="filter-input input-text">
+                <js-search 
+                    data-placeholder="Toutes les boites"
+                    data-id="gearbox_filter"
+                    data-name="gearbox_filter"
+                    data-listId="gearboxs"
+                    data-type="gearbox"
+                ></js-search>
+            </div>
+            <div class="filter-input filter-submit">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </form>
+    </div>
 </section>

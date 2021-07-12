@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Offices\Api;
+namespace App\Controller\Api;
 
 use App\Repository\OfficesRepository;
 use Doctrine\ORM\EntityManagerInterface;

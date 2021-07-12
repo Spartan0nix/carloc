@@ -19,32 +19,14 @@ class GearboxRepository extends ServiceEntityRepository
         parent::__construct($registry, Gearbox::class);
     }
 
-    // /**
-    //  * @return Gearbox[] Returns an array of Gearbox objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
+    public function searchGearboxs(String $gearbox) {
         return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('g.gearbox LIKE :val')
+            ->setParameter('val', '%'.$gearbox.'%')
+            ->orderBy('g.gearbox', 'ASC')
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Gearbox
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

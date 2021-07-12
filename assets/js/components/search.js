@@ -19,6 +19,21 @@ import { generateAlert } from './alert'
             case "office":
                 var URL = '/recherche/offices/';
                 break;
+            case "brand":
+                var URL = '/recherche/brands/';
+                break;
+            case "model":
+                var URL = '/recherche/models/';
+                break;
+            case "type":
+                var URL = '/recherche/types/';
+                break;
+            case "fuel":
+                var URL = '/recherche/fuels/';
+                break;
+            case "gearbox":
+                var URL = '/recherche/gearboxs/';
+                break;
         
             default:
                 break;

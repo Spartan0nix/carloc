@@ -5,13 +5,9 @@
 
 {% block body %}
 <main id='test'>
-    {# <js-search-offices 
-        data-id='pickup_office'
-        data-name='pickup_office'
-        data-placeholder='Test'
-        data-list='pickup_offices'
-    ></js-search-offices> #}
-
+    {% if test %}
+        <h4>{{ test }}</h4>
+    {% endif %}
     <button id='btn-test'>Test</button>
 </main>
 

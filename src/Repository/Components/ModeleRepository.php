@@ -19,32 +19,14 @@ class ModeleRepository extends ServiceEntityRepository
         parent::__construct($registry, Modele::class);
     }
 
-    // /**
-    //  * @return Modele[] Returns an array of Modele objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
+    public function searchModels(String $model) {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('m.modele LIKE :val')
+            ->setParameter('val', '%'.$model.'%')
+            ->orderBy('m.modele', 'ASC')
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Modele
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    }  
 }

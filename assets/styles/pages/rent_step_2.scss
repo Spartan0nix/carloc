@@ -1,21 +1,21 @@
 #rent_step_2 {
-
     #filter-section {
         border-bottom: 2px solid var(--dark-grey);
         background-color: var(--vlight-grey);
-        #filter-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            grid-gap: 0.5rem;
-            margin: 2rem;
-
-            .input-text {
-                margin: 0 !important;
-            }
-            .filter-submit {
-                align-self: center;
-                justify-self: center;
-                margin: 0.8rem;
+        #filter-section-wrapper {
+            padding: 2rem;
+            #filter-form {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+                grid-gap: 0.5rem;
+    
+                .filter-input {
+                    margin: 0.5rem !important;
+                }
+                .filter-submit {
+                    align-self: center;
+                    justify-self: center;
+                }
             }
         }
     }
@@ -29,6 +29,7 @@
             margin: 3rem 0;
             padding: 0.2rem;
             border-bottom: 1px solid var(--light-grey);
+            background-color: var(--vlight-grey);
             
             .car-image {
                 width: 50%;
@@ -49,7 +50,7 @@
                         margin: 1rem;
                     }
                     .car-specs {
-                        padding: 1rem 2rem;
+                        padding: 1rem 3rem;
                         .car-spec {
                             display: flex;
                             span {
@@ -66,12 +67,13 @@
                     flex-grow: 1;
                     display: flex;
                     div {
+                        width: 100%;
                         justify-self: center;
                         align-self: center;
                         border: 1px solid var(--medium-grey);
                         padding: 2rem;
                         h5 {
-                            font-size: 2.5rem;
+                            font-size: 2rem;
                         }
                         .btn {
                             margin: 1rem auto 0 auto;
