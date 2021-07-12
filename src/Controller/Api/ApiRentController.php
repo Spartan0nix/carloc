@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Rent\Api;
+namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
