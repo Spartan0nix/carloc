@@ -1,6 +1,6 @@
 if(document.getElementById('rent_step_1')){
 
-    var searchPickupOffice = document.createElement('js-search');
+    var searchPickupOffice = document.createElement('js-search-dynamic');
     searchPickupOffice.dataset.placeholder = "Entrez une ville ou code postal";
     searchPickupOffice.dataset.id = "office-pickup-input";
     searchPickupOffice.dataset.name = "pickup_office";
@@ -8,7 +8,7 @@ if(document.getElementById('rent_step_1')){
     searchPickupOffice.dataset.type = "office";
     document.querySelector('.office-pickup').appendChild(searchPickupOffice);
 
-    var searchReturnOffice = document.createElement('js-search');
+    var searchReturnOffice = document.createElement('js-search-dynamic');
     searchReturnOffice.dataset.placeholder = "Entrez une ville ou code postal";
     searchReturnOffice.dataset.id = "office-return-input";
     searchReturnOffice.dataset.name = "return_office";
