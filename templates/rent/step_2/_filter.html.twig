@@ -1,8 +1,9 @@
 <section id="filter-section">
     <div id="filter-section-wrapper">
-        <form action="" id="filter-form">
+        <form action="{{ path('rent_filter') }}" id="filter-form" method="POST">
+            <input type="hidden" name="rentInfo" value={{ rentInfo }}>
             <div class="filter-input input-text">
-                <js-search
+                <js-search-dynamic
                     data-placeholder="Toutes les marques"
                     data-id="brand_filter"
                     data-name="brand_filter"
@@ -11,7 +12,7 @@
                 ></js-search>
             </div>
             <div class="filter-input input-text">
-                <js-search 
+                <js-search-dynamic
                     data-placeholder="Tous les modèles"
                     data-id="model_filter"
                     data-name="model_filter"
@@ -20,7 +21,7 @@
                 ></js-search>
             </div>
             <div class="filter-input input-text">
-                <js-search 
+                <js-search-static 
                     data-placeholder="Toutes les catégories"
                     data-id="type_filter"
                     data-name="type_filter"
@@ -29,7 +30,7 @@
                 ></js-search>
             </div>
             <div class="filter-input input-text">
-                <js-search 
+                <js-search-static 
                     data-placeholder="Toutes les énergies"
                     data-id="fuel_filter"
                     data-name="fuel_filter"
@@ -38,7 +39,7 @@
                 ></js-search>
             </div>
             <div class="filter-input input-text">
-                <js-search 
+                <js-search-static
                     data-placeholder="Toutes les boites"
                     data-id="gearbox_filter"
                     data-name="gearbox_filter"
