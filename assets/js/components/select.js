@@ -1,6 +1,6 @@
 import { generateAlert } from './alert'
 
-export class Search extends HTMLElement {
+export class Select extends HTMLElement {
     connectedCallback() {
         this.classList.add('search');
         /**
@@ -19,25 +19,26 @@ export class Search extends HTMLElement {
          * @var String type
          */
         switch (type) {
-            case "office":
-                this.URL = '/recherche/offices/';
-                break;
             case "brand":
                 this.URL = '/recherche/brands/';
+                this.type = 'brand';
                 break;
             case "model":
                 this.URL = '/recherche/models/';
+                this.type = 'model';
                 break;
             case "type":
                 this.URL = '/recherche/types/';
+                this.type = 'type';
                 break;
             case "fuel":
                 this.URL = '/recherche/fuels/';
+                this.type = 'fuel';
                 break;
             case "gearbox":
                 this.URL = '/recherche/gearboxs/';
+                this.type = 'gearbox';
                 break;
-
             default:
                 break;
         }
@@ -52,10 +53,8 @@ export class Search extends HTMLElement {
                                     <path d="M18 15l-6 -6l-6 6h12" transform="rotate(180 12 12)" />
                                 </svg>
                             </span>
-                            <input type="hidden" name="${name}">
-                            <div class="search-result"></div> 
+                            <fieldset class="search-result"></fieldset> 
                         `;
-        
         this.dataset.selected != undefined ? this.dataSelected = this.dataset.selected : this.dataSelected = '';
     }
 
@@ -63,55 +62,51 @@ export class Search extends HTMLElement {
      * Update the search result container
      * @param {Object} data 
      */
-    async updateSearchResult(data) {
-        let container = this.children[3]
-        // Remove any leftover content
-        container.innerHTML = '';
+    updateSearchResult(data) {
+        let fieldset = this.children[2];
 
+        // Remove every unchecked input
+        let options = fieldset.querySelectorAll('input[type="checkbox"]');
+        options.forEach(option => {
+            if (!option.checked) {
+                let wrapper = option.closest('.select-result-element');
+                wrapper.parentNode.removeChild(wrapper);
+            }
+        })
         data.forEach(element => {
-            let result = "";
-            // If no id field is return, this will still wrap each <p> inside a <div> element
-            result = `<div class='search-result-element'>`
-            Object.keys(element).forEach(item => {
-                if (item === "id") {
-                    result = `<div class='search-result-element' data-elementid='${element[item]}'>`
-                } else {
-                    result += `<p class='search-result-row'>${element[item]}</p>`
-                }
-            })
-            result += "</div>"
-            // Update the search result container innerHTML
-            container.innerHTML += result;
+            let array = Object.keys(element).map(function (key) { return element[key]; });
+            let id = array[0];
+            let attribute = array[1];
+
+            // Check if the option is already present
+            if (!fieldset.querySelector(`#${attribute}`)) {
+                // Update the search result fielset with a new input and a new label
+                let wrapper = document.createElement('div');
+                wrapper.classList.add('select-result-element');
+
+                let inputElement = document.createElement('input');
+                inputElement.type = 'checkbox';
+                inputElement.name = `${this.type}_filter[${id}]`;
+                inputElement.value = id;
+                inputElement.id = attribute;
+                let labelElement = document.createElement('label');
+                labelElement.setAttribute('for', attribute)
+                labelElement.innerHTML = attribute;
+
+                fieldset.appendChild(wrapper)
+                wrapper.appendChild(inputElement);
+                wrapper.appendChild(labelElement);
+            }
         })
     }
 
     /**
-     * Keep track of the selected element 
-     * @param {*} event 
-     */
-    addElement(event) {
-        let searchContainer = event.closest('.search');
-        let userInput = searchContainer.querySelector('input[type="text"]')
-        let form_input = searchContainer.querySelector('input[type="hidden"]')
-        let element = event.closest('.search-result-element');
-
-        userInput.value = element.querySelector('p').innerHTML
-        form_input.value = element.dataset.elementid;
-        this.toggleSearchResult(event.closest('.search'));
-    }
-
-    /**
-     * Add the previous selected element after the filter was applied
+     * Add the previous selected elements after the filter was applied
      * @param {*} selected 
      */
-    setSelected(selected) {
-        let keys = Object.keys(selected);
-        let userInput = this.children[0]
-        let form_input = this.children[2];
-        userInput.value = selected[keys[1]]
-        form_input.value = selected[keys[0]];
+    setElement(selected) {
+        console.log(selected);
     }
-
     /**
      * Toggle the search result container by adding the open-search-result class to the .search parent
      */
@@ -127,7 +122,7 @@ export class Search extends HTMLElement {
     }
 }
 
-export class DynamicSearch extends Search {
+export class DynamicSelect extends Select {
     connectedCallback() {
         super.connectedCallback();
 
@@ -141,7 +136,14 @@ export class DynamicSearch extends Search {
 
             if(this.dataSelected != ""){
                 let selected = JSON.parse(this.dataSelected);
-                this.setSelected(selected);
+                let fieldset = this.children[2];
+                this.updateSearchResult(selected);
+
+                let inputs = fieldset.querySelectorAll('input[type="checkbox"]');
+                inputs.forEach(input => {
+                    input.checked = true;
+                })
+
             }
 
             /**
@@ -151,9 +153,9 @@ export class DynamicSearch extends Search {
                 this.toggleSearchResult(event.target.closest('.search'));
             })
 
-            /**
-             * Fetch the data
-             */
+            // /**
+            //  * Fetch the data
+            //  */
             input.addEventListener('input', () => {
                 // Clear the timer
                 clearTimeout(timer);
@@ -175,28 +177,18 @@ export class DynamicSearch extends Search {
                     }
                 }, 300)
             })
-
-            document.addEventListener('click', (event) => {
-                if (event.target.closest('.search-result-element') && !event.target.closest('.search-not-found')) {
-                    event.stopImmediatePropagation();
-                    this.addElement(event.target);
-                }
-            })
-
         }, 50)
     }
 }
 
-export class StaticSearch extends Search {
+export class StaticSelect extends Select {
     connectedCallback() {
         super.connectedCallback();
-        const data = [];
 
         setTimeout(async () => {
             let children = Array.from(this.children)
             let input = children[0]
             let timer;
-
             /**
              * Toggle the search result container
              */
@@ -212,11 +204,15 @@ export class StaticSearch extends Search {
                 if (response.ok) {
                     let data = await response.json()
                     this.data = data.data;
-
                     this.updateSearchResult(this.data)
                     if(this.dataSelected != ""){
                         let selected = JSON.parse(this.dataSelected);
-                        this.setSelected(selected);
+                        let fieldset = this.children[2];
+
+                        selected.forEach(element => {
+                            let keys = Object.keys(element);
+                            fieldset.querySelector(`#${element[keys[1]]}`).checked = true;
+                        })
                     }
                 } else {
                     let error = await response.json()
@@ -224,6 +220,7 @@ export class StaticSearch extends Search {
                 }
             } catch (error) {
                 generateAlert("error", "Erreur durant la résolution de la requête.")
+                console.log(error)
             }
 
             input.addEventListener('input', () => {
@@ -232,27 +229,20 @@ export class StaticSearch extends Search {
                 /**
                  * Wait 300ms before updating the data
                  */
-                timer = setTimeout(async () => {
-                    if(input.value === "") {
+                timer = setTimeout(() => {
+                    if (input.value === "") {
                         this.updateSearchResult(this.data);
                         return;
                     }
                     let result = [];
                     this.data.forEach(element => {
                         let key = Object.keys(element)[1];
-                        if(element[key].includes(input.value)) {
+                        if (element[key].includes(input.value)) {
                             result.push(element);
                         }
                     })
                     this.updateSearchResult(result);
                 }, 300)
-            })
-
-            document.addEventListener('click', (event) => {
-                if (event.target.closest('.search-result-element') && !event.target.closest('.search-not-found')) {
-                    event.stopImmediatePropagation();
-                    this.addElement(event.target);
-                }
             })
         }, 50)
     }

@@ -22,6 +22,7 @@
         top: 3rem;
         background-color: var(--vlight-grey);
         border: 1px solid var(--medium-grey);
+        overflow-y: scroll;
 
         .search-result-element {
             display: flex;
@@ -41,6 +42,37 @@
             &:hover {
                 background-color: var(--light-grey);
                 cursor: pointer;
+            }
+        }
+
+        .select-result-element {
+            display: flex;
+            padding: 0.4rem;
+            margin: 0.5rem;
+            border-bottom: 1px solid var(--color-primary);
+            
+            &:hover {
+                background-color: var(--light-grey);
+                cursor: pointer;
+            }
+
+            label {
+                font-size: inherit;
+                align-self: center;
+                padding-left: 0.5rem;
+
+                &:hover { 
+                    background-color: var(--light-grey);
+                    cursor: pointer;    
+                }
+            }
+
+            input[type="checkbox"] {
+                align-self: center;
+                &:hover {
+                    background-color: var(--light-grey);
+                    cursor: pointer;
+                }
             }
         }
     }
