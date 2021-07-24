@@ -30,39 +30,30 @@ class CarRepository extends ServiceEntityRepository
         ;
     }
 
-    public function filterAvailableCar(string $officeId, string $brandId, string $modeleId, string $typeId, string $fuelId, string $gearboxId){
+    public function filterAvailableCar(string $officeId, array | string $brandsIds, array | string $modelsIds, array | string $typesIds, string $fuelId, string $gearboxId){
         $query = $this->createQueryBuilder('c');
 
+        $officeId ? $query->andWhere('c.office_id = :officeId') 
+                          ->setParameter('officeId', $officeId)
+                          : '';
         $fuelId ? $query->andWhere('c.fuel_id = :fuelId')
                         ->setParameter('fuelId', $fuelId) 
                         : '';
-        $brandId ? $query->andWhere('c.brand_id = :brandId') 
-                         ->setParameter('brandId', $brandId)
+        $brandsIds && $brandsIds != '' ? $query->andWhere('c.brand_id IN (:brandsIds)') 
+                         ->setParameter('brandsIds', $brandsIds, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
                          : '';
-        $modeleId ? $query->andWhere('c.modele_id = :modeleId') 
-                          ->setParameter('modeleId', $modeleId)
+        $modelsIds && $modelsIds != '' ? $query->andWhere('c.modele_id IN (:modelsIds)') 
+                          ->setParameter('modelsIds', $modelsIds, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
                           : '';
         $gearboxId ? $query->andWhere('c.gearbox_id = :gearboxId')
                            ->setParameter('gearboxId', $gearboxId) 
                            : '';
-        $officeId ? $query->andWhere('c.office_id = :officeId') 
-                          ->setParameter('officeId', $officeId)
-                          : '';
 
         return $query->orderBy('c.daily_price', 'ASC')
                      ->setMaxResults(10)
                      ->getQuery()
                      ->getResult()
-            // ->andWhere('c.fuel_id = :fuelId')
-            // ->andWhere('c.brand_id = :brandId')
-            // ->andWhere('c.modele_id = :modeleId')
-            // ->andWhere('c.gearbox_id = :gearboxId')
-            // ->andWhere('c.office_id = :officeId')
-            // ->setParameters(['fuelId' => $fuelId, 'brandId' => $brandId, 'modeleId' => $modeleId, 'gearboxId' => $gearboxId, 'officeId' => $officeId])
-            // ->orderBy('c.daily_price', 'ASC')
-            // ->setMaxResults(10)
-            // ->getQuery()
-            // ->getResult()
+                     
         ;
     }
 }

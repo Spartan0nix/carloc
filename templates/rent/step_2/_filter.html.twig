@@ -1,51 +1,62 @@
 <section id="filter-section">
     <div id="filter-section-wrapper">
         <form action="{{ path('rent_filter') }}" id="filter-form" method="POST">
+            <input type="hidden" name="token" value="{{ csrf_token('token') }}">
             <input type="hidden" name="rentInfo" value={{ rentInfo }}>
             <div class="filter-input input-text">
-                <js-search-dynamic
+                <js-select-dynamic
                     data-placeholder="Toutes les marques"
                     data-id="brand_filter"
                     data-name="brand_filter"
-                    data-listId="brands"
                     data-type="brand"
-                ></js-search>
+                    {% if filter.brand is defined %}
+                        data-selected="{{ filter.brand }}"
+                    {% endif %}
+                ></js-select-dynamic>
             </div>
             <div class="filter-input input-text">
-                <js-search-dynamic
+                <js-select-dynamic
                     data-placeholder="Tous les modèles"
                     data-id="model_filter"
                     data-name="model_filter"
-                    data-listId="models"
                     data-type="model"
-                ></js-search>
+                    {% if filter.model is defined %}
+                        data-selected="{{ filter.model }}"
+                    {% endif %}
+                ></js-select-dynamic>
             </div>
             <div class="filter-input input-text">
-                <js-search-static 
+                <js-select-static 
                     data-placeholder="Toutes les catégories"
                     data-id="type_filter"
                     data-name="type_filter"
-                    data-listId="types"
                     data-type="type"
-                ></js-search>
+                    {% if filter.type is defined %}
+                        data-selected="{{ filter.type }}"
+                    {% endif %}
+                ></js-select-static>
             </div>
             <div class="filter-input input-text">
                 <js-search-static 
                     data-placeholder="Toutes les énergies"
                     data-id="fuel_filter"
                     data-name="fuel_filter"
-                    data-listId="fuels"
                     data-type="fuel"
-                ></js-search>
+                    {% if filter.fuel[0] is defined %}
+                        data-selected="{{ filter.fuel[0] }}"
+                    {% endif %}
+                ></js-search-static>
             </div>
             <div class="filter-input input-text">
                 <js-search-static
                     data-placeholder="Toutes les boites"
                     data-id="gearbox_filter"
                     data-name="gearbox_filter"
-                    data-listId="gearboxs"
                     data-type="gearbox"
-                ></js-search>
+                    {% if filter.gearbox[0] is defined %}
+                        data-selected="{{ filter.gearbox[0] }}"
+                    {% endif %}
+                ></js-search-static>
             </div>
             <div class="filter-input filter-submit">
                 <button type="submit" class="btn btn-primary">Rechercher</button>

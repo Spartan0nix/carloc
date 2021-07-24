@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
-
+use Twig\Cache\CacheInterface as TwigCacheInterface;
 
 class HomeController extends AbstractController
 {
@@ -15,7 +15,10 @@ class HomeController extends AbstractController
      * @Route("/", name="homepage")
      * @return Response
      */
-    public function index(): Response{
+    public function index(CacheInterface $cache): Response{
+        // return $cache->get('homepage', function() {
+        //     return $this->render("homepage.html.twig");
+        // });
         return $this->render("homepage.html.twig");
     }
 
@@ -25,15 +28,7 @@ class HomeController extends AbstractController
      */
     public function test(): Response {
 
-        $cache = new FilesystemAdapter();
-
-        $value = $cache->get('my_cache_key', function(ItemInterface $item) {
-            $item->expiresAfter(3600);
-
-            $computedValue = 'test';
-
-            return $computedValue;
-        });
+       
 
         return $this->render('test.html.twig');
     }

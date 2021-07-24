@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Car;
+namespace App\Controller;
 
 use App\Controller\Normalizer\CarNormalizer;
 use App\Repository\CarRepository;
