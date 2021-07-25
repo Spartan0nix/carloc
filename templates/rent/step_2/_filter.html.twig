@@ -2,7 +2,7 @@
     <div id="filter-section-wrapper">
         <form action="{{ path('rent_filter') }}" id="filter-form" method="POST">
             <input type="hidden" name="token" value="{{ csrf_token('token') }}">
-            <input type="hidden" name="rentInfo" value={{ rentInfo }}>
+            {# <input type="hidden" name="rentInfo" value={{ rentInfo }}> #}
             <div class="filter-input input-text">
                 <js-select-dynamic
                     data-placeholder="Toutes les marques"
@@ -60,12 +60,10 @@
             </div>
             <div class="filter-input filter-submit">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
+                {% if filter is defined %}
+                    <button class="btn btn-danger btn-clear-filter">Supprimer les filtres</button>
+                {% endif %}
             </div>
-            {% if filter.lenght %}
-                <div class="filter-input filter-submit">
-                    <button type="submit" class="btn btn-primary">Rechercher</button>
-                </div>
-            {% endif %}
         </form>
     </div>
 </section>
