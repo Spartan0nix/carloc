@@ -9,7 +9,7 @@
         <div class="cars-list">
             {% for car in cars %}
                 <form action="" method="post">
-                    <input type="hidden" name="rentInfo" value={{ rentInfo }}>
+                    {# <input type="hidden" name="rentInfo" value={{ rentInfo }}> #}
                     <input type="hidden" name="carId" value={{ car.id }}>
                     <section class="car-main">
                         <div class="car-image">

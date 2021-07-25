@@ -12,8 +12,8 @@ use App\Entity\Components\Type;
 use App\Repository\CarRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RentController extends AbstractController
@@ -27,15 +27,15 @@ class RentController extends AbstractController
      */
     private $carNormalizer;
     /**
-     * @var Request
+     * @var SessionInterface
      */
-    private $requestStack;
+    private $session;
 
-    public function __construct(CarRepository $carRepository, CarNormalizer $carNormalizer, RequestStack $requestStack)
+    public function __construct(CarRepository $carRepository, CarNormalizer $carNormalizer, SessionInterface $session)
     {
         $this->repository = $carRepository;
         $this->carNormalizer = $carNormalizer;
-        $this->requestStack = $requestStack;
+        $this->session = $session;
         
     }
     
@@ -64,14 +64,20 @@ class RentController extends AbstractController
                 return $this->redirectToRoute('rent_index');
             }
 
-            if(!$req['return_office']){
-                $req['return_office'] = $req['pickup_office'];
-            }
+            if(!$this->session->get('rentInfo')){
+                if(!$req['return_office']){
+                    $req['return_office'] = $req['pickup_office'];
+                }
+    
+                $rentInfo['pickup_office'] = $req['pickup_office'];
+                $rentInfo['return_office'] = $req['return_office'];
+                $rentInfo['start_date'] = $req['start_date'];
+                $rentInfo['end_date'] = $req['end_date'];
 
-            $rentInfo['pickup_office'] = $req['pickup_office'];
-            $rentInfo['return_office'] = $req['return_office'];
-            $rentInfo['start_date'] = $req['start_date'];
-            $rentInfo['end_date'] = $req['end_date'];
+                $this->session->set('rentInfo', $rentInfo);
+            } else {
+                $rentInfo = $this->session->get('rentInfo');
+            }
 
             $normalizeCar = array();
 
@@ -81,11 +87,8 @@ class RentController extends AbstractController
                 array_push($normalizeCar, $this->carNormalizer->normalize($car));
             }
 
-            $session = $this->requestStack->getSession();
-            $session->set('rentInfo', $rentInfo);
-
             return $this->render('rent/step_2/index.html.twig', [
-                'rentInfo' => json_encode($rentInfo),
+                // 'rentInfo' => json_encode($rentInfo),
                 'cars' => $normalizeCar
             ]);
         }
@@ -164,14 +167,14 @@ class RentController extends AbstractController
                  */
                 if(isset($req['status'])){
                     return $this->render('rent/step_2/index.html.twig', [
-                        'rentInfo' => json_encode($req['rentInfo']),
+                        // 'rentInfo' => json_encode($req['rentInfo']),
                         'cars' => '',
                         'filter' => $req['filter']
                     ]);
                 }
 
                 return $this->render('rent/step_2/index.html.twig', [
-                    'rentInfo' => json_encode($req['rentInfo']),
+                    // 'rentInfo' => json_encode($req['rentInfo']),
                     'cars' => $req['cars'],
                     'filter' => $req['filter']
                 ]);
@@ -196,7 +199,8 @@ class RentController extends AbstractController
             }
 
             $normalizeCar = array();
-            $rentInfo = json_decode($req['rentInfo'], true);
+            // $rentInfo = json_decode($req['rentInfo'], true);
+            $rentInfo = $this->session->get('rentInfo');
 
             $filter = array(
                 'brand' => isset($req['brand_filter']) ? array_values($req['brand_filter']) : '',
@@ -214,7 +218,7 @@ class RentController extends AbstractController
                     'redirect' => array(
                         'status' => 'Aucun véhicule trouvée.',
                         'filter' => $filter,
-                        'rentInfo' => $rentInfo,
+                        // 'rentInfo' => $rentInfo,
                         'token' => $req['token']
                     )
                 ],307);
@@ -235,7 +239,7 @@ class RentController extends AbstractController
 
         return $this->redirectToRoute('rent_list', [
             'redirect' => array(
-                'rentInfo' => $rentInfo,
+                // 'rentInfo' => $rentInfo,
                 'token' => $req['token'],
                 'cars' => $normalizeCar,
                 'filter' => $filter

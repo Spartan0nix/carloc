@@ -11,6 +11,12 @@
     
                 .filter-input {
                     margin: 0.5rem !important;
+                    display: flex;
+                    flex-direction: row;
+
+                    button {
+                        margin: 0 1rem 0 0;
+                    }
                 }
                 .filter-submit {
                     align-self: center;
