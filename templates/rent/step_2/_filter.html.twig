@@ -61,6 +61,11 @@
             <div class="filter-input filter-submit">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
+            {% if filter.lenght %}
+                <div class="filter-input filter-submit">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+            {% endif %}
         </form>
     </div>
 </section>
