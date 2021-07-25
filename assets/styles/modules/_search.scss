@@ -4,6 +4,17 @@
         width: 96%;
     }
 
+    .search-remove-filter {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        display: none;
+
+        &:hover { cursor: pointer; }
+    }
+
     .close-search {
         width: 25px;
         height: 25px;

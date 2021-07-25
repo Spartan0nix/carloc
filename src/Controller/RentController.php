@@ -12,6 +12,7 @@ use App\Entity\Components\Type;
 use App\Repository\CarRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,11 +26,17 @@ class RentController extends AbstractController
      * @var CarNormalizer
      */
     private $carNormalizer;
+    /**
+     * @var Request
+     */
+    private $requestStack;
 
-    public function __construct(CarRepository $carRepository, CarNormalizer $carNormalizer)
+    public function __construct(CarRepository $carRepository, CarNormalizer $carNormalizer, RequestStack $requestStack)
     {
         $this->repository = $carRepository;
         $this->carNormalizer = $carNormalizer;
+        $this->requestStack = $requestStack;
+        
     }
     
     /**
@@ -73,6 +80,9 @@ class RentController extends AbstractController
             foreach($cars as $car){
                 array_push($normalizeCar, $this->carNormalizer->normalize($car));
             }
+
+            $session = $this->requestStack->getSession();
+            $session->set('rentInfo', $rentInfo);
 
             return $this->render('rent/step_2/index.html.twig', [
                 'rentInfo' => json_encode($rentInfo),

@@ -46,6 +46,13 @@ export class Search extends HTMLElement {
          * Add the default HTML structure of the search element
          */
         this.innerHTML = `<input type="text" placeholder="${placeholder}" id="${id}">
+                            <span class="search-remove-filter">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-minus" width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                                    <line x1="9" y1="12" x2="15" y2="12" />
+                                </svg>
+                            </span>
                             <span class="close-search">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -64,7 +71,7 @@ export class Search extends HTMLElement {
      * @param {Object} data 
      */
     async updateSearchResult(data) {
-        let container = this.children[3]
+        let container = this.children[4]
         // Remove any leftover content
         container.innerHTML = '';
 
@@ -93,10 +100,12 @@ export class Search extends HTMLElement {
         let searchContainer = event.closest('.search');
         let userInput = searchContainer.querySelector('input[type="text"]')
         let form_input = searchContainer.querySelector('input[type="hidden"]')
+        let removeFilterIcon = searchContainer.querySelector('.search-remove-filter');
         let element = event.closest('.search-result-element');
 
         userInput.value = element.querySelector('p').innerHTML
         form_input.value = element.dataset.elementid;
+        removeFilterIcon.style.display = 'block';
         this.toggleSearchResult(event.closest('.search'));
     }
 
@@ -106,10 +115,23 @@ export class Search extends HTMLElement {
      */
     setSelected(selected) {
         let keys = Object.keys(selected);
-        let userInput = this.children[0]
-        let form_input = this.children[2];
-        userInput.value = selected[keys[1]]
+        let userInput = this.children[0];
+        let removeFilterIcon = this.children[1];
+        let form_input = this.children[3];
+
+        userInput.value = selected[keys[1]];
         form_input.value = selected[keys[0]];
+        removeFilterIcon.style.display = 'block';
+    }
+
+    removeElement(container){
+        let userInput = container.querySelector('input[type="text"]');
+        let removeFilterIcon = container.querySelector('.search-remove-filter');
+        let form_input = container.querySelector('input[type="hidden"]');
+
+        userInput.value = '';
+        form_input.value = '';
+        removeFilterIcon.style.display = 'none';
     }
 
     /**
@@ -120,7 +142,7 @@ export class Search extends HTMLElement {
     }
 
     async notFound(error) {
-        let container = this.children[3]
+        let container = this.children[4]
         container.innerHTML = `<div class='search-result-element search-not-found'>
                                     ${error.message}
                                 </div>`
@@ -135,8 +157,7 @@ export class DynamicSearch extends Search {
          * Set a timeout to allow the rendering in the dom of the previous HTML
          */
         setTimeout(() => {
-            let children = Array.from(this.children)
-            let input = children[0]
+            let input = this.children[0]
             let timer;
 
             if(this.dataSelected != ""){
@@ -181,8 +202,11 @@ export class DynamicSearch extends Search {
                     event.stopImmediatePropagation();
                     this.addElement(event.target);
                 }
+                if(event.target.closest('.search-remove-filter')) {
+                    event.stopImmediatePropagation();
+                    this.removeElement(event.target.closest('.search'));
+                }
             })
-
         }, 50)
     }
 }
@@ -193,8 +217,7 @@ export class StaticSearch extends Search {
         const data = [];
 
         setTimeout(async () => {
-            let children = Array.from(this.children)
-            let input = children[0]
+            let input = this.children[0]
             let timer;
 
             /**
@@ -252,6 +275,10 @@ export class StaticSearch extends Search {
                 if (event.target.closest('.search-result-element') && !event.target.closest('.search-not-found')) {
                     event.stopImmediatePropagation();
                     this.addElement(event.target);
+                }
+                if(event.target.closest('.search-remove-filter')) {
+                    event.stopImmediatePropagation();
+                    this.removeElement(event.target.closest('.search'));
                 }
             })
         }, 50)
