@@ -1,4 +1,4 @@
-if(document.getElementById('rent_step_2')){
+if(document.getElementById('rent_step_2') && document.querySelector('.btn-clear-filter')){
     document.querySelector('.btn-clear-filter').addEventListener('click', (event) => {
         event.preventDefault();
 
