@@ -43,7 +43,7 @@ class RentController extends AbstractController
      * Render the rent_step_1 page
      * @return void
      */
-    #[Route('/location', name: 'rent_index')]
+    #[Route('/location/agence', name: 'rent_office')]
     public function index(){
         return $this->render('rent/step_1/index.html.twig');
     }
@@ -53,7 +53,7 @@ class RentController extends AbstractController
      * @param Request $request
      * @return void
      */
-    #[Route('/locations', name: 'rent_list', methods: ["POST", "GET"])]
+    #[Route('/location/list', name: 'rent_list', methods: ["POST", "GET"])]
     public function listAvailableRent(Request $request) {
         if($request->request->all() && !$request->query->all()){
             $req = $request->request->all();
@@ -188,7 +188,7 @@ class RentController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/locations/filter', name:'rent_filter', methods: ["POST"])]
+    #[Route('/location/filter', name:'rent_filter', methods: ["POST"])]
     public function filterAvailableRent(Request $request): Response {
         if($request->request) {
             $req = $request->request->all();
@@ -246,6 +246,31 @@ class RentController extends AbstractController
             )
         ],302);
     }
+
+    /**
+     * Render the rent_step_3
+     * @param String $uid
+     * @return void
+     */
+    #[Route('/location/{uid}/details', name:'rent_details', methods: ['GET', 'POST'])]
+    public function getRentDetails(String $uid){
+        $car = $this->repository->find($uid);
+        $normalizeCar = $this->carNormalizer->normalize($car);
+
+        dump($normalizeCar);
+
+        return $this->render('rent/step_3/index.html.twig', [
+            'car' => $normalizeCar
+        ]);
+    }
+
+
+
+
+
+
+
+
 
     /**
      * @Route("/rent/test/", name="rent_test", methods={"POST", "GET"})

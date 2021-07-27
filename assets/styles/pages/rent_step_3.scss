@@ -1,0 +1,91 @@
+#rent_step_3 {
+    padding: 3rem;
+    .car-title {
+        h3 {
+            text-align: center;
+            font-size: 2em;
+            padding: 0.5rem 0.5rem 1rem 0.5rem;
+        }
+    }
+    .car-image {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        padding: 0.8rem;
+        img {
+            max-height: 455px;
+        }
+    }
+    .car-price {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        padding: 0.5rem;
+        h4 { font-size: 2em; }
+        h4, button { margin: 1rem; }
+    }
+    .car-description {
+        text-align: center;
+        padding: 1.5rem;
+        border-top: 1px solid var(--medium-red);
+        border-bottom: 1px solid var(--medium-red);
+        background-color: var(--vlight-grey);
+        p {
+            font-size: 1.2em;
+            font-style: italic;
+        }
+    }
+    .car-main {
+        padding: 0.8rem;
+        .car-specs {
+            .car-specs-title {
+                display: flex;
+                justify-content: center;
+                padding: 1.5rem;
+                h5 {
+                    position: relative;
+                    font-size: 1.5em;
+                    width: 210px;
+                }
+                ::after {
+                    content: "";
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0;
+                    width: 210px;
+                    background-color: var(--medium-red);
+                    height: 2px;
+                }
+            }
+            .car-specs-content {
+                display: grid;
+                grid-template-columns: repeat(auto-fit ,minmax(200px, 1fr));
+                .spec {
+                    text-align: center;
+                    padding: 1rem;
+                    p {
+                        font-size: 1.2em;
+                        padding: 0.1rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 950px) {
+    #rent_step_3 {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 470px) {
+    #rent_step_3 {
+        .car-price {
+            flex-direction: column;
+            h4 {
+                margin: 0.5rem auto;
+            }
+        }
+    }
+}
