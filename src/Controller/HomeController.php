@@ -19,6 +19,7 @@ class HomeController extends AbstractController
         // return $cache->get('homepage', function() {
         //     return $this->render("homepage.html.twig");
         // });
+
         return $this->render("homepage.html.twig");
     }
 
@@ -27,9 +28,6 @@ class HomeController extends AbstractController
      * @return Response
      */
     public function test(): Response {
-
-       
-
         return $this->render('test.html.twig');
     }
 }

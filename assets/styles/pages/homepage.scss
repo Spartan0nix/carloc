@@ -10,7 +10,7 @@
         z-index: 0;
 
         .title-wrapper {
-            z-index: 1;
+            z-index: 0;
             background: rgba(0, 0, 0, 0.3); 
             height: 100%;
             width: 100%;
@@ -22,7 +22,7 @@
             position: absolute;
             top: 40%;
             left: 20%;
-            color: var(--vlight-grey);
+            color: var(--font);
             font-size: 3rem;
             font-weight: 200; 
             padding: 5px; 
@@ -33,19 +33,20 @@
             position: absolute;
             width: 70%;
             height: 3px;
-            background-color: var(--color-success);
+            background-color: var(--gold);
             left: 15%;
             bottom: 0;
         }
     }
 
     .homepage-subtitle {
-        background-color: var(--vlight-grey);
+        background-color: var(--font);
         text-align: center;
         padding: 3rem;
 
         h4 {
             font-size: 2.4rem;
+            color: var(--gold);
         }
 
         p {
@@ -58,8 +59,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        padding: 1rem;
-        border-bottom: 1px solid var(--dark-grey);
+        padding: 4rem 1rem;
 
         .showcase-car:nth-child(2){
             width: 20%;
@@ -75,6 +75,8 @@
     .showcase-section {
         display: flex;
         flex-direction: column;
+        padding: 2rem 0;
+        background-color: var(--font);
 
         .showcase-row {
             display: flex;
@@ -84,7 +86,9 @@
                 width: 40%;
                 padding: 1rem;
                 margin: 2rem;
-                border: 1px solid var(--medium-grey);
+                border: 1px solid var(--gold);
+                background-color: var(--primary);
+                color: var(--font);
 
                 img {
                     width: 100%;

@@ -1,7 +1,7 @@
 #rent_step_2 {
     #filter-section {
-        border-bottom: 2px solid var(--dark-grey);
-        background-color: var(--vlight-grey);
+        border-bottom: 2px solid var(--primary);
+        background-color: var(--font);
         #filter-section-wrapper {
             padding: 2rem;
             #filter-form {
@@ -34,8 +34,8 @@
             display: flex;
             margin: 3rem 0;
             padding: 0.2rem;
-            border-bottom: 1px solid var(--light-grey);
-            background-color: var(--vlight-grey);
+            border-bottom: 1px solid var(--gold);
+            background-color: var(--font);
             
             .car-image {
                 width: 50%;
@@ -76,7 +76,7 @@
                         width: 100%;
                         justify-self: center;
                         align-self: center;
-                        border: 1px solid var(--medium-grey);
+                        border: 1px solid var(--dark-contrast);
                         padding: 2rem;
                         h5 {
                             font-size: 2rem;

@@ -6,9 +6,10 @@
         .container {
             display: flex;
             flex-direction: column;
-            background-color: var(--vlight-grey);
-            border: 1px solid var(--dark-grey);
+            background-color: var(--font);
+            border: 1px solid var(--dark-contrast);
             margin: 0 auto;
+            padding-bottom: 3rem;
             h4 {
                 font-size: 1.8rem;
                 text-align: center;
@@ -22,7 +23,7 @@
                     bottom: -5px;
                     width: 40%;
                     height: 2px;
-                    background-color: var(--medium-red);
+                    background-color: var(--gold);
                 }
             }
             .container-input {
@@ -75,11 +76,14 @@
             display: flex;
             margin: 3rem auto;
             justify-content: center;
-            background-color: var(--vlight-grey);
-
+            img {
+                border: 1px solid var(--gold);
+            }
             aside {
                 padding: 3rem 2rem 3rem 2rem;
                 max-width: 40%;
+                background-color: var(--font);
+                border: 1px solid var(--gold);
                 ul {
                     width: 18rem;
                     margin: 0 auto;
@@ -95,6 +99,14 @@
                     font-size: 1.1rem;
                     padding: 2rem 2rem 0 2rem;
                 }
+            }
+        }
+
+        &:nth-child(3), &:nth-child(5) {
+            background-color: var(--primary);
+            aside {
+                background-color: var(--dark-contrast);
+                color: var(--font);
             }
         }
     }
