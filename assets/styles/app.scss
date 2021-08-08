@@ -1,27 +1,21 @@
 :root {
-    --color-default: #727C83;
-    --color-success: #30873D;
-    --color-danger: #EE5044;
-    --color-primary: #1F5CD6;
-    --color-warning: #e6cc3c;
+    --gold: #CBAB52;
+    --primary: #1F1F1F;
+    --dark-contrast: #3D3D3D;
+    --light-contrast: #D6D6D6;
+    --font: #F5F5F5;
 
-    --alert-primary: #caf0f8;
+    --success: #3AA64B;
+    --info: #3B73E3;
+    --warning: #E3C726;
+    --error: #EE5044;
+    --disabled: #B8B8B8;
+
     --alert-success: #cfffb3;
+    --alert-info: #caf0f8;
     --alert-warning: #f8f4dd;
     --alert-text-warning: #c9af1a;
     --alert-error: #FADBDF;
-
-    --progress-bar: #92B9C9;
-    --disable-button: #DCE4E3;
-
-    /* grey */
-    --dark-grey: #374151;
-    --medium-grey: #6B7280;
-    --light-grey: #D1D5DB;
-    --vlight-grey: #F9FAFB;
-
-    /* red */
-    --medium-red: #D00000;
 }
 
 * {
@@ -30,8 +24,9 @@
     font-family: sans-serif;
 }
 /* Pages */
-@import 'pages/homepage';
-@import 'pages/rent_step_1';
+@import 'pages/auth.scss';
+@import 'pages/homepage.scss';
+@import 'pages/rent_step_1.scss';
 @import 'pages/rent_step_2.scss';
 @import 'pages/rent_step_3.scss';
 

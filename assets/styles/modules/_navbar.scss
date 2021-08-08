@@ -5,9 +5,9 @@
     z-index: 100;
     width: 100%;
     height: 60px;
-    background-color: var(--dark-grey);
+    background-color: var(--primary);
     display: flex;
-    border-bottom: 1px solid var(--vlight-grey);
+    // border-bottom: 1px solid var(--vlight-grey);
     transition: min-height 0.2s ease-in-out;
 
     .navbar-logo {
@@ -26,8 +26,8 @@
         flex-grow: 1;
         align-items: center;
         font-size: 22px;
-        border-right: 1px solid var(--vlight-grey);
-        border-left: 1px solid var(--vlight-grey);
+        border-right: 1px solid var(--font);
+        border-left: 1px solid var(--font);
 
         .navbar-link {
             margin: 2rem;
@@ -46,7 +46,7 @@
     }
 
     a {
-        color: var(--vlight-grey);
+        color: var(--font);
         text-decoration: none;
     }
 
@@ -74,8 +74,7 @@
                 content: "";
                 width: 40px;
                 height: 2px;
-                background-color: var(--vlight-grey);
-
+                background-color: var(--font);
                 &::after {
                     content: "";
                     position: absolute;
@@ -83,7 +82,7 @@
                     top: 0;
                     width: 40px;
                     height: 2px;
-                    background-color: var(--vlight-grey);
+                    background-color: var(--font);
                     transition: transform 0.2s ease-in-out;
                 }
                 &::before {
@@ -93,7 +92,7 @@
                     bottom: 0;
                     width: 40px;
                     height: 2px;
-                    background-color: var(--vlight-grey);
+                    background-color: var(--font);
                     transition: transform 0.2s ease-in-out;
                 }
             }

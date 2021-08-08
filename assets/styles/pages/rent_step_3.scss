@@ -27,9 +27,9 @@
     .car-description {
         text-align: center;
         padding: 1.5rem;
-        border-top: 1px solid var(--medium-red);
-        border-bottom: 1px solid var(--medium-red);
-        background-color: var(--vlight-grey);
+        border-top: 1px solid var(--gold);
+        border-bottom: 1px solid var(--gold);
+        background-color: var(--font);
         p {
             font-size: 1.2em;
             font-style: italic;
@@ -53,7 +53,7 @@
                     bottom: -5px;
                     left: 0;
                     width: 210px;
-                    background-color: var(--medium-red);
+                    background-color: var(--gold);
                     height: 2px;
                 }
             }

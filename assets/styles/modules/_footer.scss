@@ -1,8 +1,8 @@
 .footer {
     display: flex;
     min-height: 180px;
-    background-color: var(--dark-grey);
-    color: var(--vlight-grey);
+    background-color: var(--primary);
+    color: var(--font);
 
     h4 {
         font-size: 20px;
@@ -11,7 +11,7 @@
 
     a {
         text-decoration: none;
-        color: var(--vlight-grey);
+        color: var(--font);
         transition: opacity 0.2s ease-in-out;
     }
     a:hover {
@@ -53,7 +53,7 @@
             display: flex;
             height: 50%;
             align-items: center;
-            border-right: 1px solid var(--medium-red);
+            border-right: 1px solid var(--font);
             padding: 1rem;
         }
         :nth-child(3) {
@@ -90,7 +90,7 @@
 
         div {
             border-right: none !important;
-            border-top: 1px solid var(--medium-red);
+            border-top: 1px solid var(--font);
         }
     }
 }
