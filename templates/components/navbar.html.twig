@@ -16,15 +16,24 @@
         </div>
     </section>
     <section class="navbar-user">
-        <div class="navbar-link">
-            <a href="">Mes locations</a>
-        </div>
-        <div class="navbar-link">
-            <a href="">Mon compte</a>
-        </div>
-        <div class="navbar-link">
-            <a href="">Déconnexion</a>
-        </div>
+        {% if app.user %}
+            <div class="navbar-link">
+                <a href="">Mes locations</a>
+            </div>
+            <div class="navbar-link">
+                <a href="">Mon compte</a>
+            </div>
+            <div class="navbar-link">
+                <a href="{{ path('auth_logout') }}">Déconnexion</a>
+            </div>
+        {% else %}
+            <div class="navbar-link">
+                <a href="{{ path('auth_login') }}">Se connecter</a>
+            </div>
+            <div class="navbar-link">
+                <a href="">Créer un compte</a>
+            </div>
+        {% endif %}
     </section>
     <section class="mobile-nav">
         <button class="mobile-nav-btn" aria-label="Ouverture menu pour mobile">

@@ -1,3 +1,98 @@
 #auth_login {
-    
+    padding: 3rem 0;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    .login-form {
+        width: 60rem;
+        .login-wrapper {
+            background-color: var(--light-contrast);
+            border-radius: 20px;
+            .form-header {
+                width: 100%;
+                background-color: var(--dark-contrast);
+                text-align: center;
+                justify-items: center;
+                align-items: center;
+                color: var(--gold);
+                padding: 1rem 0;
+                border-radius: 20px 20px 0 0;
+            }
+            .form-fieldset {
+                width: 70%;
+                margin: 3rem auto 0 auto;
+                .form-input {
+                    flex-direction: row;
+                    background-color: var(--dark-contrast);
+                    border-radius: 18px;
+                    padding: 0.6rem;
+                    margin-top: 2rem;
+                    label {
+                        color: var(--font);
+                        border-right: 1px solid var(--font);
+                        padding: 0 0.6rem;
+                    }
+                    input {
+                        width: 90%;
+                        margin: auto 0 auto 1rem;
+                        background-color: transparent;
+                        color: var(--font);
+                        border-bottom: none;
+                        &::placeholder {
+                            color: var(--font);
+                        }
+                    }
+                }
+                a {
+                    padding: 1rem;
+                    text-decoration: none;
+                    color: var(--info);
+                }
+            }
+            .form-submit {
+                padding: 3rem 1rem;
+                button {
+                    width: 70%;
+                    padding: 2rem;
+                    margin: 0 auto;
+                    justify-content: center;
+                    border-radius: 18px;
+                    font-size: 1.3em;
+                }
+            }
+        }
+    }   
+}
+
+@media (max-width: 600px) {
+    #auth_login {
+        .form-fieldset {
+            width: 98% !important;
+            .form-input {
+                label {
+                    padding: 0 0.4rem !important;
+                }
+                input {
+                    font-size: 1em;
+                    margin: auto 0 auto 0.7rem !important;
+                }
+            }
+        }
+        .form-submit {
+            button {
+                width: 98% !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 345px) {
+    #auth_login {
+        .form-input {
+            label {
+                display: none;
+            }
+        }
+    }
 }

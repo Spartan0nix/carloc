@@ -7,7 +7,7 @@
         font-size: 1.2rem;
     }
 
-    input[type='text'], input[type="date"], input[list]{
+    input {
         border: none;
         border-bottom: 1px solid var(--light-contrast);
         font-size: 1.1rem;
@@ -20,4 +20,17 @@
             border-bottom: 2px solid var(--gold);
         }
     }
+    // input[type='text'], input[type="date"], input[list]{
+    //     border: none;
+    //     border-bottom: 1px solid var(--light-contrast);
+    //     font-size: 1.1rem;
+    //     transition: 0.2s ease-in-out;
+    //     outline: none;
+    //     margin: 0.8rem 0.4rem 0.4rem 0;
+    //     padding: 5px;
+        
+    //     &:hover {
+    //         border-bottom: 2px solid var(--gold);
+    //     }
+    // }
 }
