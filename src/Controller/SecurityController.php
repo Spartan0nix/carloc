@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -13,7 +14,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="auth_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils, UserPasswordEncoderInterface $passwordEncoder ): Response
+    public function login(AuthenticationUtils $authenticationUtils, UserPasswordEncoderInterface $passwordEncoder, SessionInterface $session ): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('auth_account');

@@ -28,10 +28,12 @@
 .btn-primary {
     background-color: var(--info);
     border-color: var(--info);
+    color: var(--font);
 }
 .btn-success { 
     background-color: var(--success);
     border-color: var(--success);
+    color: var(--font);
 }
 .btn-warning {
     background-color: var(--warning);
@@ -41,4 +43,5 @@
 .btn-danger {
     background-color: var(--error);
     border-color: var(--error);
+    color: var(--font);
 }
