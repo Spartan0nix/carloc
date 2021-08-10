@@ -31,7 +31,7 @@ class Department
     private $code;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="country_id")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="department_id")
      */
     private $users;
 

@@ -257,10 +257,48 @@ class RentController extends AbstractController
         $car = $this->repository->find($uid);
         $normalizeCar = $this->carNormalizer->normalize($car);
 
-        dump($normalizeCar);
-
         return $this->render('rent/step_3/index.html.twig', [
             'car' => $normalizeCar
+        ]);
+    }
+
+    /**
+     * Render the rent_step_4
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/location/confirmation', name:'rent_confirm', methods: ['POST', 'GET'])]
+    public function confirmRentReservation(Request $request): Response {
+        $session = $this->session;
+
+        if(!$session->get('rentInfo')){
+            return $this->redirectToRoute('rent_office');
+        }
+
+        $rentInfo = $session->get('rentInfo');
+        if($request->request->all()){
+            $rentInfo['carId'] = $request->request->all()['carId'];
+            $session->set('rentInfo', $rentInfo);
+        }
+
+        if(!$this->getUser()){
+            $session->set('redirect', array(
+                'redirect' => true,
+                'from' => 'rent_confirm'
+            ));
+            return $this->redirectToRoute('auth_login');
+        }
+
+        $rentInfo = $session->get('rentInfo');
+        $car = $this->repository->findOneBy(['id' => $rentInfo['carId']]);
+        $normalizeCar = $this->carNormalizer->normalize($car);
+
+        dump($normalizeCar);
+        dump($rentInfo);
+
+        return $this->render('rent/step_4/index.html.twig', [
+            'car' => $normalizeCar,
+            'rentInfo' => $rentInfo
         ]);
     }
 
