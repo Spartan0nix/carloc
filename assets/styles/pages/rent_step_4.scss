@@ -1,0 +1,114 @@
+#rent_step_4 {
+    .main-title {
+        padding: 2rem;
+        h2 {
+            text-align: center;
+            font-size: 2em;
+        }
+    }
+    .car-recap {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        margin: 1rem auto;
+        align-items: center;
+        width: 80%;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .car-recap-specs {
+            .specs-title {
+                text-align: center;
+                font-size: 1.4em;
+                h4 {
+                    position: relative;
+                    padding: 0.5rem;
+                    &::after{
+                        content: '';
+                        position: absolute;
+                        width: 60px;
+                        height: 2px;
+                        background-color: var(--gold);
+                        left: 46%;
+                        bottom: 0;
+                    }
+                }
+            }
+            .specs-content {
+                display: grid;
+                grid-template-columns: repeat(auto-fit ,minmax(170px, 1fr));
+                padding: 1rem;
+                .spec {
+                    text-align: center;
+                    padding: 1rem;
+                    p {
+                        font-size: 1.2em;
+                        padding: 0.1rem;
+                    }
+                }
+            }
+        }
+    }
+    .price-recap {
+        padding: 4rem;
+        .card {
+            width: 400px;
+            background-color: var(--font);
+            border: 1px solid var(--dark-contrast);
+            border-radius: 20px;
+            margin: 0 auto;
+            .header {
+                text-align: center;
+                color: var(--font);
+                background-color: var(--dark-contrast);
+                border-radius: 18px 18px 0 0;
+                padding: 2rem;
+                p { font-size: 1.2em; }
+                h4 { 
+                    font-size: 2em;
+                    padding-top: 0.8rem;
+                }
+            }
+            .content {
+                .element {
+                    position: relative;
+                    padding: 1.2rem 0;
+                    background-color: var(--font);
+                    text-align: center;
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        width: 50px;
+                        height: 2px;
+                        left: 45%;
+                        bottom: 0;
+                        background-color: var(--light-contrast);
+                    }
+                }
+            }
+            .submit {
+                padding: 2rem 1rem;
+                button {
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 700px) {
+    #rent_step_4 {
+        .car-recap {
+            display: flex;
+            flex-direction: column;
+            .car-recap-specs { padding-top: 2rem; }
+        }
+    }
+}
+@media (max-width: 580px) {
+    #rent_step_4 {
+        .price-recap {
+            padding: 1rem;
+            .card { width: 100%; }
+        }
+    }
+}
