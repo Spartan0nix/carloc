@@ -4,6 +4,62 @@
 
 {% block body %}
     <main id="rent_step_4">
-        <h4>Temp</h4>
+        <section class="main-title">
+            <h2>Récapitulatif  de votre configuration</h2>
+        </section>
+        <section class="car-recap">
+            <img class="car-recap-img" src="/images/temp/m2.jpg" alt="Voiture">
+            <div class="car-recap-specs">
+                <section class="specs-title">
+                    <h4>{{ car.brand.brand }} {{ car.modele.modele }}</h4>
+                </section>
+                <section class="specs-content">
+                    <div class="spec">
+                        <p><strong>Puissance</strong></p>
+                        <p>{{ car.horsepower }} cv</p>
+                    </div>
+                    <div class="spec">
+                        <p><strong>Année</strong></p>
+                        <p>{{ car.release_year }}</p>
+                    </div>
+                    <div class="spec">
+                        <p><strong>Boite</strong></p>
+                        <p>{{ car.gearbox.gearbox }}</p>
+                    </div>
+                    <div class="spec">
+                        <p><strong>Énergie</strong></p>
+                        <p>{{ car.fuel.fuel }}</p>
+                    </div>
+                    <div class="spec">
+                        <p><strong>Couleur</strong></p>
+                        <p>{{ car.color.color }}</p>
+                    </div>
+                </section>
+            </div>
+        </section>
+        <section class="options-recap"></section>
+        <section class="price-recap">
+            <form class="card" action="{{ path('rent_payment') }}" method="POST">
+                <input type="hidden" name="verif_car_id" value="{{ car.id }}">
+                <section class="header">
+                    <p>Montant total</p>
+                    <h4>{{ rent_price }}€</h4>
+                </section>
+                <section class="content">
+                    <div class="element">
+                        <p>{{ car.daily_price }} pour 24h</p>
+                    </div>
+                    <div class="element">
+                        <p>Durée de {{ rent_day_duration }} jour(s)</p>
+                    </div>
+                    <div class="element">
+                        <p>Réduction de {{ reduction * 100 }}%</p>
+                    </div>
+                </section>
+                <section class="submit">
+                    <button type="submit" class="btn">Payement</button>
+                </section>
+            </form>
+        </section>
     </main>
 {% endblock %}

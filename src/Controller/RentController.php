@@ -10,6 +10,7 @@ use App\Entity\Components\Gearbox;
 use App\Entity\Components\Modele;
 use App\Entity\Components\Type;
 use App\Repository\CarRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -293,31 +294,44 @@ class RentController extends AbstractController
         $car = $this->repository->findOneBy(['id' => $rentInfo['carId']]);
         $normalizeCar = $this->carNormalizer->normalize($car);
 
-        dump($normalizeCar);
-        dump($rentInfo);
+        $daily_price = intval($normalizeCar['daily_price']);
+        $rent_start = DateTime::createFromFormat('Y-m-d', $rentInfo['start_date']);
+        $rent_end = DateTime::createFromFormat('Y-m-d', $rentInfo['end_date']);
+
+        $rent_day_duration = intval(date_diff($rent_start, $rent_end)->format('%a'));
+        $reduction = (0.02) * $rent_day_duration;
+        $reduction > 0.25 ? $reduction = 0.25 : '';
+
+        $rent_price = ($daily_price * $rent_day_duration) * $reduction;
 
         return $this->render('rent/step_4/index.html.twig', [
             'car' => $normalizeCar,
-            'rentInfo' => $rentInfo
+            'rentInfo' => $rentInfo,
+            'rent_day_duration' => $rent_day_duration,
+            'rent_price' => $rent_price,
+            'reduction' => $reduction
         ]);
     }
 
-
-
-
-
-
-
-
-
     /**
-     * @Route("/rent/test/", name="rent_test", methods={"POST", "GET"})
+     * Render the rent_step_4
+     * @param Request $request
      * @return Response
      */
-    public function rentTest(Request $request): Response {
-    
-        return $this->render('test.html.twig', [
-            // 'cars' => $normalizeCar
-        ]);
+    #[Route('/location/payment', name:'rent_payment', methods: ['POST', 'GET'])]
+    public function confirmPayment(Request $request): Response {
+        $req = $request->request->all();
+        $verif_car_id = $req['verif_car_id'];
+        $rentInfo = $this->session->get('rentInfo');
+
+        if(!$this->getUser() || $rentInfo['carId'] != $verif_car_id){
+            $this->addFlash('error', 'Erreur lors de la résolution de votre requête.');
+            return $this->redirectToRoute('rent_list');
+        }
+
+        $this->session->get('redirect') ? $this->session->remove('redirect') : '';
+
+
+        return $this->render('rent/step_5/index.html.twig');
     }
 }
