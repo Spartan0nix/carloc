@@ -66,9 +66,15 @@ class User implements UserInterface
      */
     private $rents;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=CreditCard::class, mappedBy="user_id")
+     */
+    private $creditCards;
+
     public function __construct()
     {
         $this->rents = new ArrayCollection();
+        $this->creditCards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,6 +231,33 @@ class User implements UserInterface
             if ($rent->getUserId() === $this) {
                 $rent->setUserId(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CreditCard[]
+     */
+    public function getCreditCards(): Collection
+    {
+        return $this->creditCards;
+    }
+
+    public function addCreditCard(CreditCard $creditCard): self
+    {
+        if (!$this->creditCards->contains($creditCard)) {
+            $this->creditCards[] = $creditCard;
+            $creditCard->addUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreditCard(CreditCard $creditCard): self
+    {
+        if ($this->creditCards->removeElement($creditCard)) {
+            $creditCard->removeUserId($this);
         }
 
         return $this;

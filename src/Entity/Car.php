@@ -6,7 +6,7 @@ use App\Entity\Components\Brand;
 use App\Entity\Components\Color;
 use App\Entity\Components\Fuel;
 use App\Entity\Components\Gearbox;
-use App\Entity\Components\Modele;
+use App\Entity\Components\Model;
 use App\Entity\Components\Option;
 use App\Entity\Components\Type;
 use App\Entity\Components\carImage;
@@ -50,10 +50,10 @@ class Car
     private $brand_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Modele::class, inversedBy="cars")
-     * @ORM\JoinColumn(name="modele_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Model::class, inversedBy="cars")
+     * @ORM\JoinColumn(name="model_id", nullable=false)
      */
-    private $modele_id;
+    private $model_id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Color::class, inversedBy="cars")
@@ -88,7 +88,7 @@ class Car
     private $daily_price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Offices::class, inversedBy="cars")
+     * @ORM\ManyToOne(targetEntity=Office::class, inversedBy="cars")
      * @ORM\JoinColumn(name="office_id", nullable=false)
      */
     private $office_id;
@@ -164,14 +164,14 @@ class Car
         return $this;
     }
 
-    public function getModeleId(): ?Modele
+    public function getModelId(): ?Model
     {
-        return $this->modele_id;
+        return $this->model_id;
     }
 
-    public function setModeleId(?Modele $modele_id): self
+    public function setModelId(?Model $model_id): self
     {
-        $this->modele_id = $modele_id;
+        $this->model_id = $model_id;
 
         return $this;
     }
@@ -284,12 +284,12 @@ class Car
         return $this;
     }
 
-    public function getOfficeId(): ?Offices
+    public function getOfficeId(): ?Office
     {
         return $this->office_id;
     }
 
-    public function setOfficeId(?Offices $office_id): self
+    public function setOfficeId(?Office $office_id): self
     {
         $this->office_id = $office_id;
 

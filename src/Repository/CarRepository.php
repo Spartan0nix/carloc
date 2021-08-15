@@ -42,7 +42,7 @@ class CarRepository extends ServiceEntityRepository
         $brandsIds && $brandsIds != '' ? $query->andWhere('c.brand_id IN (:brandsIds)') 
                          ->setParameter('brandsIds', $brandsIds, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
                          : '';
-        $modelsIds && $modelsIds != '' ? $query->andWhere('c.modele_id IN (:modelsIds)') 
+        $modelsIds && $modelsIds != '' ? $query->andWhere('c.model_id IN (:modelsIds)') 
                           ->setParameter('modelsIds', $modelsIds, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
                           : '';
         $gearboxId ? $query->andWhere('c.gearbox_id = :gearboxId')

@@ -1,1 +1,1 @@
-DROP TABLE brand,car,car_car_image,car_image,car_option,car_type,city,color,department,fuel,gearbox,modele,offices,public.option,rent,public.type,public.user CASCADE;
+DROP TABLE car_car_image,car_option,car_type,credit_card_user,rent,car,office,public.user,public.status,city,department,credit_card,brand,color,fuel,gearbox,public.model,option,public.type,car_image CASCADE;

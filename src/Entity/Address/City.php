@@ -2,9 +2,8 @@
 
 namespace App\Entity\Address;
 
-use App\Entity\Offices;
+use App\Entity\Office;
 use App\Entity\User;
-use App\Repository\Address\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,9 +31,9 @@ class City
     private $code;
 
     /**
-     * @ORM\OneToMany(targetEntity=Offices::class, mappedBy="city_id")
+     * @ORM\OneToMany(targetEntity=Office::class, mappedBy="city_id")
      */
-    private $offices;
+    private $office;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="city_id")
@@ -43,7 +42,7 @@ class City
 
     public function __construct()
     {
-        $this->offices = new ArrayCollection();
+        $this->office = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
@@ -77,26 +76,26 @@ class City
     }
 
     /**
-     * @return Collection|Offices[]
+     * @return Collection|Office[]
      */
-    public function getOffices(): Collection
+    public function getOffice(): Collection
     {
-        return $this->offices;
+        return $this->office;
     }
 
-    public function addOffice(Offices $office): self
+    public function addOffice(Office $office): self
     {
-        if (!$this->offices->contains($office)) {
-            $this->offices[] = $office;
+        if (!$this->office->contains($office)) {
+            $this->office[] = $office;
             $office->setCityId($this);
         }
 
         return $this;
     }
 
-    public function removeOffice(Offices $office): self
+    public function removeOffice(Office $office): self
     {
-        if ($this->offices->removeElement($office)) {
+        if ($this->office->removeElement($office)) {
             // set the owning side to null (unless already changed)
             if ($office->getCityId() === $this) {
                 $office->setCityId(null);

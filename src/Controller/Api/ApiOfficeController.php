@@ -2,17 +2,17 @@
 
 namespace App\Controller\Api;
 
-use App\Repository\OfficesRepository;
+use App\Repository\OfficeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ApiOfficesController extends AbstractController
+class ApiOfficeController extends AbstractController
 {   
     /**
-     * @var OfficesRepository
+     * @var OfficeRepository
      */
     private $repository;
     /**
@@ -20,7 +20,7 @@ class ApiOfficesController extends AbstractController
      */
     private $em;
 
-    public function __construct(OfficesRepository $repository,EntityManagerInterface $em)
+    public function __construct(OfficeRepository $repository,EntityManagerInterface $em)
     {
         $this->repository = $repository;
         $this->em = $em;
