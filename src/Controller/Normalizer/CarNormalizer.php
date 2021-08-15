@@ -42,8 +42,8 @@ class CarNormalizer extends AbstractController
                 'brand' => $car->getBrandId()->getBrand()
             ),
             'modele' => array(
-                'id' => $car->getModeleId()->getId(),
-                'modele' => $car->getModeleId()->getModele()
+                'id' => $car->getModelId()->getId(),
+                'modele' => $car->getModelId()->getModel()
             ),
             'color' => array(
                 'id' => $car->getColorId()->getId(),

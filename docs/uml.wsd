@@ -56,7 +56,7 @@ package "Database" #FFF {
         - cvv
     }
 
-    entity offices {
+    entity office {
         - id
         - city_id
         - department_id
@@ -111,7 +111,7 @@ package "Database" #FFF {
         - last_name
         - first_name
     }
-    entity user_credit_card {
+    entity credit_card_user {
         - user_id
         - credit_card_id
     }
@@ -141,10 +141,10 @@ package "Database" #FFF {
         - return_date
     }
 
-    department "One" o-- "Many" offices: To
-    city "One" o-- "Many" offices: To
+    department "One" o-- "Many" Office: To
+    city "One" o-- "Many" Office: To
 
-    offices "One" o-- "Many" car: To
+    Office "One" o-- "Many" car: To
 
     brand "One" o-- "Many" car: To
     color "One" o-- "Many" car: To
@@ -161,12 +161,12 @@ package "Database" #FFF {
 
     department "One" o-- "Many" user: To
     city "One" o-- "Many" user: To
-    credit_card " " -- " " user_credit_card: To
-    user " " -- " " user_credit_card: To
+    credit_card " " -- " " credit_card_user: To
+    user " " -- " " credit_card_user: To
 
     user "One" o-- "Many" rent: To
-    offices "One" o-- "Many" rent: To
-    offices "One" o-- "Many" rent: To
+    Office "One" o-- "Many" rent: To
+    Office "One" o-- "Many" rent: To
     car "One" o-- "Many" rent: To
     status "One" o-- "Many" rent: To
     credit_card "One" o-- "Many" rent: To

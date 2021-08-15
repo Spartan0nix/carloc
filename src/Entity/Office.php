@@ -3,15 +3,16 @@
 namespace App\Entity;
 
 use App\Entity\Address\City;
-use App\Repository\OfficesRepository;
+use App\Entity\Address\Department;
+use App\Repository\OfficeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=OfficesRepository::class)
+ * @ORM\Entity(repositoryClass=OfficeRepository::class)
  */
-class Offices
+class Office
 {
     /**
      * @ORM\Id
@@ -36,7 +37,7 @@ class Offices
     private $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="offices")
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="Office")
      * @ORM\JoinColumn(name="city_id", nullable=false)
      */
     private $city_id;
@@ -55,6 +56,12 @@ class Offices
      * @ORM\OneToMany(targetEntity=Car::class, mappedBy="office_id")
      */
     private $cars;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="offices")
+     * @ORM\JoinColumn(name="department_id", nullable=false)
+     */
+    private $department_id;
 
     public function __construct()
     {
@@ -202,6 +209,18 @@ class Offices
                 $car->setOfficeId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDepartmentId(): ?Department
+    {
+        return $this->department_id;
+    }
+
+    public function setDepartmentId(?Department $department_id): self
+    {
+        $this->department_id = $department_id;
 
         return $this;
     }

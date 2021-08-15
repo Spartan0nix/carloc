@@ -7,7 +7,7 @@ use App\Controller\Normalizer\CarNormalizer;
 use App\Entity\Components\Brand;
 use App\Entity\Components\Fuel;
 use App\Entity\Components\Gearbox;
-use App\Entity\Components\Modele;
+use App\Entity\Components\Model;
 use App\Entity\Components\Type;
 use App\Repository\CarRepository;
 use DateTime;
@@ -121,13 +121,13 @@ class RentController extends AbstractController
                         $req['filter']['brand'] = json_encode($req['filter']['brand']);
                     }
                     if($req['filter']['model'] != ''){
-                        $models = $this->getDoctrine()->getRepository(Modele::class)->findBy([ 'id' => $req['filter']['model']]);
+                        $models = $this->getDoctrine()->getRepository(Model::class)->findBy([ 'id' => $req['filter']['model']]);
                         $req['filter']['model'] = array();
 
                         foreach($models as $model) {
                             array_push($req['filter']['model'], array(
                                 'id' => $model->getId(),
-                                'model' => $model->getModele()
+                                'model' => $model->getModel()
                             ));
                         }
                         $req['filter']['model'] = json_encode($req['filter']['model']);
@@ -231,7 +231,7 @@ class RentController extends AbstractController
                     'horsepower' => $car->getHorsepower(),
                     'daily_price' => $car->getDailyPrice(),
                     'brand' => array('brand' => $car->getBrandId()->getBrand()),
-                    'modele' => array('modele' => $car->getModeleId()->getModele()),
+                    'model' => array('model' => $car->getModelId()->getModel()),
                     'gearbox' => array('gearbox' => $car->getGearboxId()->getGearbox()),
                     'fuel' => array('fuel' => $car->getFuelId()->getFuel()),
                 ));

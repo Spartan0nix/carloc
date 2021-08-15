@@ -33,13 +33,13 @@ class Rent
     private $return_date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Offices::class, inversedBy="pickup_rents")
+     * @ORM\ManyToOne(targetEntity=Office::class, inversedBy="pickup_rents")
      * @ORM\JoinColumn(name="pickup_office_id", nullable=false)
      */
     private $pickup_office_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Offices::class, inversedBy="return_rents")
+     * @ORM\ManyToOne(targetEntity=Office::class, inversedBy="return_rents")
      * @ORM\JoinColumn(name="return_office_id", nullable=false)
      */
     private $return_office_id;
@@ -55,6 +55,12 @@ class Rent
      * @ORM\JoinColumn(name="car_id", nullable=false)
      */
     private $car_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="rents")
+     * @ORM\JoinColumn(name="status_id", nullable=false)
+     */
+    private $status_id;
 
     public function getId(): ?int
     {
@@ -97,24 +103,24 @@ class Rent
         return $this;
     }
 
-    public function getPickupOfficeId(): ?Offices
+    public function getPickupOfficeId(): ?Office
     {
         return $this->pickup_office_id;
     }
 
-    public function setPickupOfficeId(?Offices $pickup_office_id): self
+    public function setPickupOfficeId(?Office $pickup_office_id): self
     {
         $this->pickup_office_id = $pickup_office_id;
 
         return $this;
     }
 
-    public function getReturnOfficeId(): ?Offices
+    public function getReturnOfficeId(): ?Office
     {
         return $this->return_office_id;
     }
 
-    public function setReturnOfficeId(?Offices $return_office_id): self
+    public function setReturnOfficeId(?Office $return_office_id): self
     {
         $this->return_office_id = $return_office_id;
 
@@ -141,6 +147,18 @@ class Rent
     public function setCarId(?Car $car_id): self
     {
         $this->car_id = $car_id;
+
+        return $this;
+    }
+
+    public function getStatusId(): ?Status
+    {
+        return $this->status_id;
+    }
+
+    public function setStatusId(?Status $status_id): self
+    {
+        $this->status_id = $status_id;
 
         return $this;
     }

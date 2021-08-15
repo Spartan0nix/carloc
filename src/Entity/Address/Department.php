@@ -2,6 +2,7 @@
 
 namespace App\Entity\Address;
 
+use App\Entity\Office;
 use App\Entity\User;
 use App\Repository\Address\DepartmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,9 +36,15 @@ class Department
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Office::class, mappedBy="department_id")
+     */
+    private $offices;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->offices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +100,36 @@ class Department
             // set the owning side to null (unless already changed)
             if ($user->getDepartmentId() === $this) {
                 $user->setDepartmentId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Office[]
+     */
+    public function getOffices(): Collection
+    {
+        return $this->offices;
+    }
+
+    public function addOffice(Office $office): self
+    {
+        if (!$this->offices->contains($office)) {
+            $this->offices[] = $office;
+            $office->setDepartmentId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffice(Office $office): self
+    {
+        if ($this->offices->removeElement($office)) {
+            // set the owning side to null (unless already changed)
+            if ($office->getDepartmentId() === $this) {
+                $office->setDepartmentId(null);
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Repository\Components\ModeleRepository;
+use App\Repository\Components\ModelRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,11 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiModelController extends AbstractController
 {
     /**
-     * @var ModeleRepository
+     * @var ModelRepository
      */
     private $repository;
 
-    public function __construct(ModeleRepository $repository)
+    public function __construct(ModelRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -36,7 +36,7 @@ class ApiModelController extends AbstractController
         foreach($models as $model){
             array_push($array, array(
                 'id' => $model->getId(),
-                'model' => $model->getModele()
+                'model' => $model->getModel()
             ));
         }
 

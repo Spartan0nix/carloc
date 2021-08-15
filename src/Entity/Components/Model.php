@@ -3,15 +3,15 @@
 namespace App\Entity\Components;
 
 use App\Entity\Car;
-use App\Repository\Components\ModeleRepository;
+use App\Repository\Components\ModelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ModeleRepository::class)
+ * @ORM\Entity(repositoryClass=ModelRepository::class)
  */
-class Modele
+class Model
 {
     /**
      * @ORM\Id
@@ -23,10 +23,10 @@ class Modele
     /**
      * @ORM\Column(type="string", length=80)
      */
-    private $modele;
+    private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="modele_id")
+     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="model_id")
      */
     private $cars;
 
@@ -40,14 +40,14 @@ class Modele
         return $this->id;
     }
 
-    public function getModele(): ?string
+    public function getModel(): ?string
     {
-        return $this->modele;
+        return $this->model;
     }
 
-    public function setModele(string $modele): self
+    public function setModel(string $model): self
     {
-        $this->modele = $modele;
+        $this->model = $model;
 
         return $this;
     }
@@ -64,7 +64,7 @@ class Modele
     {
         if (!$this->cars->contains($car)) {
             $this->cars[] = $car;
-            $car->setModeleId($this);
+            $car->setModelId($this);
         }
 
         return $this;
@@ -74,8 +74,8 @@ class Modele
     {
         if ($this->cars->removeElement($car)) {
             // set the owning side to null (unless already changed)
-            if ($car->getModeleId() === $this) {
-                $car->setModeleId(null);
+            if ($car->getModelId() === $this) {
+                $car->setModelId(null);
             }
         }
 
