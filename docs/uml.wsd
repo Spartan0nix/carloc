@@ -1,110 +1,175 @@
 @startuml UML
 
-package "BusinessRules" #FFF {
-    entity User {
-        - id
-        - email
-        - password
-        - last_name
-        - first_name
-        - city_id
-        - country_id
-    }
-    entity City {
-        - id
-        - name 
-        - code
-    }
-    entity Country {
-        - id
-        - name
-        ' - code
-    }
-
-    entity Rent {
-        - id
-        - price
-        - pickup_date
-        - pickup_office_id
-        - return_date
-        - return_office_id
-        - user_id
-    }
-
-    entity Offices {
-        - id
-        - street
-        - city_id
-        - tel_number
-        - mail
-    }
-
-    entity Car{
-        - id
-        - horsepower
-        - daily_price
-        - description
-        - fuel_id
-        - brand_id
-        - modele_id
-        - color_id
-        - gearbox_id
-        - office_id
-        - type_id (collection)
-        - options_id (collection)
-        - image_id (collection)
-    }
-    entity Fuel{
-        - id
-        - fuel
-    }
-    entity Brand {
+package "Database" #FFF {
+    ' ---------------------------------
+    ' Car component
+    ' ---------------------------------
+    entity brand {
         - id
         - brand
     }
-    entity Modele {
-        - id
-        - modele
-    }
-    entity Type {
-        - id
-        - type
-    }
-    entity Color {
+    entity color {
         - id
         - color
     }
-    entity Gearbox {
+    entity fuel {
+        - id
+        - fuel
+    }
+    entity gearbox {
         - id
         - gearbox
     }
-    entity Options {
+    entity model {
+        - id
+        - model
+    }
+    entity type {
+        - id
+        - type
+    }
+    ' ---------------------------------
+    ' Office and user component
+    ' ---------------------------------
+    entity department {
         - id
         - name
-        - description
+        - code
     }
-    entity carImage {
+    entity city {
         - id
-        - url 
+        - name
+        - code
+    }
+    ' ---------------------------------
+    ' Rent component
+    ' ---------------------------------
+    entity status {
+        - id
+        - status
+    }
+    entity credit_card {
+        - id
+        - number
+        - owner
+        - expiration_date
+        - cvv
     }
 
-    User "Many" --> "One" City : To
-    User "Many" --> "One" Country : To
-    Offices "Many" --> "One" City : To
-    Rent "Many" --* "One" User : To
-    Rent "Many" --* "One" Offices : To
-    Rent "Many" --* "One" Offices : To
+    entity offices {
+        - id
+        - city_id
+        - department_id
+        - street
+        - tel_number
+        - email
+    }
+    entity car {
+        - id
+        - fuel_id
+        - brand_id
+        - model_id
+        - color_id
+        - gearbox_id
+        - pickup_office_id
+        - horsepower
+        - description
+        - daily_price
+        - release_year
+    }
+    ' ---------------------------------
+    ' car relation table
+    ' ---------------------------------
+    entity car_type {
+        - car_id
+        - type_id
+    }
+    entity option {
+        - id
+        - option
+    }
+    entity car_option {
+        - car_id
+        - option_id
+    }
+    entity car_image {
+        - id
+        - image
+    }
+    entity car_car_image {
+        - car_id
+        - car_image_id
+    }
 
-    Rent "One" *-- "One" Car : To
+    entity user {
+        - id
+        - city_id
+        - department_id
+        - email
+        - roles
+        - password
+        - last_name
+        - first_name
+    }
+    entity user_credit_card {
+        - user_id
+        - credit_card_id
+    }
+    ' entity transaction {
+    '     - id
+    '     - total_price
+    '     - start_date
+    '     - ent_date
+    '     - created_at
+    '     - user_id (serialize summary of the user)
+    '     - credit_card (serialize summary of the credit_card)
+    '     - refunded
+    '     - refunded_at
+    '     - rent (serialize summary of the rent)
+    ' }
 
-    Offices "One" --o "Many" Car: To
-    Fuel "One" --o "Many" Car : To
-    Brand "One" --o "Many" Car : To
-    Modele "One" --o "Many" Car : To
-    Type "One" --o "Many" Car : To
-    Color "One" --o "Many" Car : To
-    Gearbox "One" --o "Many" Car : To
-    Options "One" --o "Many" Car : To
-    carImage "One" --o "Many" Car : To
+    entity rent {
+        - id
+        - price
+        - pickup_office_id
+        - return_office_id
+        - user_id
+        - credit_card_id
+        - car_id
+        - status_id
+        - pickup_date
+        - return_date
+    }
+
+    department "One" o-- "Many" offices: To
+    city "One" o-- "Many" offices: To
+
+    offices "One" o-- "Many" car: To
+
+    brand "One" o-- "Many" car: To
+    color "One" o-- "Many" car: To
+    fuel "One" o-- "Many" car: To
+    gearbox "One" o-- "Many" car: To
+    model "One" o-- "Many" car: To
+
+    type " " -- " " car_type: ""
+    car " " -- " " car_type: ""
+    option " " -- " " car_option: ""
+    car " " -- " " car_option: ""
+    car_image " " -- " " car_car_image: ""
+    car " " -- " " car_car_image: ""
+
+    department "One" o-- "Many" user: To
+    city "One" o-- "Many" user: To
+    credit_card " " -- " " user_credit_card: To
+    user " " -- " " user_credit_card: To
+
+    user "One" o-- "Many" rent: To
+    offices "One" o-- "Many" rent: To
+    offices "One" o-- "Many" rent: To
+    car "One" o-- "Many" rent: To
+    status "One" o-- "Many" rent: To
+    credit_card "One" o-- "Many" rent: To
+
 }
 @enduml
