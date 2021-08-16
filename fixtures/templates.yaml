@@ -1,24 +1,37 @@
+# ------------------------------------------------------------------------------------
+# Address
+# ------------------------------------------------------------------------------------
+App\Entity\Address\City:
+  city (template):
+    name: '<city()>'
+    code: '<numberBetween(74000, 74950)>'
+
+App\Entity\Address\Department:
+  department (template):
+    name: '<country()>'
+    code: '<numberBetween(01, 75)>'
+
+# ------------------------------------------------------------------------------------
+# Components
+# ------------------------------------------------------------------------------------   
 App\Entity\Components\Color:
   color (template): 
     color: '<safeColorName()>'
-    
-App\Entity\Address\Department:
-  departement (template):
-    name: departmentName()
-    code: '<numberBetween(01, 75)>'
 
-App\Entity\Address\City:
-  city (template):
-    name: secondaryAddress()
-    code: '<numberBetween(74000, 74950)>'
-
-App\Entity\Offices:
-  offices (template):
+# ------------------------------------------------------------------------------------
+# Office
+# ------------------------------------------------------------------------------------   
+App\Entity\Office:
+  office (template):
     street: '<streetAddress()>'
     tel_number: '<phoneNumber()>'
     email: '<companyEmail()>'
     city_id: '@city<numberBetween(1,20)>'
+    department_id: '@department<numberBetween(1,10)>'
 
+# ------------------------------------------------------------------------------------
+# User
+# ------------------------------------------------------------------------------------ 
 App\Entity\User:
   user (template):
     email: '<safeEmail()>'
@@ -26,4 +39,5 @@ App\Entity\User:
     last_name: '<name()>'
     first_name: '<name()>'
     city_id: '@city<numberBetween(1,20)>'
-    department_id: '@departement<numberBetween(1,10)>'
+    department_id: '@department<numberBetween(1,10)>'
+    address: '<streetAddress()>'

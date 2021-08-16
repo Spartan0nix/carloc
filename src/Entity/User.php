@@ -71,6 +71,11 @@ class User implements UserInterface
      */
     private $creditCards;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
     public function __construct()
     {
         $this->rents = new ArrayCollection();
@@ -259,6 +264,18 @@ class User implements UserInterface
         if ($this->creditCards->removeElement($creditCard)) {
             $creditCard->removeUserId($this);
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }
