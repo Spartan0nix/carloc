@@ -2,6 +2,15 @@ include :
   - ./templates.yaml
 
 # ------------------------------------------------------------------------------------
+# Address
+# ------------------------------------------------------------------------------------
+App\Entity\Address\Department:
+  department{1..10} (extends department):
+
+App\Entity\Address\City:
+  city{1..20} (extends city):
+
+# ------------------------------------------------------------------------------------
 # Components
 # ------------------------------------------------------------------------------------
 App\Entity\Components\Brand:
@@ -40,17 +49,17 @@ App\Entity\Components\Gearbox:
     id: 2
     gearbox: Automatique
 
-App\Entity\Components\Modele:
+App\Entity\Components\Model:
   m2:
-    modele: M2
+    model: M2
   rs3:
-    modele: RS3
+    model: RS3
   c63:
-    modele: C63
+    model: C63
   gt3rs:
-    modele: GT3RS
+    model: GT3RS
   swiftSport:
-    modele: SWIFT SPORT
+    model: SWIFT SPORT
 
 App\Entity\Components\Type:
   sportive:
@@ -67,18 +76,6 @@ App\Entity\Components\Type:
     type: COMPACT
 
 # ------------------------------------------------------------------------------------
-# Office
-# ------------------------------------------------------------------------------------
-App\Entity\Address\Department:
-  departement{1..10} (extends departement):
-
-App\Entity\Address\City:
-  city{1..20} (extends city):
-
-App\Entity\Offices:
-  offices{1..2} (extends offices):
-
-# ------------------------------------------------------------------------------------
 # Car
 # ------------------------------------------------------------------------------------
 App\Entity\Car:
@@ -87,76 +84,103 @@ App\Entity\Car:
     description: '<sentence()>'
     fuel_id: '@essence'
     brand_id: '@bmw'
-    modele_id: '@m2'
+    model_id: '@m2'
     color_id: '@color<numberBetween(1,5)>'
     gearbox_id: '@manuelle'
     type_id: ['@sportive', '@coupe']
     daily_price: 250
-    office_id: '@offices<numberBetween(1,2)>'
+    office_id: '@office<numberBetween(1,2)>'
     release_year: '2019'
   RS3:
     horsepower: 400
     description: '<sentence()>'
     fuel_id: '@essence'
     brand_id: '@audi'
-    modele_id: '@rs3'
+    model_id: '@rs3'
     color_id: '@color<numberBetween(1,5)>'
     gearbox_id: '@automatique'
     type_id: ['@sportive']
     daily_price: 400
-    office_id: '@offices<numberBetween(1,2)>'
+    office_id: '@office<numberBetween(1,2)>'
     release_year: 2019
   C63:
     horsepower: 476
     description: '<sentence()>'
     fuel_id: '@essence'
     brand_id: '@mercedesBenz'
-    modele_id: '@c63'
+    model_id: '@c63'
     color_id: '@color<numberBetween(1,5)>'
     gearbox_id: '@automatique'
     type_id: ['@sportive', '@coupe']
     daily_price: 500
-    office_id: '@offices<numberBetween(1,2)>'
+    office_id: '@office<numberBetween(1,2)>'
     release_year: 2018
   GT3RS:
     horsepower: 520
     description: '<sentence()>'
     fuel_id: '@essence'
     brand_id: '@porsche'
-    modele_id: '@gt3rs'
+    model_id: '@gt3rs'
     color_id: '@color<numberBetween(1,5)>'
     gearbox_id: '@automatique'
     type_id: ['@sportive', '@supercar']
     daily_price: 1200
-    office_id: '@offices<numberBetween(1,2)>'
+    office_id: '@office<numberBetween(1,2)>'
     release_year: 2019
   SWIFT-SPORT:
     horsepower: 140
     description: '<sentence()>'
     fuel_id: '@essence'
     brand_id: '@suzuki'
-    modele_id: '@swiftSport'
+    model_id: '@swiftSport'
     color_id: '@color<numberBetween(1,5)>'
     gearbox_id: '@manuelle'
     type_id: ['@sportive', '@compact']
     daily_price: 90
-    office_id: '@offices<numberBetween(1,2)>'
+    office_id: '@office<numberBetween(1,2)>'
     release_year: 2018
+
+# ------------------------------------------------------------------------------------
+# Office
+# ------------------------------------------------------------------------------------
+App\Entity\Office:
+  office{1..2} (extends office):
+
+# ------------------------------------------------------------------------------------
+# Status
+# ------------------------------------------------------------------------------------
+App\Entity\Status:
+  payementValid:
+    id: 1
+    status: 'Payement validé'
+  payementPending:
+    id: 2
+    status: 'Payement en cours de validation'
+  payementInAgency:
+    id: 3
+    status: 'Payement en agence'
+  payementRefused:
+    id: 4
+    status: 'Payement refusé'
+  cancel:
+    id: 5
+    status: 'Annulé'
 
 # ------------------------------------------------------------------------------------
 # User
 # ------------------------------------------------------------------------------------
 App\Entity\User:
   user{1..10} (extends user):
-  user:
+  admin:
     email: 'test@humblole.com'
+    roles: ['ADMIN']
     password: 'password'
     last_name: 'test'
     first_name: 'test'
     city_id: '@city<numberBetween(1,20)>'
-    department_id: '@departement<numberBetween(1,10)>'
+    department_id: '@department<numberBetween(1,10)>'
+    address: '<streetAddress()>'
     
-
 # ------------------------------------------------------------------------------------
 # Rents
 # ------------------------------------------------------------------------------------
@@ -165,9 +189,8 @@ App\Entity\Rent:
     price: 9975
     pickup_date: <date_create()>
     return_date: <date_create('+3 weeks')>
-    pickup_office_id: '@offices1'
-    return_office_id: '@offices1'
+    pickup_office_id: '@office1'
+    return_office_id: '@office1'
     user_id: '@user<numberBetween(1,10)>'
     car_id: '@C63'
-
-
+    status_id: '@payementValid'
