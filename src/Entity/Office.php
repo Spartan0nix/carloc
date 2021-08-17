@@ -37,7 +37,7 @@ class Office
     private $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="Office")
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="office")
      * @ORM\JoinColumn(name="city_id", nullable=false)
      */
     private $city_id;
