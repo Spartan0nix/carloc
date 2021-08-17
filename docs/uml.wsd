@@ -48,13 +48,6 @@ package "Database" #FFF {
         - id
         - status
     }
-    entity credit_card {
-        - id
-        - number
-        - owner
-        - expiration_date
-        - cvv
-    }
 
     entity office {
         - id
@@ -111,10 +104,6 @@ package "Database" #FFF {
         - last_name
         - first_name
     }
-    entity credit_card_user {
-        - user_id
-        - credit_card_id
-    }
     ' entity transaction {
     '     - id
     '     - total_price
@@ -134,17 +123,16 @@ package "Database" #FFF {
         - pickup_office_id
         - return_office_id
         - user_id
-        - credit_card_id
         - car_id
         - status_id
         - pickup_date
         - return_date
     }
 
-    department "One" o-- "Many" Office: To
-    city "One" o-- "Many" Office: To
+    department "One" o-- "Many" office: To
+    city "One" o-- "Many" office: To
 
-    Office "One" o-- "Many" car: To
+    office "One" o-- "Many" car: To
 
     brand "One" o-- "Many" car: To
     color "One" o-- "Many" car: To
@@ -161,15 +149,11 @@ package "Database" #FFF {
 
     department "One" o-- "Many" user: To
     city "One" o-- "Many" user: To
-    credit_card " " -- " " credit_card_user: To
-    user " " -- " " credit_card_user: To
 
     user "One" o-- "Many" rent: To
-    Office "One" o-- "Many" rent: To
-    Office "One" o-- "Many" rent: To
+    office "One" o-- "Many" rent: To
+    office "One" o-- "Many" rent: To
     car "One" o-- "Many" rent: To
     status "One" o-- "Many" rent: To
-    credit_card "One" o-- "Many" rent: To
-
 }
 @enduml

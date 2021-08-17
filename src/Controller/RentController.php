@@ -62,10 +62,10 @@ class RentController extends AbstractController
 
             if(!$this->isCsrfTokenValid('token', $req['token'])){
                 $this->addFlash("error","Erreur lors de la recherche.");
-                return $this->redirectToRoute('rent_index');
+                return $this->redirectToRoute('rent_office');
             }
 
-            if(!$this->session->get('rentInfo')){
+            if(!$this->session->get('rentInfo') || $this->session->get('rentInfo')['pickup_office'] != $req['pickup_office']){
                 if(!$req['return_office']){
                     $req['return_office'] = $req['pickup_office'];
                 }
@@ -103,7 +103,7 @@ class RentController extends AbstractController
 
                 if(!$this->isCsrfTokenValid('token', $req['token'])){
                     $this->addFlash("error","Erreur lors de la recherche.");
-                    return $this->redirectToRoute('rent_index');
+                    return $this->redirectToRoute('rent_office');
                 }
 
                 if(isset($req['filter'])) {
@@ -181,7 +181,7 @@ class RentController extends AbstractController
                 ]);
             }
         }
-        return $this->redirectToRoute('rent_index');
+        return $this->redirectToRoute('rent_office');
     }
 
     /**
@@ -196,7 +196,7 @@ class RentController extends AbstractController
 
             if(!$this->isCsrfTokenValid('token', $req['token'])){
                 $this->addFlash("error","Erreur lors de la recherche.");
-                return $this->redirectToRoute('rent_index');
+                return $this->redirectToRoute('rent_office');
             }
 
             $normalizeCar = array();
