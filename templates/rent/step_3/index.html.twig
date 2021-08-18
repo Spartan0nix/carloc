@@ -11,7 +11,7 @@
             <section class="car-image">
                 <img src="/images/temp/m2.jpg" alt="image voiture">
             </section>
-            <form class="car-price" method="POST" action="{{ path('rent_confirm') }}">
+            <form class="car-price" method="POST" action="{{ path('rent_recap') }}">
                 <input type="hidden" name="carId" value={{ car.id }}>
                 <h4>Prix TTC : {{ car.daily_price }} / 24h</h4>
                 <button class="btn">Réserver</button>

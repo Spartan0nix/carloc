@@ -39,8 +39,9 @@
         </section>
         <section class="options-recap"></section>
         <section class="price-recap">
-            <form class="card" action="{{ path('rent_payment') }}" method="POST">
+            <form class="card" action="{{ path('rent_confirm') }}" method="POST">
                 <input type="hidden" name="verif_car_id" value="{{ car.id }}">
+                <input type="hidden" name="rent_price" value="{{ rent_price }}">
                 <section class="header">
                     <p>Montant total</p>
                     <h4>{{ rent_price }}€</h4>
@@ -57,7 +58,7 @@
                     </div>
                 </section>
                 <section class="submit">
-                    <button type="submit" class="btn">Payement</button>
+                    <button type="submit" class="btn">Valider</button>
                 </section>
             </form>
         </section>

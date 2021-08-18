@@ -43,6 +43,12 @@
     }
 }
 
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .loading {
     width: 1.25rem;
     height: 1.25rem;
