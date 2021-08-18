@@ -9,8 +9,13 @@ use App\Entity\Components\Fuel;
 use App\Entity\Components\Gearbox;
 use App\Entity\Components\Model;
 use App\Entity\Components\Type;
+use App\Entity\Rent;
+use App\Entity\Status;
 use App\Repository\CarRepository;
+use App\Repository\OfficeRepository;
+use App\Repository\StatusRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -268,8 +273,8 @@ class RentController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/location/confirmation', name:'rent_confirm', methods: ['POST', 'GET'])]
-    public function confirmRentReservation(Request $request): Response {
+    #[Route('/location/recapitulatif', name:'rent_recap', methods: ['POST', 'GET'])]
+    public function recapRentReservation(Request $request): Response {
         $session = $this->session;
 
         if(!$session->get('rentInfo')){
@@ -285,13 +290,16 @@ class RentController extends AbstractController
         if(!$this->getUser()){
             $session->set('redirect', array(
                 'redirect' => true,
-                'from' => 'rent_confirm'
+                'from' => 'rent_recap'
             ));
             return $this->redirectToRoute('auth_login');
         }
 
+        $session->get('redirect') ? $session->remove('redirect') : '';
         $rentInfo = $session->get('rentInfo');
+
         $car = $this->repository->findOneBy(['id' => $rentInfo['carId']]);
+
         $normalizeCar = $this->carNormalizer->normalize($car);
 
         $daily_price = intval($normalizeCar['daily_price']);
@@ -314,24 +322,51 @@ class RentController extends AbstractController
     }
 
     /**
-     * Render the rent_step_4
+     * Render the rent_step_5
      * @param Request $request
      * @return Response
      */
-    #[Route('/location/payment', name:'rent_payment', methods: ['POST', 'GET'])]
-    public function confirmPayment(Request $request): Response {
-        $req = $request->request->all();
-        $verif_car_id = $req['verif_car_id'];
-        $rentInfo = $this->session->get('rentInfo');
+    #[Route('/location/confirmation', name:'rent_confirm', methods: ['POST', 'GET'])]
+    public function confirmRentReservation(Request $request, StatusRepository $statusRepository, OfficeRepository $officeRepository, EntityManagerInterface $em): Response {
+        // $req = $request->request->all();
+        // $verif_car_id = $req['verif_car_id'];
+        // $rentInfo = $this->session->get('rentInfo');
 
-        if(!$this->getUser() || $rentInfo['carId'] != $verif_car_id){
-            $this->addFlash('error', 'Erreur lors de la résolution de votre requête.');
-            return $this->redirectToRoute('rent_list');
-        }
+        // if(!$this->getUser() || $rentInfo['carId'] != $verif_car_id){
+        //     $this->addFlash('error', 'Erreur lors de la résolution de votre requête.');
+        //     return $this->redirectToRoute('rent_list');
+        // }
 
-        $this->session->get('redirect') ? $this->session->remove('redirect') : '';
+        // $this->session->get('redirect') ? $this->session->remove('redirect') : '';
 
+        // $user = $this->getUser();
+        // $car = $this->repository->find($verif_car_id);
+        // $status = $statusRepository->find(2);
+        // $pickup_office = $officeRepository->find($rentInfo['pickup_office']);
 
+        // if($rentInfo['pickup_office'] === $rentInfo['return_office']){
+        //     $return_office = $pickup_office;
+        // } else {
+        //     $return_office = $officeRepository->find($rentInfo['return_office']);
+        // }
+
+        // $rent_price = (int) $req['rent_price'];
+        // $rent_start = DateTime::createFromFormat('Y-m-d', $rentInfo['start_date']);
+        // $rent_end = DateTime::createFromFormat('Y-m-d', $rentInfo['end_date']);
+
+        // $rent = new Rent();
+        // $rent->setPrice($rent_price);
+        // $rent->setPickupDate($rent_start);
+        // $rent->setReturnDate($rent_end);
+        // $rent->setPickupOfficeId($pickup_office);
+        // $rent->setReturnOfficeId($return_office);
+        // $rent->setUserId($user);
+        // $rent->setCarId($car);
+        // $rent->setStatusId($status);
+
+        // $em->persist($rent);
+        // $em->flush();
+    
         return $this->render('rent/step_5/index.html.twig');
     }
 }

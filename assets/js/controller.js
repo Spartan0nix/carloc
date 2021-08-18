@@ -13,5 +13,6 @@ customElements.define('js-select-static', StaticSelect);
 
 import './pages/rent_step_1';
 import './pages/rent_step_2';
+import './pages/rent_step_5';
 
 
