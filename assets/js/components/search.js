@@ -20,22 +20,22 @@ export class Search extends HTMLElement {
          */
         switch (type) {
             case "office":
-                this.URL = '/recherche/offices/';
+                this.URL = '/api/search/offices/';
                 break;
             case "brand":
-                this.URL = '/recherche/brands/';
+                this.URL = '/api/search/brands/';
                 break;
             case "model":
-                this.URL = '/recherche/models/';
+                this.URL = '/api/search/models/';
                 break;
             case "type":
-                this.URL = '/recherche/types/';
+                this.URL = '/api/search/types/';
                 break;
             case "fuel":
-                this.URL = '/recherche/fuels/';
+                this.URL = '/api/search/fuels/';
                 break;
             case "gearbox":
-                this.URL = '/recherche/gearboxs/';
+                this.URL = '/api/search/gearboxs/';
                 break;
 
             default:

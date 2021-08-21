@@ -10,22 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiBrandController extends AbstractController
 {
-    /**
-     * @var BrandRepository
-     */
-    private $repository;
 
-    public function __construct(BrandRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    #[Route('/recherche/brands', name: 'brands_search', methods: ['GET'])]
-    public function getBrands(Request $request): JsonResponse {
+    #[Route('/api/search/brands', name: 'api_brand_search', methods: ['GET'])]
+    public function getBrands(Request $request, BrandRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 
-        $brands = $this->repository->searchBrands($q);
+        $brands = $repository->searchBrands($q);
 
         if(!$brands){
             return new JsonResponse(array(

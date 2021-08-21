@@ -4,7 +4,7 @@
 
 {% block body %}
     <main id="rent_step_1">
-        <form id="rent_step_1_form" action="{{ path('rent_list') }}" method="POST">
+        <form id="rent_step_1_form" action="{{ path('car_list') }}" method="POST">
             <div class="container">
                 <input type="hidden" name="token" value="{{ csrf_token('token') }}">
                 <h4>Réserver votre véhicule dès maintenant.</h4>

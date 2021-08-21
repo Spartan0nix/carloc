@@ -10,22 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiModelController extends AbstractController
 {
-    /**
-     * @var ModelRepository
-     */
-    private $repository;
 
-    public function __construct(ModelRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    #[Route('/recherche/models', name: 'models_search', methods: ['GET'])]
-    public function getModels(Request $request): JsonResponse {
+    #[Route('/api/search/models', name: 'api_model_search', methods: ['GET'])]
+    public function getModels(Request $request, ModelRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 
-        $models = $this->repository->searchModels($q);
+        $models = $repository->searchModels($q);
 
         if(!$models){
             return new JsonResponse(array(

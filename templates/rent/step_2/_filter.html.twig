@@ -1,8 +1,7 @@
 <section id="filter-section">
     <div id="filter-section-wrapper">
-        <form action="{{ path('rent_filter') }}" id="filter-form" method="POST">
+        <form action="{{ path('car_list_filter') }}" id="filter-form" method="GET">
             <input type="hidden" name="token" value="{{ csrf_token('token') }}">
-            {# <input type="hidden" name="rentInfo" value={{ rentInfo }}> #}
             <div class="filter-input input-text">
                 <js-select-dynamic
                     data-placeholder="Toutes les marques"

@@ -10,22 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiTypeController extends AbstractController
 {
-    /**
-     * @var TypeRepository
-     */
-    private $repository;
 
-    public function __construct(TypeRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    #[Route('/recherche/types', name: 'types_search', methods: ['GET'])]
-    public function getTypes(Request $request): JsonResponse {
+    #[Route('/api/search/types', name: 'api_type_search', methods: ['GET'])]
+    public function getTypes(Request $request, TypeRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 
-        $types = $this->repository->searchTypes($q);
+        $types = $repository->searchTypes($q);
 
         if(!$types){
             return new JsonResponse(array(
