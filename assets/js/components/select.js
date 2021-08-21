@@ -20,23 +20,23 @@ export class Select extends HTMLElement {
          */
         switch (type) {
             case "brand":
-                this.URL = '/recherche/brands/';
+                this.URL = '/api/search/brands/';
                 this.type = 'brand';
                 break;
             case "model":
-                this.URL = '/recherche/models/';
+                this.URL = '/api/search/models/';
                 this.type = 'model';
                 break;
             case "type":
-                this.URL = '/recherche/types/';
+                this.URL = '/api/search/types/';
                 this.type = 'type';
                 break;
             case "fuel":
-                this.URL = '/recherche/fuels/';
+                this.URL = '/api/search/fuels/';
                 this.type = 'fuel';
                 break;
             case "gearbox":
-                this.URL = '/recherche/gearboxs/';
+                this.URL = '/api/search/gearboxs/';
                 this.type = 'gearbox';
                 break;
             default:

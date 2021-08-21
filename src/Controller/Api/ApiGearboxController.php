@@ -10,22 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiGearboxController extends AbstractController
 {
-    /**
-     * @var GearboxRepository
-     */
-    private $repository;
 
-    public function __construct(GearboxRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    #[Route('/recherche/gearboxs', name: 'gearboxs_search', methods: ['GET'])]
-    public function getGearboxs(Request $request): JsonResponse {
+    #[Route('/api/search/gearboxs', name: 'api_gearbox_search', methods: ['GET'])]
+    public function getGearboxs(Request $request, GearboxRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 
-        $gearboxs = $this->repository->searchGearboxs($q);
+        $gearboxs = $repository->searchGearboxs($q);
 
         if(!$gearboxs){
             return new JsonResponse(array(

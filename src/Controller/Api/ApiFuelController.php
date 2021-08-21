@@ -10,22 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiFuelController extends AbstractController
 {
-    /**
-     * @var FuelRepository
-     */
-    private $repository;
 
-    public function __construct(FuelRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    #[Route('/recherche/fuels', name: 'fuels_search', methods: ['GET'])]
-    public function getFuels(Request $request): JsonResponse {
+    #[Route('/api/search/fuels', name: 'api_fuel_search', methods: ['GET'])]
+    public function getFuels(Request $request, FuelRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 
-        $fuels = $this->repository->searchFuels($q);
+        $fuels = $repository->searchFuels($q);
 
         if(!$fuels){
             return new JsonResponse(array(
