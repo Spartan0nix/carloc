@@ -4,10 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<main id="auth_login">
+	<main id="auth_modal">
 		<div class="wrapper"></div>
-		<form method="POST" class="login-form">
-			<div class="login-wrapper">
+		<form method="POST" class="auth-form">
+			<div class="auth-wrapper">
 				<div class="form-header">
 					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-lock" width="90" height="90" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -43,6 +43,7 @@
 				</div>
 				<div class="form-submit">
 					<button type="submit" class="btn">Se connecter</button>
+					<a href="{{ path('auth_register') }}">Créez un compte.</a>
 				</div>
 			</div>
 		</form>

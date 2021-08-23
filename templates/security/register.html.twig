@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créez mon compte
+{% endblock %}
+
+{% block body %}
+	<main id="auth_modal" class="auth_register">
+        {{ form_start(form, {attr: {class: 'auth-form'}} )}}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <div class="wrapper"></div>
+            <div>
+                <div class="auth-wrapper">
+                    <div class="form-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-lock" width="90" height="90" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3"/>
+                            <circle cx="12" cy="11" r="1"/>
+                            <line x1="12" y1="12" x2="12" y2="14.5"/>
+                        </svg>
+                    </div>
+                    <div class="form-fieldset">
+                        <div class="form-group">
+                            <div class="form-input input-text">
+                            {{ form_widget(form.last_name) }}
+                            </div>
+                            <div class="form-input input-text">
+                                {{ form_widget(form.first_name) }}
+                            </div>
+                        </div>
+                        <div class="form-input input-text">
+                            {{ form_widget(form.email) }}
+                        </div>
+                        <div class="form-input input-text">
+                            {{ form_widget(form.password) }}
+                        </div>
+                        <div class="form-input input-text">
+                            {{ form_widget(form.address) }}
+                        </div>
+                        <div class="form-group">
+                            <div class="form-input input-select">
+                                {{ form_widget(form.city_id) }}
+                            </div>
+                            <div class="form-input input-select">
+                                {{ form_widget(form.department_id) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn">Se connecter</button>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </main>
+{% endblock %}
