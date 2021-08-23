@@ -7,8 +7,8 @@
         {% include "rent/step_2/_filter.html.twig" %}
 
         <div class="cars-list">
-            {% cache 'car_list' %}
-                {% for car in cars %}
+            {% for car in cars %}
+                {% cache 'car' ~ car.id %}
                     <form action="{{ path('car_details', { uid: car.id }) }}" method="GET">
                         <section class="car-main">
                             <div class="car-image">
@@ -67,8 +67,8 @@
                             </div>
                         </section>
                     </form>
-                {% endfor %}
-            {% endcache %}
+                {% endcache %}
+            {% endfor %}
         </div>
     </main>
 

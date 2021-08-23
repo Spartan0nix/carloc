@@ -42,7 +42,7 @@
                         <a href="">Mes locations</a>
                     </div>
                     <div class="navbar-link">
-                        <a href="">Mon compte</a>
+                        <a href="{{ path('auth_account') }}">Mon compte</a>
                     </div>
                     <div class="navbar-link">
                         <a href="{{ path('auth_logout') }}">Déconnexion</a>
@@ -52,7 +52,7 @@
                         <a href="{{ path('auth_login') }}">Se connecter</a>
                     </div>
                     <div class="navbar-link">
-                        <a href="">Créer un compte</a>
+                        <a href="{{ path('auth_register') }}">Créer un compte</a>
                     </div>
                 {% endif %}
             </section>

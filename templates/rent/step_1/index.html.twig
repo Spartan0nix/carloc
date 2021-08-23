@@ -34,51 +34,53 @@
                 </div>
             </div>
         </form>
-        <section class="tuto-container">
-            <h3>Comment effectuer votre réservation ?</h3>
-            <div class="tuto-content">
-                <img src="{{ asset('images/search-office-page/map.jpg') }}" width="40%" alt="map">
-                <aside>
-                    <ul>
-                        <li>Trouvez une agence</li>
-                    </ul>
-                    <p>Récuperez votre véhicule dans l’agence la plus proche de chez vous</p>
-                </aside>
-            </div>
-        </section>
-        <section class="tuto-container">
-            <div class="tuto-content">
-                <aside>
-                    <ul>
-                        <li>Sélectionner votre véhicule</li>
-                    </ul>
-                    <p>Sélectionner le véhicule de votre choix.</p>
-                    <p><i>Certains véhicules ne sont disponibles qu’uniquement dans certaines agences.</i></p>
-                </aside>
-                <img src="{{ asset('images/search-office-page/map.jpg') }}" width="40%" alt="map">
-            </div>
-        </section>
-        <section class="tuto-container">
-            <div class="tuto-content">
-                <img src="{{ asset('images/search-office-page/contrat.jpg') }}" width="40%" alt="contrat">
-                <aside>
-                    <ul>
-                        <li>Rendez-vous dans l’agence choisi avec les documents requis.</li>
-                    </ul>
-                    <p>Une fois les différents documents requis fournis, vous serrez en mesure de signer votre contrat de location et ainsi récupérer votre véhicule.</p>
-                </aside>
-            </div>
-        </section>
-        <section class="tuto-container">
-            <div class="tuto-content">
-                <aside>
-                    <ul>
-                        <li> Profiter de votre location jusqu’à la date de retour</li>
-                    </ul>
-                    <p>Il est possible de retourner le véhicule dans n’importe quelles agences au sein du département d’origine.</p>
-                </aside>
-                <img src="{{ asset('images/search-office-page/moving-car.jpg') }}" width="40%" alt="voiture">
-            </div>
-        </section>
+        {% cache 'step_1_tuto' %}
+            <section class="tuto-container">
+                <h3>Comment effectuer votre réservation ?</h3>
+                <div class="tuto-content">
+                    <img src="{{ asset('images/search-office-page/map.jpg') }}" width="40%" alt="map">
+                    <aside>
+                        <ul>
+                            <li>Trouvez une agence</li>
+                        </ul>
+                        <p>Récuperez votre véhicule dans l’agence la plus proche de chez vous</p>
+                    </aside>
+                </div>
+            </section>
+            <section class="tuto-container">
+                <div class="tuto-content">
+                    <aside>
+                        <ul>
+                            <li>Sélectionner votre véhicule</li>
+                        </ul>
+                        <p>Sélectionner le véhicule de votre choix.</p>
+                        <p><i>Certains véhicules ne sont disponibles qu’uniquement dans certaines agences.</i></p>
+                    </aside>
+                    <img src="{{ asset('images/search-office-page/map.jpg') }}" width="40%" alt="map">
+                </div>
+            </section>
+            <section class="tuto-container">
+                <div class="tuto-content">
+                    <img src="{{ asset('images/search-office-page/contrat.jpg') }}" width="40%" alt="contrat">
+                    <aside>
+                        <ul>
+                            <li>Rendez-vous dans l’agence choisi avec les documents requis.</li>
+                        </ul>
+                        <p>Une fois les différents documents requis fournis, vous serrez en mesure de signer votre contrat de location et ainsi récupérer votre véhicule.</p>
+                    </aside>
+                </div>
+            </section>
+            <section class="tuto-container">
+                <div class="tuto-content">
+                    <aside>
+                        <ul>
+                            <li> Profiter de votre location jusqu’à la date de retour</li>
+                        </ul>
+                        <p>Il est possible de retourner le véhicule dans n’importe quelles agences au sein du département d’origine.</p>
+                    </aside>
+                    <img src="{{ asset('images/search-office-page/moving-car.jpg') }}" width="40%" alt="voiture">
+                </div>
+            </section>
+        {% endcache %}
     </main>
 {% endblock %}
