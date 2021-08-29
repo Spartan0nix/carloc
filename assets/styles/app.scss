@@ -24,6 +24,7 @@
     font-family: sans-serif;
 }
 /* Pages */
+@import 'pages/account.scss';
 @import 'pages/auth.scss';
 @import 'pages/homepage.scss';
 @import 'pages/rent_step_1.scss';

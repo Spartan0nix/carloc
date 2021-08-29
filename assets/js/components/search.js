@@ -19,17 +19,14 @@ export class Search extends HTMLElement {
          * @var String type
          */
         switch (type) {
-            case "office":
-                this.URL = '/api/search/offices/';
-                break;
             case "brand":
                 this.URL = '/api/search/brands/';
                 break;
-            case "model":
-                this.URL = '/api/search/models/';
+            case "city":
+                this.URL = 'api/search/cities';
                 break;
-            case "type":
-                this.URL = '/api/search/types/';
+            case "department":
+                this.URL = 'api/search/departments';
                 break;
             case "fuel":
                 this.URL = '/api/search/fuels/';
@@ -37,7 +34,15 @@ export class Search extends HTMLElement {
             case "gearbox":
                 this.URL = '/api/search/gearboxs/';
                 break;
-
+            case "model":
+                this.URL = '/api/search/models/';
+                break;
+            case "office":
+                this.URL = '/api/search/offices/';
+                break;
+            case "type":
+                this.URL = '/api/search/types/';
+                break;
             default:
                 break;
         }

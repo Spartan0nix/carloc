@@ -3,6 +3,7 @@
 namespace App\Repository\Address;
 
 use App\Entity\Address\Department;
+use App\Query\CastAsText;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,34 +18,26 @@ class DepartmentRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Department::class);
+
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomStringFunction('TEXT', CastAsText::class);
     }
 
-    // /**
-    //  * @return Department[] Returns an array of Department objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+    public function searchDepartments(string $department) {
+        $int = '/^\d+$/';
+        $query = $this->createQueryBuilder('d');
+
+        if(preg_match($int, $department)){
+            $query->andWhere('TEXT(d.code) LIKE :val');
+        } else {
+            $query->andWhere('d.name LIKE :val');
+        }
+
+        return $query->setParameter('val', '%'.$department.'%')
+            ->orderBy('d.name', 'ASC')
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Department
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

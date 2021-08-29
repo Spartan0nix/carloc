@@ -103,10 +103,31 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/account", name="auth_account")
+     * @Route("/mon-compte", name="auth_account")
      */
     public function account()
     {
-        return $this->render("security/account.html.twig");
+        $user = $this->getUser();
+        $data = [
+            'id' => $user->getId(),
+            'email' => $user->getEmail(),
+            'last_name' => $user->getLastName(),
+            'first_name' => $user->getFirstName(),
+            'address' => $user->getAddress(),
+            'city' => json_encode([
+                'id' => $user->getCityId()->getId(),
+                'name' => $user->getCityId()->getName(),
+                'code' => $user->getCityId()->getCode(),
+            ]),
+            'department' => json_encode([
+                'id' => $user->getDepartmentId()->getId(),
+                'name' => $user->getDepartmentId()->getName(),
+                'code' => $user->getDepartmentId()->getCode(),
+                ])
+            ];
+        
+        return $this->render('security/account.html.twig', [
+            'user' => $data
+        ]);
     }
 }
