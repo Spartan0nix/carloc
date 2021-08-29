@@ -3,6 +3,7 @@
 namespace App\Repository\Address;
 
 use App\Entity\Address\City;
+use App\Query\CastAsText;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,34 +18,26 @@ class CityRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, City::class);
+        
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomStringFunction('TEXT', CastAsText::class);
     }
 
-    // /**
-    //  * @return City[] Returns an array of City objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+    public function searchCities(string $city) {
+        $int = '/^\d+$/';
+        $query = $this->createQueryBuilder('c');
+
+        if(preg_match($int, $city)){
+            $query->andWhere('TEXT(c.code) LIKE :val');
+        } else {
+            $query->andWhere('c.name LIKE :val');
+        }
+
+        return $query->setParameter('val', '%'.$city.'%')
+            ->orderBy('c.name', 'ASC')
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?City
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
