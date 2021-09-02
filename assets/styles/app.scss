@@ -24,14 +24,16 @@
     font-family: sans-serif;
 }
 /* Pages */
-@import 'pages/account.scss';
+@import 'pages/account/index.scss';
+@import 'pages/account/_account.scss';
+@import 'pages/account/_list.scss';
 @import 'pages/auth.scss';
 @import 'pages/homepage.scss';
-@import 'pages/rent_step_1.scss';
-@import 'pages/rent_step_2.scss';
-@import 'pages/rent_step_3.scss';
-@import 'pages/rent_step_4.scss';
-@import 'pages/rent_step_5.scss';
+@import 'pages/rent/rent_step_1.scss';
+@import 'pages/rent/rent_step_2.scss';
+@import 'pages/rent/rent_step_3.scss';
+@import 'pages/rent/rent_step_4.scss';
+@import 'pages/rent/rent_step_5.scss';
 
 /* Modules */
 @import "modules/alert";

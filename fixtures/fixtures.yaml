@@ -152,16 +152,16 @@ App\Entity\Office:
 App\Entity\Status:
   payementValid:
     id: 1
-    status: 'Payement validé'
+    status: 'Paiement validé'
   payementPending:
     id: 2
-    status: 'Payement en cours de validation'
+    status: 'Paiement en cours de validation'
   payementInAgency:
     id: 3
-    status: 'Payement en agence'
+    status: 'Paiement en agence'
   payementRefused:
     id: 4
-    status: 'Payement refusé'
+    status: 'Paiement refusé'
   cancel:
     id: 5
     status: 'Annulé'

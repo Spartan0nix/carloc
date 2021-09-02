@@ -103,7 +103,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/mon-compte", name="auth_account")
+     * @Route("/compte/details", name="auth_account")
      */
     public function account()
     {

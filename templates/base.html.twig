@@ -39,7 +39,7 @@
             <section class="navbar-user">
                 {% if app.user %}
                     <div class="navbar-link">
-                        <a href="">Mes locations</a>
+                        <a href="{{ path('user_rent_list') }}">Mes locations</a>
                     </div>
                     <div class="navbar-link">
                         <a href="{{ path('auth_account') }}">Mon compte</a>

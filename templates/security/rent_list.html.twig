@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mes locations' %}
+
+{% block body %}
+    <main id='rent_user_list' class='account'>
+        <h2>Mes Locations</h2>
+        <div class='account-container'>
+            <section class='account-menu'>
+                <a href='{{ path('auth_account') }}' class='active'>Paramètres du compte</a>
+                <a href=''>Mes locations</a>
+            </section>
+            <section class='account-info'>
+                <div class='rent-list'>
+                    {% for rent in rents %}
+                        {# <form class='rent-car' action="{{ path('user_change_identity') }}" method='POST'> #}
+                        {% cache 'rent' ~ rent.id %}
+                            <form class='rent-car' method='POST'>
+                                <section class="rent-info">
+                                    <div class="rent-image">
+                                        <img src="/images/temp/m2.jpg" alt="temp">
+                                    </div>
+                                    <div class='rent-details'>
+                                        <h4>{{ rent.car.brand }} - {{ rent.car.model }}</h4>
+                                        <div class='rent-sub-details'>
+                                            <div class="rent-date">
+                                                <h6>Dates :</h6>
+                                                <p> {{ rent.pickup_date|date('d-m-Y') }} - {{ rent.return_date|date('d-m-Y') }} </p>
+                                            </div>
+                                            <div class="rent-daily-price">
+                                                <h6>Prix / 24h : </h6>
+                                                <p> {{ rent.car.daily_price }}€</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="status-bar">
+                                    <div class="rent-status">
+                                        {% include 'security/_status.html.twig' %}
+                                        <p> {{ rent.status.status }} </p>
+                                    </div>
+                                    <div class="total-price">
+                                        <h6>Total : </h6>
+                                        <p>{{ rent.price }}€</p>
+                                    </div>
+                                </section>
+                            </form>
+                        {% endcache %}
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock %}

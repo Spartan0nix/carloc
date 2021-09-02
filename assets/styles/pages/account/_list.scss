@@ -1,0 +1,119 @@
+#rent_user_list {
+    .rent-list {
+        padding: 1.8rem;
+        margin: 0.5rem auto;
+        .rent-car {
+            display: flex;
+            flex-direction: column;
+            max-width: 55rem;
+            padding: 2rem;
+            &:first-child {
+                padding-top: 0;
+            }
+            h6 {
+                font-size: 1.4em;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+            p {
+                font-size: 1.2em;
+            }
+            .rent-info {
+                display: flex;
+                border: 1px solid var(--primary);
+                .rent-image {
+                    min-width: 320px;
+                    max-width: 340px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    img { width: 100%; }
+                }
+                .rent-details {
+                    flex-grow: 1;
+                    h4 {
+                        font-size: 1.6em;
+                        text-align: center;
+                        padding: 1.5rem 1.5rem 0.8rem 1.5rem;
+                    }
+                    .rent-sub-details {
+                        padding: 1rem 1.2rem 1rem 7rem;
+                        .rent-date {
+                            padding: 0.4rem 0;
+                            p {
+                                padding-top: 0.2rem;
+                            }
+                        }   
+                        .rent-daily-price {
+                            display: flex;
+                            padding: 0.4rem 0;
+                            align-items: center;
+                            p {
+                                padding-left: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+            .status-bar {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                padding: 1rem;
+                background-color: var(--primary);
+                color: var(--font);
+                .rent-status {
+                    display: flex;
+                    align-items: center;
+                    .status-success { color: var(--success)}
+                    .status-error { color: var(--error)}
+                    .status-warning { color: var(--warning)}
+                    .status-info { color: var(--info)}
+                    p {
+                        padding-left: 0.4rem;
+                    }
+                }
+                .total-price {
+                    display: flex;
+                    align-items: center;
+                    justify-self: flex-end;
+                    p {
+                        padding-left: 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+}
+@media (max-width: 1290px) {
+    #rent_user_list {
+        .rent-sub-details {
+            padding: 1rem !important;
+            text-align: center;
+            .rent-daily-price { justify-content: center; }
+        }
+    }
+}
+@media (max-width: 1230px) {
+    #rent_user_list {
+        .rent-list {
+            padding: 0 !important;
+            .rent-info {
+                flex-direction: column;
+                .rent-image { 
+                    margin: 1rem auto 0 auto;
+                    min-width: 0px !important;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 750px){
+    .rent-car {
+        padding: 2rem 0 !important;
+        h4 { font-size: 1.4em !important; }
+        h6 { font-size: 1.2em !important; }
+        p { font-size: 1.1em !important; }
+    }
+}
+
