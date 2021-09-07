@@ -22,6 +22,7 @@ class RentRepository extends ServiceEntityRepository
     public function findCancelableRent(string $user_id) {
         return $this->createQueryBuilder('r')
             ->andWhere('r.status_id NOT IN (4,5)')
+            ->andWhere('r.pickup_date > CURRENT_DATE()')
             ->andWhere('r.user_id = :user_id')
             ->setParameter('user_id', $user_id)
             ->orderBy('r.id', 'ASC')

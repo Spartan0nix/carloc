@@ -12,6 +12,11 @@
                 <a href='{{ path('user_rent_cancel_form') }}' class='active'>Annulation location</a>
             </section>
             <section class='account-info'>
+                <div class="cancel-info">
+                    <h4><u>Remarque concernant l'annulation d'une location :</u></h4>
+                    <p>La date de début de location ne doit pas excéder la date du jour courant afin de pouvoir annuler votre location depuis cette interface.
+                       Dans le cas contraire, merci de prendre contact avec l’agence la plus proche de chez vous.</p>
+                </div>
                 <div class='rent-list'>
                     {% for rent in rents %}
                         {# {% cache 'cancel_rent' ~ rent.id %} #}

@@ -31,6 +31,10 @@
     }
 }
 /*----------------------------------------------------------*/
+.alert-info {
+    background-color: var(--alert-info);
+    color: var(--info);
+}
 .alert-success {
     background-color: var(--alert-success);
     color: var(--success);
