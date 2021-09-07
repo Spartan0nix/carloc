@@ -38,17 +38,14 @@ class CarController extends AbstractController
 
         $rentInfo = $session->get('rentInfo');
         
-        if(!$rentInfo || $rentInfo['pickup_office'] != $req['pickup_office']){
-            if(!$req['return_office']){
-                $req['return_office'] = $req['pickup_office'];
-            }
-            
-            $rentInfo = array();
-            $rentInfo['pickup_office'] = $req['pickup_office'];
-            $rentInfo['return_office'] = $req['return_office'];
-            $rentInfo['start_date'] = $req['start_date'];
-            $rentInfo['end_date'] = $req['end_date'];
+        if(!$rentInfo){
+            $rentInfo = $this->buildRentInfo($req);
+            $session->set('rentInfo', $rentInfo);
+        }
 
+        $diff = array_diff($rentInfo, $req);
+        if(isset($diff['pickup_office']) || isset($diff['return_office']) || isset($diff['start_date']) || isset($diff['end_date'])) {
+            $rentInfo = $this->buildRentInfo($req);
             $session->set('rentInfo', $rentInfo);
         }
 
@@ -70,6 +67,26 @@ class CarController extends AbstractController
         return $this->render('rent/step_2/index.html.twig', [
             'cars' => $normalizeCar
         ]);
+    }
+
+    /**
+     * Helper that return the rentInfo array
+     *
+     * @param array $req
+     * @return array
+     */
+    public function buildRentInfo(array $req){
+        if(!$req['return_office']){
+            $req['return_office'] = $req['pickup_office'];
+        }
+        
+        $rentInfo = array();
+        $rentInfo['pickup_office'] = $req['pickup_office'];
+        $rentInfo['return_office'] = $req['return_office'];
+        $rentInfo['start_date'] = $req['start_date'];
+        $rentInfo['end_date'] = $req['end_date'];
+
+        return $rentInfo;
     }
 
     /**
