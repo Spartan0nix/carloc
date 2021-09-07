@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Address\City;
 use App\Entity\Address\Department;
+use App\Repository\RentRepository;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,6 +90,8 @@ class UserController extends AbstractController
         $normalize_rents = [];
 
         foreach($rents as $rent){
+            $pickup_office = $rent->getPickupOfficeId();
+            $return_office = $rent->getReturnOfficeId();
             array_push($normalize_rents, [
                 'id' => $rent->getId(),
                 'price' => $rent->getPrice(),
@@ -103,6 +106,18 @@ class UserController extends AbstractController
                 'status' => [
                     'id' => $rent->getStatusId()->getId(),
                     'status' => $rent->getStatusId()->getStatus(),
+                ],
+                'pickup_office' => [
+                    'id' => $pickup_office->getId(),
+                    'street' => $pickup_office->getStreet(),
+                    'city' => $pickup_office->getCityId()->getName(),
+                    'city_code' => $pickup_office->getCityId()->getCode(),
+                ],
+                'return_office' => [
+                    'id' => $return_office->getId(),
+                    'street' => $return_office->getStreet(),
+                    'city' => $return_office->getCityId()->getName(),
+                    'city_code' => $return_office->getCityId()->getCode(),
                 ]
             ]);
         }
@@ -110,5 +125,84 @@ class UserController extends AbstractController
         return $this->render('security/rent_list.html.twig', [
             'rents' => $normalize_rents
         ]);
+    }
+
+    #[Route('/compte/annulation-location', name:'user_rent_cancel_form')]
+    public function cancelUserRentForm(RentRepository $repository): Response {
+        
+        $user = $this->getUser();
+        if(!$user){
+            $this->addFlash('error', 'Accès restreint, authentification requise.');
+            return $this->redirectToRoute('auth_login');
+        }
+
+        // $rents = $user->getRents();
+        $rents = $repository->findCancelableRent($user->getId());
+        $normalize_rents = [];
+
+        foreach($rents as $rent){
+            $pickup_office = $rent->getPickupOfficeId();
+            $return_office = $rent->getReturnOfficeId();
+            array_push($normalize_rents, [
+                'id' => $rent->getId(),
+                'price' => $rent->getPrice(),
+                'pickup_date' => $rent->getPickupDate(),
+                'return_date' => $rent->getReturnDate(),
+                'car' => [
+                    'id' => $rent->getCarId()->getId(),
+                    'brand' => $rent->getCarId()->getBrandId()->getBrand(),
+                    'model' => $rent->getCarId()->getModelId()->getModel(),
+                    'daily_price' => $rent->getCarId()->getDailyPrice(),
+                ],
+                'status' => [
+                    'id' => $rent->getStatusId()->getId(),
+                    'status' => $rent->getStatusId()->getStatus(),
+                ],
+                'pickup_office' => [
+                    'id' => $pickup_office->getId(),
+                    'street' => $pickup_office->getStreet(),
+                    'city' => $pickup_office->getCityId()->getName(),
+                    'city_code' => $pickup_office->getCityId()->getCode(),
+                ],
+                'return_office' => [
+                    'id' => $return_office->getId(),
+                    'street' => $return_office->getStreet(),
+                    'city' => $return_office->getCityId()->getName(),
+                    'city_code' => $return_office->getCityId()->getCode(),
+                ]
+            ]);
+        }
+
+        return $this->render('security/rent_cancel.html.twig', [
+            'rents' => $normalize_rents
+        ]);
+    }
+
+    #[Route('/compte/annulation', name:'user_rent_cancel', methods:['POST'])]
+    public function cancelUserRent(Request $request, EntityManagerInterface $em, RentRepository $repository) {
+        $req = $request->request->all();
+        if(!$req) {
+            $this->addFlash('error', 'Erreur lors du traitement de la requête.');
+            return $this->redirectToRoute('user_rent_cancel_form');
+        }
+
+        $user = $this->getUser();
+        if(!$user){
+            $this->addFlash('error', 'Accès restreint, authentification requise.');
+            return $this->redirectToRoute('auth_login');
+        }
+
+        $rent = $repository->findOneBy(['id' => $req['rent_id']]);
+        if(!$rent){
+            $this->addFlash('warning', 'Cette location ne semble pas exister.');
+            return $this->redirectToRoute('user_rent_cancel_form');
+        }
+        
+        $em->remove($rent);
+        $em->flush();
+
+        $this->addFlash('success', 'Location annulée avec succès.');
+        return $this->redirectToRoute('user_rent_list');
+
     }
 }
