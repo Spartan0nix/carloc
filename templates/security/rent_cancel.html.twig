@@ -8,53 +8,52 @@
         <div class='account-container'>
             <section class='account-menu'>
                 <a href='{{ path('auth_account') }}'>Paramètres du compte</a>
-                <a href='{{ path('user_rent_list') }}' class='active'>Mes locations</a>
-                <a href='{{ path('user_rent_cancel_form') }}'>Annulation location</a>
+                <a href='{{ path('user_rent_list') }}'>Mes locations</a>
+                <a href='{{ path('user_rent_cancel_form') }}' class='active'>Annulation location</a>
             </section>
             <section class='account-info'>
                 <div class='rent-list'>
                     {% for rent in rents %}
-                        {# <form class='rent-car' action="{{ path('user_change_identity') }}" method='POST'> #}
-                        {% cache 'rent' ~ rent.id %}
-                            <form class='rent-car' method='POST'>
-                                <section class="rent-info">
-                                    <div class="rent-image">
-                                        <img src="/images/temp/m2.jpg" alt="temp">
+                        {# {% cache 'cancel_rent' ~ rent.id %} #}
+                            <form class='rent-car' method='POST' action='{{ path('user_rent_cancel') }}'>
+                                <input type='hidden' name='rent_id' value='{{ rent.id }}'>
+                                <section class='rent-info'>
+                                    <div class='rent-image'>
+                                        <img src='/images/temp/m2.jpg' alt='temp'>
                                     </div>
                                     <div class='rent-details'>
                                         <h4>{{ rent.car.brand }} - {{ rent.car.model }}</h4>
                                         <div class='rent-sub-details'>
-                                            <div class="rent-date sub-detail">
+                                            <div class='rent-date sub-detail'>
                                                 <h6>Dates :</h6>
                                                 <p> {{ rent.pickup_date|date('d-m-Y') }} - {{ rent.return_date|date('d-m-Y') }} </p>
                                             </div>
-                                            <div class="rent-daily-price sub-detail">
-                                                <h6>Prix / 24h : </h6>
-                                                <p> {{ rent.car.daily_price }}€</p>
+                                            <div class='rent-daily-price sub-detail'>
+                                                <h6>Prix Total : </h6>
+                                                <p> {{ rent.price }}€</p>
                                             </div>
-                                            <div class="rent-pickup-office sub-detail">
+                                            <div class='rent-pickup-office sub-detail'>
                                                 <h6>Agence de départ :</h6>
                                                 <p> {{ rent.pickup_office.street }}, {{ rent.pickup_office.city}} - {{ rent.pickup_office.city_code }}</p>
                                             </div>
-                                            <div class="rent-return-office sub-detail">
+                                            <div class='rent-return-office sub-detail'>
                                                 <h6>Agence de retour :</h6>
                                                 <p> {{ rent.return_office.street }}, {{ rent.return_office.city}} - {{ rent.return_office.city_code }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </section>
-                                <section class="status-bar">
-                                    <div class="rent-status">
+                                <section class='status-bar'>
+                                    <div class='rent-status'>
                                         {% include 'security/_status.html.twig' %}
                                         <p> {{ rent.status.status }} </p>
                                     </div>
-                                    <div class="total-price">
-                                        <h6>Total : </h6>
-                                        <p>{{ rent.price }}€</p>
+                                    <div class='total-price submit'>
+                                        <button class='btn btn-danger'>Annuler</button>
                                     </div>
                                 </section>
                             </form>
-                        {% endcache %}
+                        {# {% endcache %} #}
                     {% endfor %}
                 </div>
             </section>

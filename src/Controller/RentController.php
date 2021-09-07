@@ -107,6 +107,12 @@ class RentController extends AbstractController
 
         $this->session->get('redirect') ? $this->session->remove('redirect') : '';
 
+        $existing_rent = $em->getRepository(Rent::class)->findOneBy(['car_id' => $verif_car_id]);
+        if($existing_rent){
+            $this->addFlash('warning', 'Ce véhicule est déjà associé à une location.');
+            return $this->redirectToRoute('car_list');
+        }
+
         $car = $em->getRepository(Car::class)->find($verif_car_id);
         $status = $em->getRepository(Status::class)->find(2);
         $pickup_office = $em->getRepository(Office::class)->find($rentInfo['pickup_office']);

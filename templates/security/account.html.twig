@@ -8,7 +8,8 @@
         <div class='account-container'>
             <section class='account-menu'>
                 <a href='{{ path('auth_account') }}' class='active'>Paramètres du compte</a>
-                <a href=''>Mes locations</a>
+                <a href='{{ path('user_rent_list') }}'>Mes locations</a>
+                <a href='{{ path('user_rent_cancel_form') }}'>Annulation location</a>
             </section>
             <section class='account-info'>
                 <div class='user-info'>

@@ -34,22 +34,31 @@
                     h4 {
                         font-size: 1.6em;
                         text-align: center;
-                        padding: 1.5rem 1.5rem 0.8rem 1.5rem;
+                        padding: 0.8rem;
                     }
                     .rent-sub-details {
-                        padding: 1rem 1.2rem 1rem 7rem;
-                        .rent-date {
+                        padding: 0.8rem;
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                        justify-items: center;
+                        .sub-detail {
                             padding: 0.4rem 0;
-                            p {
-                                padding-top: 0.2rem;
-                            }
+                        }
+                        .rent-date {
+                            p { padding-top: 0.2rem; }
                         }   
                         .rent-daily-price {
                             display: flex;
-                            padding: 0.4rem 0;
                             align-items: center;
-                            p {
-                                padding-left: 1rem;
+                            p { padding-left: 1rem; }
+                        }
+                        .rent-pickup-office, .rent-return-office {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center !important;
+                            p { 
+                                word-wrap: break-word; 
+                                text-align: center;
                             }
                         }
                     }

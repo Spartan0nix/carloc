@@ -19,32 +19,15 @@ class RentRepository extends ServiceEntityRepository
         parent::__construct($registry, Rent::class);
     }
 
-    // /**
-    //  * @return Rent[] Returns an array of Rent objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
+    public function findCancelableRent(string $user_id) {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('r.status_id NOT IN (4,5)')
+            ->andWhere('r.user_id = :user_id')
+            ->setParameter('user_id', $user_id)
             ->orderBy('r.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Rent
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
