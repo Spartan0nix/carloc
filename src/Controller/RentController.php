@@ -77,7 +77,7 @@ class RentController extends AbstractController
         $reduction = (0.02) * $rent_day_duration;
         $reduction > 0.25 ? $reduction = 0.25 : '';
 
-        $rent_price = ($daily_price * $rent_day_duration) * $reduction;
+        $rent_price = ($daily_price * $rent_day_duration) - (($daily_price * $rent_day_duration)* $reduction);
 
         return $this->render('rent/step_4/index.html.twig', [
             'car' => $normalizeCar,
