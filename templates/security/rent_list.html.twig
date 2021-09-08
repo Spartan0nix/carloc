@@ -13,8 +13,12 @@
             </section>
             <section class='account-info'>
                 <div class='rent-list'>
+                    {% if rents == [] %}
+                        <div class='no-rent'>
+                            <h4>Aucune location trouvée.</h4>
+                        </div>
+                    {% endif %}
                     {% for rent in rents %}
-                        {# <form class='rent-car' action="{{ path('user_change_identity') }}" method='POST'> #}
                         {% cache 'rent' ~ rent.id %}
                             <form class='rent-car' method='POST'>
                                 <section class="rent-info">

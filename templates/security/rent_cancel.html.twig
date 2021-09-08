@@ -18,8 +18,13 @@
                        Dans le cas contraire, merci de prendre contact avec l’agence la plus proche de chez vous.</p>
                 </div>
                 <div class='rent-list'>
+                    {% if rents == [] %}
+                        <div class='no-rent'>
+                            <h4>Aucune location ne peut être annulée.</h4>
+                        </div>
+                    {% endif %}
                     {% for rent in rents %}
-                        {# {% cache 'cancel_rent' ~ rent.id %} #}
+                        {% cache 'rent' ~ rent.id %}
                             <form class='rent-car' method='POST' action='{{ path('user_rent_cancel') }}'>
                                 <input type='hidden' name='rent_id' value='{{ rent.id }}'>
                                 <section class='rent-info'>
@@ -58,7 +63,7 @@
                                     </div>
                                 </section>
                             </form>
-                        {# {% endcache %} #}
+                        {% endcache %}
                     {% endfor %}
                 </div>
             </section>
