@@ -1,5 +1,6 @@
 .footer {
     display: flex;
+    justify-content: space-around;
     min-height: 180px;
     background-color: var(--primary);
     color: var(--font);
@@ -45,7 +46,6 @@
 
     .footer-link {
         display: flex;
-        flex-grow: 1;
         justify-content: center;
         align-items: center;
         font-size: 18px;
