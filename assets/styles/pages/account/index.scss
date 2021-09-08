@@ -47,6 +47,11 @@
             border-radius: 18px;
             margin-left: 1.2rem;
             padding: 1.3rem;
+            .no-rent {
+                padding-top: 0.2rem;
+                text-align: center;
+                font-size: 2em;
+            }
             .grid-two {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
