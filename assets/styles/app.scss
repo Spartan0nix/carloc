@@ -2,7 +2,8 @@
     --gold: #CBAB52;
     --primary: #1F1F1F;
     --dark-contrast: #3D3D3D;
-    --light-contrast: #D6D6D6;
+    --light-contrast: #A4ADB6;
+    // --light-contrast: #D6D6D6;
     --font: #F5F5F5;
 
     --success: #3AA64B;
@@ -23,6 +24,11 @@
     margin: 0;
     font-family: sans-serif;
 }
+#app {
+    display: flex;
+    position: relative;
+}
+
 /* Pages */
 @import 'pages/account/index.scss';
 @import 'pages/account/_account.scss';

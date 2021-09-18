@@ -6,14 +6,14 @@
         <meta name=description content="Site de location de voiture d'exception">
         <link rel='shortcut icon' type='image/jpg' href='/images/favicon/icon.png'/>
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('admin') }}
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('admin') }}
         {% endblock %}
     </head>
     <body>
@@ -58,10 +58,10 @@
         <div id='js-alert'></div>
 
         <main id='app'>
-            {% include "components/_navbar.html.twig" %}
-            {% block body %}{% endblock %}  
+            {% include "admin/components/_navbar.html.twig" %}
         </main>
 
+        {% block body %}{% endblock %}
 
         <footer class='footer'>
             <section class='footer-contact'>

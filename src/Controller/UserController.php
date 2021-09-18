@@ -172,7 +172,6 @@ class UserController extends AbstractController
                 ]
             ]);
         }
-
         return $this->render('security/rent_cancel.html.twig', [
             'rents' => $normalize_rents
         ]);
