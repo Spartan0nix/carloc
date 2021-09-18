@@ -38,6 +38,11 @@
         cursor: pointer;
     }
 }
+
+.sidebar-closed {
+    @include sidebar-closed;
+}
+
 .sidebar {
     display: flex;
     position: sticky;
@@ -191,9 +196,6 @@
                 }
             }
         }
-    }
-    &.sidebar-closed {
-        @include sidebar-closed;
     }
 }
 

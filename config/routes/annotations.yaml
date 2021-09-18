@@ -11,3 +11,9 @@ api_controllers:
     prefix: /api
     resource: ../../src/Controller/Api
     type: annotation
+
+admin_controllers:
+    name_prefix: admin_
+    prefix: /admin
+    resource: ../../src/Controller/Admin/Controller/
+    type: annotation
