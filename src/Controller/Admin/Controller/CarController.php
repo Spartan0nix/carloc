@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\Admin\Controller\Component;
+namespace App\Controller\Admin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminTypeController extends AbstractController
+class CarController extends AbstractController
 {
-    #[Route('/admin/type/ajouter', name:'admin_type_add')]
+    #[Route('/admin/voiture/ajouter', name:'admin_car_add')]
     public function new() {
         return $this->render('test.html.twig');
     }

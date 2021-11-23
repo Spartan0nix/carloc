@@ -43,11 +43,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=80)
      */
     private $last_name;
-
+    
     /**
      * @ORM\Column(type="string", length=80)
      */
     private $first_name;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
 
     /**
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="users")
@@ -65,11 +70,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="user_id", orphanRemoval=true)
      */
     private $rents;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $address;
 
     public function __construct()
     {

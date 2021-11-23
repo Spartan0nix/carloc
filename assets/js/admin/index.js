@@ -1,1 +1,1 @@
-console.log('admin')
+import './crud/index'

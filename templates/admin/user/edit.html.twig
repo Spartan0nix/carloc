@@ -1,0 +1,63 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title "Modification de l'utilisateur " %}
+
+{% block body %}
+<main id='admin_user_edit' class='admin_crud_edit admin_user_search'>
+    <div class='header'>
+        <h2>Modification de l'utilisateur</h2>
+    </div>
+    <div class='form'>
+    {{ form_start(form) }}
+        <div class='grid-two'>
+            <div class='input-text'>
+                <label>Nom :</label>
+                {{ form_widget(form.last_name)}}
+            </div>
+            <div class='input-text'>
+                <label>Prénom :</label>
+                {{ form_widget(form.first_name)}}
+            </div>
+        </div>
+        <div class='input-text'>
+            <label>Adresse mail :</label>
+            {{ form_widget(form.email)}}
+        </div>
+        <div class='input-text input-roles'>
+            <label>Rôles :</label>
+            {{ form_widget(form.roles)}}
+        </div>
+        <div class='input-text'>
+            <label>Adresse :</label>
+            {{ form_widget(form.address)}}
+        </div>
+        <div class='grid-two'>
+            <div class='input-text department-container'>
+                {{ form_widget(form.department_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for='user_department'>Département :</label>
+                <js-search-dynamic
+                    data-placeholder=''
+                    data-id='department_input'
+                    data-name='department_id'
+                    data-query='/department'
+                ></js-search-dynamic>
+            </div>
+            <div class='input-text city-container'>
+                {{ form_widget(form.city_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for='user_city'>Ville :</label>
+                <js-search-dynamic
+                    data-placeholder=''
+                    data-id='city_input'
+                    data-name='city_id'
+                    data-query='/city'
+                ></js-search-dynamic>
+            </div>
+        </div>
+        <div class='submit'>
+            {{ form_widget(form.submit) }}
+        </div>
+    {{ form_end(form) }}
+    </div>
+</main>
+
+{% endblock %}

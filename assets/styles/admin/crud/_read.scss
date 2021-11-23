@@ -1,0 +1,71 @@
+.admin_crud_read {
+    flex-grow: 1;
+    .header {
+        height: 4rem;
+        background-color: var(--dark-contrast);
+        font-size: 1.4em;
+        line-height: 4rem;
+        color: var(--font);
+        h2 {
+            margin-left: 2rem;
+        }
+    }
+    .control-pannel {
+        padding: 3rem;
+        .btn {
+            float: right;
+        }
+    }
+    .table-wrapper {
+        display: flex;
+        justify-content: center;
+        border-radius: 5px;
+        .table {
+            max-height: 700px;
+            overflow-y: scroll;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px 0 var(--primary);
+            table {
+                max-height: 500px;
+                overflow-y: scroll;
+                margin: 0 auto;
+                border-collapse: collapse;
+                border-radius: 5px;
+                thead {
+                    background-color: var(--light-contrast);
+                    border: 1px solid var(--light-contrast) ;
+                    th {
+                        padding: 0.8rem;
+                        padding-left: 1.4rem;
+                    }
+                }
+                tbody {
+                    tr {
+                        border: 1px solid var(--light-contrast) ;
+                        background-color: var(--font);
+                        td {
+                            padding: 0.4rem;
+                            padding-left: 0.7rem;
+                            a {
+                                text-decoration: none;
+                            }
+                            .action-edit {
+                                color: var(--info);
+                            }
+                            .action-delete {
+                                color: var(--error);
+                            }
+                        }
+                        .user-address {
+                            word-break: break-all;
+                        }
+                        &:hover {
+                            filter: brightness(90%);
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

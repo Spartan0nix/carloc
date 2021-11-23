@@ -6,42 +6,9 @@ export class Select extends HTMLElement {
         /**
          * Retrieve search configuration element
          */
-        const placeholder = this.dataset.placeholder;
-        const id = this.dataset.id;
-        const name = this.dataset.name;
-        const type = this.dataset.type;
-        const URL = "";
-        const dataSelected = "";
-
-
-        /**
-         * Choose between the different type of search
-         * @var String type
-         */
-        switch (type) {
-            case "brand":
-                this.URL = '/api/search/brands/';
-                this.type = 'brand';
-                break;
-            case "model":
-                this.URL = '/api/search/models/';
-                this.type = 'model';
-                break;
-            case "type":
-                this.URL = '/api/search/types/';
-                this.type = 'type';
-                break;
-            case "fuel":
-                this.URL = '/api/search/fuels/';
-                this.type = 'fuel';
-                break;
-            case "gearbox":
-                this.URL = '/api/search/gearboxs/';
-                this.type = 'gearbox';
-                break;
-            default:
-                break;
-        }
+        const placeholder = this.dataset.placeholder
+        const id = this.dataset.id
+        const query = this.dataset.query
 
         /**
          * Add the default HTML structure of the search element
@@ -56,6 +23,8 @@ export class Select extends HTMLElement {
                             <fieldset class="search-result"></fieldset> 
                         `;
         this.dataset.selected != undefined ? this.dataSelected = this.dataset.selected : this.dataSelected = '';
+        this.URL = `/api/search${this.dataset.query}`
+        this.name = this.dataset.name;
     }
 
     /**
@@ -73,6 +42,12 @@ export class Select extends HTMLElement {
                 wrapper.parentNode.removeChild(wrapper);
             }
         })
+        // Remove not found message
+        let notFound = fieldset.querySelector('.search-not-found');
+        if(notFound){
+            notFound.parentNode.removeChild(notFound);
+        }
+
         data.forEach(element => {
             let array = Object.keys(element).map(function (key) { return element[key]; });
             let id = array[0];
@@ -86,7 +61,7 @@ export class Select extends HTMLElement {
 
                 let inputElement = document.createElement('input');
                 inputElement.type = 'checkbox';
-                inputElement.name = `${this.type}_filter[${id}]`;
+                inputElement.name = `${this.name}[${id}]`;
                 inputElement.value = id;
                 inputElement.id = attribute;
                 let labelElement = document.createElement('label');
@@ -100,13 +75,13 @@ export class Select extends HTMLElement {
         })
     }
 
-    /**
-     * Add the previous selected elements after the filter was applied
-     * @param {*} selected 
-     */
-    setElement(selected) {
-        console.log(selected);
-    }
+    // /**
+    //  * Add the previous selected elements after the filter was applied
+    //  * @param {*} selected 
+    //  */
+    // setElement(selected) {
+    //     console.log(selected);
+    // }
     /**
      * Toggle the search result container by adding the open-search-result class to the .search parent
      */
@@ -115,7 +90,7 @@ export class Select extends HTMLElement {
     }
 
     async notFound(error) {
-        let container = this.children[3]
+        let container = this.children[2]
         container.innerHTML = `<div class='search-result-element search-not-found'>
                                     ${error.message}
                                 </div>`

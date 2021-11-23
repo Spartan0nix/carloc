@@ -5,9 +5,9 @@ namespace App\Controller\Admin\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminUserController extends AbstractController
+class ModelController extends AbstractController
 {
-    #[Route('/admin/utilisateur/ajouter', name:'admin_user_add')]
+    #[Route('/admin/model/ajouter', name:'admin_model_add')]
     public function new() {
         return $this->render('test.html.twig');
     }

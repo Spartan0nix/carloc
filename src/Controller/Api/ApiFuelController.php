@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiFuelController extends AbstractController
 {
 
-    #[Route('/api/search/fuels', name: 'api_fuel_search', methods: ['GET'])]
-    public function getFuels(Request $request, FuelRepository $repository): JsonResponse {
+    #[Route('/api/search/fuel', name: 'api_fuel_search', methods: ['GET'])]
+    public function getFuel(Request $request, FuelRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 

@@ -32,6 +32,11 @@ class Department
     private $code;
 
     /**
+     * @ORM\OneToMany(targetEntity=City::class, mappedBy="department_id")
+     */
+    private $cities;
+
+    /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="department_id")
      */
     private $users;
@@ -72,6 +77,24 @@ class Department
     public function setCode(?int $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|City[]
+     */
+    public function getCities(): Collection
+    {
+        return $this->cities;
+    }
+
+    public function addCity(City $city): self
+    {
+        if(!$this->cities->contains($city)) {
+            $this->cities[] = $city;
+            $city->setDepartmentId($this);
+        }
 
         return $this;
     }

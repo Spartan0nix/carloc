@@ -1,0 +1,55 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title 'Ajouter des agences' %}
+
+{% block body %}
+<main id='admin_office_add' class='admin_crud_create admin_office_search'>
+    <div class='header'>
+        <h2>Ajouter des agences</h2>
+    </div>
+    <div class='form'>
+    {{ form_start(form) }}
+        <div class='grid-two'>
+            <div class='input-text'>
+                <label>Adresse :</label>
+                {{ form_widget(form.street)}}
+            </div>
+            <div class='input-text'>
+                <label>Téléphone :</label>
+                {{ form_widget(form.tel_number)}}
+            </div>
+        </div>
+        <div class='input-text'>
+            <label>Adresse mail :</label>
+            {{ form_widget(form.email)}}
+        </div>
+        <div class='grid-two'>
+            <div class='input-text department-container'>
+                {{ form_widget(form.department_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for='office_department'>Département :</label>
+                <js-search-dynamic
+                    data-placeholder=''
+                    data-id='department_input'
+                    data-name='department_id'
+                    data-query='/department'
+                ></js-search-dynamic>
+            </div>
+            <div class='input-text city-container'>
+                {{ form_widget(form.city_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for='office_city'>Ville :</label>
+                <js-search-dynamic
+                    data-placeholder=''
+                    data-id='city_input'
+                    data-name='city_id'
+                    data-query='/city'
+                ></js-search-dynamic>
+            </div>
+        </div>
+        <div class='submit'>
+            {{ form_widget(form.submit) }}
+        </div>
+    {{ form_end(form) }}
+    </div>
+</main>
+
+{% endblock %}

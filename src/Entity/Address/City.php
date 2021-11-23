@@ -31,6 +31,12 @@ class City
     private $code;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="cities")
+     * @ORM\JoinColumn(name="department_id", nullable=false)
+     */
+    private $department_id;
+
+    /**
      * @ORM\OneToMany(targetEntity=Office::class, mappedBy="city_id")
      */
     private $office;
@@ -71,6 +77,18 @@ class City
     public function setCode(int $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getDepartmentId(): ?Department
+    {
+        return $this->department_id;
+    }
+
+    public function setDepartmentId(?Department $department_id): self
+    {
+        $this->department_id = $department_id;
 
         return $this;
     }

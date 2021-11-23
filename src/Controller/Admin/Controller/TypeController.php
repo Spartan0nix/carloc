@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\Admin\Controller\Geo;
+namespace App\Controller\Admin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminDepartmentController extends AbstractController
+class TypeController extends AbstractController
 {
-    #[Route('/admin/departement/ajouter', name:'admin_department_add')]
+    #[Route('/admin/type/ajouter', name:'admin_type_add')]
     public function new() {
         return $this->render('test.html.twig');
     }
