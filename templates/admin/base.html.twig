@@ -59,9 +59,9 @@
 
         <main id='app'>
             {% include "admin/components/_navbar.html.twig" %}
+            {% block body %}{% endblock %}
         </main>
 
-        {% block body %}{% endblock %}
 
         <footer class='footer'>
             <section class='footer-contact'>

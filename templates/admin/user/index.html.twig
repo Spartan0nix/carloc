@@ -1,0 +1,79 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title 'Gestion des utilisateurs' %}
+
+
+{% block body %}
+<main id='admin_user_index' class='admin_crud_read'>
+    <div class="header">
+        <h2>Gestion des utilisateurs</h2>
+    </div>
+    <div class="control-pannel">
+        <button class='btn btn-primary'><a href='{{ path('admin_user_add') }}'>Ajouter un utilisateur</a></button>
+    </div>
+    <div class="table-wrapper">
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Adresse</th>
+                        <th>Ville</th>
+                        <th>Département</th>
+                        <th class='action-column-title'>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in entities %}
+                    <tr>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                            <div>
+                                {{ role }}
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td class='user-address'>{{ user.address }}</td>
+                        <td class='user-city'>
+                            <div>{{ user.city.name }}</div>
+                            <div>{{ user.city.code }}</div>
+                        </td>
+                        <td class='user-department'>
+                            <div>{{ user.department.name }}</div>
+                            <div>{{ user.department.code }}</div>
+                        </td>
+                        <td>
+                            <a href='{{ path('admin_user_edit', { id: user.id }) }}' class='action-edit'>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="35" height="35" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                    <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                    <line x1="16" y1="5" x2="19" y2="8" />
+                                </svg>
+                            </a>
+                            <a href='{{ path('admin_user_delete', { id: user.id }) }}' class='action-delete'>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="35" height="35" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <line x1="4" y1="7" x2="20" y2="7" />
+                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
