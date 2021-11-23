@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiModelController extends AbstractController
 {
 
-    #[Route('/api/search/models', name: 'api_model_search', methods: ['GET'])]
-    public function getModels(Request $request, ModelRepository $repository): JsonResponse {
+    #[Route('/api/search/model', name: 'api_model_search', methods: ['GET'])]
+    public function getModel(Request $request, ModelRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 

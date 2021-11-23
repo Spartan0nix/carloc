@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiOfficeController extends AbstractController
 {   
 
-    #[Route('/api/search/offices', name: 'api_office_search', methods: ['GET'])]
-    public function getOffices(Request $request, OfficeRepository $repository): JsonResponse{
+    #[Route('/api/search/office', name: 'api_office_search', methods: ['GET'])]
+    public function getOffice(Request $request, OfficeRepository $repository): JsonResponse{
         $array = array();
         $q = $request->query->get('q');
 

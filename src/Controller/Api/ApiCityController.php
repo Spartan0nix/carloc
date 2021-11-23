@@ -10,10 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiCityController extends AbstractController
 {
-    #[Route('/api/search/cities', name:'api_city_search', methods:['GET'])]
-    public function getCities(Request $request, CityRepository $repository) {
+    #[Route('/api/search/city', name:'api_city_search', methods:['GET'])]
+    public function getCity(Request $request, CityRepository $repository) {
         $q = $request->query->get('q');
-        $cities = $repository->searchCities($q);
+        $required_department_id = $request->query->get('require') ? $request->query->get('require') : 'null';
+
+        $cities = $repository->searchCities($q, $required_department_id);
 
         if(!$cities){
             return new JsonResponse([
@@ -33,5 +35,25 @@ class ApiCityController extends AbstractController
         return new JsonResponse([
             'data' => $data
         ],200);
+    }
+
+    #[Route('/api/search/city_id', name:'api_city_search_id', methods:['GET'])]
+    public function getCityId(Request $request, CityRepository $repository) {
+        $id = $request->query->get('id');
+        $city = $repository->findOneBy(['id' => $id]);
+
+        if(!$city) {
+            return new JsonResponse([
+                'message' => 'Aucune ville avec cet id.'
+            ], 404);
+        }
+
+        return new JsonResponse([
+            'city' => [
+                'id' => $city->getId(),
+                'name' => $city->getName(),
+                'code' => $city->getCode(),
+            ]
+        ], 200);
     }
 }

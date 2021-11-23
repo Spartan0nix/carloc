@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiGearboxController extends AbstractController
 {
 
-    #[Route('/api/search/gearboxs', name: 'api_gearbox_search', methods: ['GET'])]
-    public function getGearboxs(Request $request, GearboxRepository $repository): JsonResponse {
+    #[Route('/api/search/gearbox', name: 'api_gearbox_search', methods: ['GET'])]
+    public function getGearbox(Request $request, GearboxRepository $repository): JsonResponse {
         $array = array();
         $q = $request->query->get('q');
 
