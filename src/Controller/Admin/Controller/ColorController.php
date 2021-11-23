@@ -5,9 +5,9 @@ namespace App\Controller\Admin\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminRentController extends AbstractController
+class ColorController extends AbstractController
 {
-    #[Route('/admin/location/ajouter', name:'admin_rent_add')]
+    #[Route('/admin/couleur/ajouter', name:'admin_color_add')]
     public function new() {
         return $this->render('test.html.twig');
     }

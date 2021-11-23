@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\Admin\Controller\Component;
+namespace App\Controller\Admin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminGearboxController extends AbstractController
+class CityController extends AbstractController
 {
-    #[Route('/admin/boite-vitesse/ajouter', name:'admin_gearbox_add')]
+    #[Route('/admin/ville/ajouter', name:'admin_city_add')]
     public function new() {
         return $this->render('test.html.twig');
     }

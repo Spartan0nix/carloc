@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\Admin\Controller\Geo;
+namespace App\Controller\Admin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminCityController extends AbstractController
+class RentController extends AbstractController
 {
-    #[Route('/admin/ville/ajouter', name:'admin_city_add')]
+    #[Route('/admin/location/ajouter', name:'admin_rent_add')]
     public function new() {
         return $this->render('test.html.twig');
     }

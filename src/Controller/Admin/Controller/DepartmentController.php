@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controller\Admin\Controller\Component;
+namespace App\Controller\Admin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminFuelController extends AbstractController
+class DepartmentController extends AbstractController
 {
-    #[Route('/admin/energie/ajouter', name:'admin_fuel_add')]
+    #[Route('/admin/departement/ajouter', name:'admin_department_add')]
     public function new() {
         return $this->render('test.html.twig');
     }
