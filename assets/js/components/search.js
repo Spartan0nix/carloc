@@ -9,43 +9,7 @@ export class Search extends HTMLElement {
         const placeholder = this.dataset.placeholder;
         const id = this.dataset.id;
         const name = this.dataset.name;
-        const type = this.dataset.type;
-        const URL = "";
-        const dataSelected = "";
-
-
-        /**
-         * Choose between the different type of search
-         * @var String type
-         */
-        switch (type) {
-            case "brand":
-                this.URL = '/api/search/brands/';
-                break;
-            case "city":
-                this.URL = 'api/search/cities';
-                break;
-            case "department":
-                this.URL = 'api/search/departments';
-                break;
-            case "fuel":
-                this.URL = '/api/search/fuels/';
-                break;
-            case "gearbox":
-                this.URL = '/api/search/gearboxs/';
-                break;
-            case "model":
-                this.URL = '/api/search/models/';
-                break;
-            case "office":
-                this.URL = '/api/search/offices/';
-                break;
-            case "type":
-                this.URL = '/api/search/types/';
-                break;
-            default:
-                break;
-        }
+        const query = this.dataset.query;
 
         /**
          * Add the default HTML structure of the search element
@@ -68,7 +32,11 @@ export class Search extends HTMLElement {
                             <div class="search-result"></div> 
                         `;
         
+        /**
+         * Array containing ids of the desire selected element by default
+         */
         this.dataset.selected != undefined ? this.dataSelected = this.dataset.selected : this.dataSelected = '';
+        this.URL = `/api/search${this.dataset.query}`
     }
 
     /**
@@ -188,7 +156,11 @@ export class DynamicSearch extends Search {
                  */
                 timer = setTimeout(async () => {
                     try {
-                        let response = await fetch(`${this.URL}?q=${encodeURI(input.value)}`)
+                        if(this.dataset.require){
+                            var response = await fetch(`${this.URL}?q=${encodeURI(input.value)}&require=${encodeURI(this.dataset.require)}`)    
+                        } else {
+                            var response = await fetch(`${this.URL}?q=${encodeURI(input.value)}`)
+                        }
                         if (response.ok) {
                             let data = await response.json()
                             this.updateSearchResult(data.data)
