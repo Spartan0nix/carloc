@@ -1,0 +1,7 @@
+include:
+  - ../../fixtures/templates.yaml
+  - ./city.yaml
+  - ./department.yaml
+
+App\Entity\Office:
+  office{1..2} (extends office):

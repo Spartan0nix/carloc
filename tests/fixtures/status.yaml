@@ -1,0 +1,19 @@
+include:
+  - ../../fixtures/templates.yaml
+
+App\Entity\Status:
+  payementValid:
+    id: 1
+    status: 'Paiement validé'
+  payementPending:
+    id: 2
+    status: 'Paiement en cours de validation'
+  payementInAgency:
+    id: 3
+    status: 'Paiement en agence'
+  payementRefused:
+    id: 4
+    status: 'Paiement refusé'
+  cancel:
+    id: 5
+    status: 'Annulé'

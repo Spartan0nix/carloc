@@ -1,0 +1,6 @@
+include:
+  - ../../fixtures/templates.yaml
+  - ./department.yaml
+
+App\Entity\Address\City:
+  city{1..20} (extends city):

@@ -1,0 +1,16 @@
+include:
+  - ../../fixtures/templates.yaml
+
+App\Entity\Components\Type:
+  sportive:
+    type: SPORTIVE
+  suv:
+    type: SUV
+  coupe:
+    type: COUPÉ
+  cabriolet:
+    type: CABRIOLET
+  supercar:
+    type: SUPERCAR
+  compact:
+    type: COMPACT

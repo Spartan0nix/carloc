@@ -1,0 +1,10 @@
+include:
+  - ../../fixtures/templates.yaml
+  
+App\Entity\Components\Gearbox:
+  manuelle:
+    id: 1
+    gearbox: Manuelle
+  automatique:
+    id: 2
+    gearbox: Automatique
