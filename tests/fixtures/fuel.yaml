@@ -1,0 +1,13 @@
+include:
+  - ../../fixtures/templates.yaml
+
+App\Entity\Components\Fuel:
+  essence:
+    id: 1
+    fuel: Essence
+  diesel:
+    id: 2
+    fuel: Diesel
+  électrique:
+    id: 3
+    fuel: Électrique

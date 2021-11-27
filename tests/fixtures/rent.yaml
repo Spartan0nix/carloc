@@ -1,0 +1,17 @@
+include:
+  - ../../fixtures/templates.yaml
+  - ./office.yaml
+  - ./user.yaml
+  - ./car.yaml
+  - ./status.yaml
+
+App\Entity\Rent:
+  rent:
+    price: 9975
+    pickup_date: <date_create()>
+    return_date: <date_create('+3 weeks')>
+    pickup_office_id: '@office1'
+    return_office_id: '@office1'
+    user_id: '@user<numberBetween(1,10)>'
+    car_id: '@C63'
+    status_id: '@payementValid'

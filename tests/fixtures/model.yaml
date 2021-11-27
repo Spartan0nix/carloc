@@ -1,0 +1,14 @@
+include:
+  - ../../fixtures/templates.yaml
+  
+App\Entity\Components\Model:
+  m2:
+    model: M2
+  rs3:
+    model: RS3
+  c63:
+    model: C63
+  gt3rs:
+    model: GT3RS
+  swiftSport:
+    model: SWIFT SPORT

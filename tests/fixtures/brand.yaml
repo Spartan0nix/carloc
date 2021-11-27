@@ -1,0 +1,16 @@
+include:
+  - ../../fixtures/templates.yaml
+  
+App\Entity\Components\Brand:
+  bmw:
+    brand: BMW
+  mercedesBenz:
+    brand: Mercedes-benz
+  audi:
+    brand: Audi
+  renault:
+    brand: Renault
+  porsche:
+    brand: Porsche
+  suzuki:
+    brand: Suzuki

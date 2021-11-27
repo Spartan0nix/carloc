@@ -1,0 +1,5 @@
+include:
+  - ../../fixtures/templates.yaml
+  
+App\Entity\Components\Color:
+  color{1..5} (extends color):

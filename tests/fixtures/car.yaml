@@ -1,0 +1,71 @@
+include:
+  - ../../fixtures/templates.yaml
+  - ./fuel.yaml
+  - ./brand.yaml
+  - ./model.yaml
+  - ./color.yaml
+  - ./gearbox.yaml
+  - ./type.yaml
+  - ./office.yaml
+
+App\Entity\Car:
+  M2:
+    horsepower: 370
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@bmw'
+    model_id: '@m2'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@manuelle'
+    type_id: ['@sportive', '@coupe']
+    daily_price: 250
+    office_id: '@office<numberBetween(1,2)>'
+    release_year: '2019'
+  RS3:
+    horsepower: 400
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@audi'
+    model_id: '@rs3'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@automatique'
+    type_id: ['@sportive']
+    daily_price: 400
+    office_id: '@office<numberBetween(1,2)>'
+    release_year: 2019
+  C63:
+    horsepower: 476
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@mercedesBenz'
+    model_id: '@c63'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@automatique'
+    type_id: ['@sportive', '@coupe']
+    daily_price: 500
+    office_id: '@office<numberBetween(1,2)>'
+    release_year: 2018
+  GT3RS:
+    horsepower: 520
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@porsche'
+    model_id: '@gt3rs'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@automatique'
+    type_id: ['@sportive', '@supercar']
+    daily_price: 1200
+    office_id: '@office<numberBetween(1,2)>'
+    release_year: 2019
+  SWIFT-SPORT:
+    horsepower: 140
+    description: '<sentence()>'
+    fuel_id: '@essence'
+    brand_id: '@suzuki'
+    model_id: '@swiftSport'
+    color_id: '@color<numberBetween(1,5)>'
+    gearbox_id: '@manuelle'
+    type_id: ['@sportive', '@compact']
+    daily_price: 90
+    office_id: '@office<numberBetween(1,2)>'
+    release_year: 2018
