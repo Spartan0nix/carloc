@@ -16,7 +16,7 @@ trait FixtureTrait
      * @param ContainerInterface $container
      * @return array
      */
-    public function load($fixtures, $container): array {
+    public function load(array $fixtures, ContainerInterface $container): array {
         $files = [];
         $fixture_path = join(DIRECTORY_SEPARATOR, [__DIR__, 'fixtures']);
 
