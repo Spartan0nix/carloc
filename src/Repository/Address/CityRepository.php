@@ -23,9 +23,13 @@ class CityRepository extends ServiceEntityRepository
         $config->addCustomStringFunction('TEXT', CastAsText::class);
     }
 
-    public function searchCities(string $city) {
+    public function searchCities(string $city, string $required_department_id) {
         $int = '/^\d+$/';
         $query = $this->createQueryBuilder('c');
+
+        $required_department_id != '' 
+        ? $query->andWhere('c.department_id = :department_id')
+                ->setParameter('department_id', $required_department_id) : '';
 
         if(preg_match($int, $city)){
             $query->andWhere('TEXT(c.code) LIKE :val');
@@ -39,5 +43,14 @@ class CityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function findByNames(array $names): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('LOWER(c.name) IN (:name)')
+            ->setParameter('name', array_map(fn (string $name) => strtolower($name), $names))
+            ->getQuery()
+            ->getResult();
     }
 }
