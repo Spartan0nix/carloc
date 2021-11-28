@@ -1,0 +1,4 @@
+# Create database
+php bin/console doctrine:database:create --env=test
+# Load schema
+php bin/console doctrine:schema:create --env=test

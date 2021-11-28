@@ -12,12 +12,24 @@
                     <section class="office-selector">
                         <div class="office-pickup input-text">
                             <label>Agence de départ :</label>
+                            <js-search-dynamic
+                                data-placeholder="Entrez une ville ou code postal"
+                                data-id="office-pickup-input"
+                                data-name="pickup_office"
+                                data-query="/office"
+                            ></js-search-dynamic>
                         </div>
                         <div class="office-return input-text">
                             <div>
                                 <input type="checkbox" id="same-return-office" checked>
                                 <label for="same-return-office">Agence de retour identique à l’agence de départ :</label>
                             </div>
+                             <js-search-dynamic
+                                data-placeholder="Entrez une ville ou code postal"
+                                data-id="office-return-input"
+                                data-name="return_office"
+                                data-query="/office"
+                            ></js-search-dynamic>
                         </div>
                     </section>
                     <section class="start-date input-date">

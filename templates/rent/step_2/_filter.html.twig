@@ -7,7 +7,7 @@
                     data-placeholder="Toutes les marques"
                     data-id="brand_filter"
                     data-name="brand_filter"
-                    data-type="brand"
+                    data-query="/brand"
                     {% if filter.brand is defined %}
                         data-selected="{{ filter.brand }}"
                     {% endif %}
@@ -18,7 +18,7 @@
                     data-placeholder="Tous les modèles"
                     data-id="model_filter"
                     data-name="model_filter"
-                    data-type="model"
+                    data-query="/model"
                     {% if filter.model is defined %}
                         data-selected="{{ filter.model }}"
                     {% endif %}
@@ -29,7 +29,7 @@
                     data-placeholder="Toutes les catégories"
                     data-id="type_filter"
                     data-name="type_filter"
-                    data-type="type"
+                    data-query="/type"
                     {% if filter.type is defined %}
                         data-selected="{{ filter.type }}"
                     {% endif %}
@@ -40,7 +40,7 @@
                     data-placeholder="Toutes les énergies"
                     data-id="fuel_filter"
                     data-name="fuel_filter"
-                    data-type="fuel"
+                    data-query="/fuel"
                     {% if filter.fuel[0] is defined %}
                         data-selected="{{ filter.fuel[0] }}"
                     {% endif %}
@@ -51,7 +51,7 @@
                     data-placeholder="Toutes les boites"
                     data-id="gearbox_filter"
                     data-name="gearbox_filter"
-                    data-type="gearbox"
+                    data-query="/gearbox"
                     {% if filter.gearbox[0] is defined %}
                         data-selected="{{ filter.gearbox[0] }}"
                     {% endif %}
