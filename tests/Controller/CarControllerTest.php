@@ -2,11 +2,12 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\CarController;
-use App\Repository\OfficeRepository;
 use App\Tests\FixtureTrait;
-use Symfony\Bundle\FrameworkBundle\Test\TestContainer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 class CarControllerTest extends WebTestCase
 {
@@ -19,7 +20,7 @@ class CarControllerTest extends WebTestCase
         $offices = $this->load(['office'], $container);
         $office_id = $offices['office1']->getId();
     
-        $client->request('POST', '/voiture/list', [
+        $client->request('POST', '/voitures', [
             'pickup_office' => $office_id,
             'return_office' => $office_id,
             'start_date' => date('Y-M-D'),
@@ -30,28 +31,43 @@ class CarControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testBuildRentInfo(): void{
+    public function testFilterAvailableCar(): void {
+        $request = New Request();
+        $request->setSession(new Session((new MockArraySessionStorage())));
         $container = $this->createClient()->getContainer();
-        $offices = $this->load(['office'], $container);
-        $pickup_office_id = $offices['office1']->getId();
-        $return_office_id = $offices['office2']->getId();
+        $csrf_token = $container->get('security.csrf.token_manager')->refreshToken('token');
+        $data = $this->load(['office', 'brand', 'model', 'type', 'fuel', 'gearbox'], $container);
 
-        $request = [
-            'pickup_office' => $pickup_office_id,
-            'return_office' => $return_office_id,
-            'start_date' => date('Y-M-D'),
-            'end_date' => date('Y-M-D', strtotime(date('Y-M-D'). '+ 2 days')),
-            'token' => '16518691896016891681686516810651d$dadlemf'
-        ];
+        $request->getSession()->set('rentInfo', [
+            'pickup_office' => $data['office1']->getId()
+        ]);
 
-        $expected_array = $request;
-        unset($expected_array['token']);
+        $request->create('/voitures/filtre', 'GET', [
+            'brand_filter' => [
+                '0' => $data['bmw']->getId()
+             ],
+             'model_filter' => [
+                 '0' => $data['m2']->getId()
+             ],
+             'type_filter' => [
+                 '0' => $data['sportive']->getId()
+             ],
+             'fuel_filter' => $data['essence']->getId(),
+             'gearbox_filter' => $data['manuelle']->getId(),
+             'token' => $csrf_token
+        ]);
 
-        $car_controller = $this->createMock(CarController::class);
-        $car_controller->expects($this->once())
-                       ->method('buildRentInfo')
-                       ->will($this->returnValue($expected_array));
+        $response = new Response();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
 
-        $car_controller->buildRentInfo($request);
+    public function testGetCarDetails(): void {
+        $client = $this->createClient();
+        $cars = $this->load(['car'], $client->getContainer());
+        $car_id = $cars['M2']->getId();
+
+        $client->request('GET', "/voiture/{$car_id}/details");
+
+        $this->assertResponseIsSuccessful();
     }
 }

@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Event\BuildFilterEvent;
+use App\Helper\BuildFilter;
+use App\Helper\BuildRentInfo;
 use App\Repository\CarRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CarController extends AbstractController
@@ -18,42 +20,48 @@ class CarController extends AbstractController
     {
         $this->repository = $repository;
     }
+
     /**
      * List available car
      * @param Request $request
      * @return void
      */
-    #[Route('/voiture/list', name: 'car_list', methods: ["POST", "GET"])]
-    public function listAvailableCar(Request $request, SessionInterface $session) {
+    #[Route('/voitures', name: 'car_list', methods: ["POST"])]
+    public function listAvailableCar(Request $request, Session $session, BuildRentInfo $rent_info_helper) {
         $req = $request->request->all();
 
         if(!$req){
             return $this->redirectToRoute('office_list');
         }
-
+        
         if(!$this->isCsrfTokenValid('token', $req['token'])){
-            $this->addFlash('error','Erreur lors de la recherche.');
+            $session->getFlashBag()->add('error', 'Jeton invalide.');
             return $this->redirectToRoute('office_list');
         }
 
         $rentInfo = $session->get('rentInfo');
-        
+
         if(!$rentInfo){
-            $rentInfo = $this->buildRentInfo($req);
+            $rentInfo = $rent_info_helper->build($req);
             $session->set('rentInfo', $rentInfo);
+        } else {
+            $diff = array_diff($rentInfo, $req);
+            if(!empty($diff)){
+                $rentInfo = $rent_info_helper->build($req);
+                $session->set('rentInfo', $rentInfo);
+            }
         }
 
-        $diff = array_diff($rentInfo, $req);
-        if(isset($diff['pickup_office']) || isset($diff['return_office']) || isset($diff['start_date']) || isset($diff['end_date'])) {
-            $rentInfo = $this->buildRentInfo($req);
-            $session->set('rentInfo', $rentInfo);
-        }
+        // if(isset($diff['pickup_office']) || isset($diff['return_office']) || isset($diff['start_date']) || isset($diff['end_date'])) {
+        //     $rentInfo = $this->buildRentInfo($req);
+        //     $session->set('rentInfo', $rentInfo);
+        // }
 
-        $normalizeCar = array();
+        $normalizeCars = [];
         $cars = $this->repository->findAvailableCar($rentInfo['pickup_office']);
 
         foreach($cars as $car){
-            array_push($normalizeCar, array(
+            array_push($normalizeCars, array(
                 'id' => $car->getId(),
                 'horsepower' => $car->getHorsepower(),
                 'daily_price' => $car->getDailyPrice(),
@@ -65,28 +73,8 @@ class CarController extends AbstractController
         }
 
         return $this->render('rent/step_2/index.html.twig', [
-            'cars' => $normalizeCar
+            'cars' => $normalizeCars
         ]);
-    }
-
-    /**
-     * Helper that return the rentInfo array
-     *
-     * @param array $req
-     * @return array
-     */
-    public function buildRentInfo(array $req){
-        if(!$req['return_office']){
-            $req['return_office'] = $req['pickup_office'];
-        }
-        
-        $rentInfo = array();
-        $rentInfo['pickup_office'] = $req['pickup_office'];
-        $rentInfo['return_office'] = $req['return_office'];
-        $rentInfo['start_date'] = $req['start_date'];
-        $rentInfo['end_date'] = $req['end_date'];
-
-        return $rentInfo;
     }
 
     /**
@@ -94,12 +82,12 @@ class CarController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/voiture/list/filter', name:'car_list_filter', methods: ["GET"])]
-    public function filterAvailableCar(Request $request, BuildFilterEvent $event, SessionInterface $session): Response {
+    #[Route('/voitures/filtre', name:'car_list_filter', methods: ["GET"])]
+    public function filterAvailableCar(Request $request, BuildFilter $filter_builder, Session $session): Response {
         $req = $request->query->all();
 
         if(!$this->isCsrfTokenValid('token', $req['token'])){
-            $this->addFlash("error","Erreur lors de la recherche.");
+            $session->getFlashBag()->add("error","Erreur lors de la recherche.");
             return $this->redirectToRoute('office_list');
         }
 
@@ -111,13 +99,13 @@ class CarController extends AbstractController
             'gearbox' => $req['gearbox_filter'],
         );
 
-        $filters = $event->buildFilter($filterIds);
+        $filters = $filter_builder->buildFilter($filterIds);
         $rentInfo = $session->get('rentInfo');
 
         $cars = $this->repository->filterAvailableCar($rentInfo['pickup_office'], $filterIds['brand'], $filterIds['model'], $filterIds['type'], $filterIds['fuel'], $filterIds['gearbox']);
 
         if(!$cars) {
-            $this->addFlash('warning', 'Aucun véhicules trouvés.');
+            $session->getFlashBag()->add('warning', 'Aucun véhicules trouvés.');
             return $this->render('rent/step_2/notFound.html.twig');
         }
 
@@ -143,12 +131,12 @@ class CarController extends AbstractController
 
     /**
      * Render the rent_step_3
-     * @param String $uid
+     * @param String $id
      * @return void
      */
-    #[Route('/voiture/{uid}/details', name:'car_details', methods: ['GET'])]
-    public function getCarDetails(String $uid){
-        $car = $this->repository->find($uid);
+    #[Route('/voiture/{id}/details', name:'car_details', methods: ['GET'])]
+    public function getCarDetails(String $id){
+        $car = $this->repository->find($id);
         $normalizeCar = [
             'id' => $car->getId(),
             'horsepower' => $car->getHorsepower(),
