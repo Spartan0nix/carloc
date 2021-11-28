@@ -5,6 +5,7 @@ App\Entity\Address\City:
   city (template):
     name: '<city()>'
     code: '<numberBetween(74000, 74950)>'
+    department_id: '@department<numberBetween(1,10)>'
 
 App\Entity\Address\Department:
   department (template):
@@ -35,7 +36,7 @@ App\Entity\Office:
 App\Entity\User:
   user (template):
     email: '<safeEmail()>'
-    password: 'password'
+    password: <password('0000')>
     last_name: '<name()>'
     first_name: '<name()>'
     city_id: '@city<numberBetween(1,20)>'
