@@ -22,7 +22,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
     - name: Install Dependencies
-      run: composer install
+      run: |
+        composer install
+        yarn install
     - name: Build environment
       run: yarn dev
     - name: Run tests
