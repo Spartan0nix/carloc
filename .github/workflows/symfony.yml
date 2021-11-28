@@ -11,8 +11,8 @@ jobs:
       with:
         php-version: '8.0'
     - uses: actions/checkout@v2
-    # - name: Copy .env.test.local
-    #   run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+    - name: Copy .env.test.local
+      run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
@@ -22,7 +22,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install
     # - name: Create Database
     #   run: |
     #     mkdir -p data
