@@ -24,4 +24,6 @@ jobs:
     - name: Install Dependencies
       run: composer install
     - name: Run tests
-      run: vendor/bin/phpunit
+      run: |
+        php .\bin\console doctrine:schema:create --env=test
+        vendor/bin/phpunit
