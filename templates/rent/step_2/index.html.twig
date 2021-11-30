@@ -9,7 +9,7 @@
         <div class="cars-list">
             {% for car in cars %}
                 {% cache 'car' ~ car.id %}
-                    <form action="{{ path('car_details', { uid: car.id }) }}" method="GET">
+                    <form action="{{ path('car_details', { id: car.id }) }}" method="GET">
                         <section class="car-main">
                             <div class="car-image">
                                 <img src="/images/temp/m2.jpg" alt="m2 photo">
