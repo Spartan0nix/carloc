@@ -28,7 +28,7 @@ class CarControllerTest extends WebTestCase
             'token' => $csrf_token
         ]);
         
-        $this->assertResponseIsSuccessful();
+        $this->assertResponseIsSuccessful($client->getResponse());
     }
 
     public function testFilterAvailableCar(): void {
