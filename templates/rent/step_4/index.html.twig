@@ -40,7 +40,7 @@
         <section class="options-recap"></section>
         <section class="price-recap">
             <form class="card" action="{{ path('rent_confirm') }}" method="POST">
-                <input type="hidden" name="verif_car_id" value="{{ car.id }}">
+                <input type="hidden" name="car_id" value="{{ car.id }}">
                 <input type="hidden" name="rent_price" value="{{ rent_price }}">
                 <section class="header">
                     <p>Montant total</p>
