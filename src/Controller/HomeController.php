@@ -23,16 +23,4 @@ class HomeController extends AbstractController
     public function test(): Response {
         return $this->render('test.html.twig');
     }
-
-    #[Route('/encode_password', name:'encode_password')]
-    public function encodeDefaultPassword(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em): Response {
-        $users = $em->getRepository(User::class)->findAll();
-
-        foreach($users as $user){
-            $user->setPassword($encoder->encodePassword($user, 'password'));
-        }
-
-        $em->flush();
-        return $this->render('test.html.twig');
-    }
 }
