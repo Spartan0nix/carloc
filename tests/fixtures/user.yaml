@@ -8,7 +8,7 @@ App\Entity\User:
   admin:
     email: 'admin_test@local.com'
     roles: ['ROLE_USER', 'ROLE_ADMIN']
-    password: 'password'
+    password: <hashPassword('password')>
     last_name: 'admin'
     first_name: 'admin'
     city_id: '@city<numberBetween(1,20)>'
@@ -17,7 +17,7 @@ App\Entity\User:
   test:
     email: 'test@local.com'
     roles: ['ROLE_USER']
-    password: 'password'
+    password: <hashPassword('password')>
     last_name: 'test'
     first_name: 'test'
     city_id: '@city<numberBetween(1,20)>'

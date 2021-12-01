@@ -172,8 +172,8 @@ App\Entity\User:
   user{1..10} (extends user):
   admin:
     email: 'test@humblole.com'
-    roles: ['ROLE_ADMIN']
-    password: 'password'
+    roles: ['ROLE_USER', 'ROLE_ADMIN']
+    password: <hashPassword('password')>
     last_name: 'test'
     first_name: 'test'
     city_id: '@city<numberBetween(1,20)>'

@@ -1,4 +1,4 @@
-name: Symfony Continuous Integration
+name: Symfony CI
 on: [push]
 jobs:
   build:
