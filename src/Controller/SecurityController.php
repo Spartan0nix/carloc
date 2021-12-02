@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\AuthRegisterType;
 use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/nouveauCompte", name="auth_register")
+     * @Route("/nouveau-compte", name="auth_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, UrlGeneratorInterface $router): Response
     {
@@ -64,7 +65,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/register/authenticate", name="auth_register_login", methods={"GET"})
+     * @Route("/nouveau-compte/authentification", name="auth_register_login", methods={"GET"})
      */
     public function registerLogin(Request $request, UserRepository $repository, GuardAuthenticatorHandler $guardAuthenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator): Response {
         $credentials = [
@@ -107,6 +108,12 @@ class SecurityController extends AbstractController
     public function account()
     {
         $user = $this->getUser();
+        if(!$user) {
+            $response = new Response();
+            $response->setStatusCode(401);
+            return $this->render('exceptions/unauthorized.html.twig', [], $response);
+        }
+        
         $data = [
             'id' => $user->getId(),
             'email' => $user->getEmail(),
