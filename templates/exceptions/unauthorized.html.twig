@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mon compte' %}
+
+{% block body %}
+    <main id="exceptions">
+        <div class="unauthorized">
+            <h4>Accès Non autorisé, merci de vous authentifier.</h4>
+            <a href="{{ path('auth_login') }}" class='btn btn-primary'>Se connecter</a>
+        </div>
+    </main>
+{% endblock %}
