@@ -13,7 +13,7 @@ class ApiCityController extends AbstractController
     #[Route('/api/search/city', name:'api_city_search', methods:['GET'])]
     public function getCity(Request $request, CityRepository $repository) {
         $q = $request->query->get('q');
-        $required_department_id = $request->query->get('require') ? $request->query->get('require') : 'null';
+        $required_department_id = $request->query->get('require') ? $request->query->get('require') : '';
 
         $cities = $repository->searchCities($q, $required_department_id);
 
