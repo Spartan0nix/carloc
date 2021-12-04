@@ -3,62 +3,75 @@
 namespace App\Normalizer;
 
 use App\Entity\Car;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
+use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 
-class CarNormalizer extends AbstractController
+class CarNormalizer implements ContextAwareNormalizerInterface, CacheableSupportsMethodInterface
 {
+    public function supportsNormalization($data, ?string $format = null, array $context = [])
+    {
+        return $data instanceof Car;
+    }
 
-    public function normalize(Car $car){
+    public function normalize($object, ?string $format = null, array $context = [])
+    {
 
-        $typeArray = array();
-        foreach($car->getTypeId() as $type){
-            array_push($typeArray, array(
+        if(!$object instanceof Car){
+            throw new \InvalidArgumentException('Unexpected type for normalization, expected User, got '.get_class($object));
+        }
+        $typeArray = [];
+        foreach($object->getTypeId() as $type){
+            array_push($typeArray, [
                 'id' => $type->getId(),
                 'type' => $type->getType()
-            ));
+            ]);
         }
 
-        $optionArray = array();
-        foreach($car->getOptionId() as $option){
-            array_push($optionArray, array(
+        $optionArray = [];
+        foreach($object->getOptionId() as $option){
+            array_push($optionArray, [
                 'id' => $option->getId(),
                 'name' => $option->getName(),
                 'description' => $option->getDescription()
-            ));
+            ]);
         }
 
-        return array(
-            'id' => $car->getId(),
-            'horsepower' => $car->getHorsepower(),
-            'description' => $car->getDescription(),
-            'daily_price' => $car->getDailyPrice(),
-            'release_year' => $car->getReleaseYear(),
-            'fuel' => array(
-                'id' => $car->getFuelId()->getId(),
-                'fuel' => $car->getFuelId()->getFuel()
-            ),
-            'brand' => array(
-                'id' => $car->getBrandId()->getId(),
-                'brand' => $car->getBrandId()->getBrand()
-            ),
-            'model' => array(
-                'id' => $car->getModelId()->getId(),
-                'model' => $car->getModelId()->getModel()
-            ),
-            'color' => array(
-                'id' => $car->getColorId()->getId(),
-                'color' => $car->getColorId()->getColor()
-            ),
-            'gearbox' => array(
-                'id' => $car->getGearboxId()->getId(),
-                'gearbox' => $car->getGearboxId()->getGearbox()
-            ),
+        return [
+            'id' => $object->getId(),
+            'horsepower' => $object->getHorsepower(),
+            'description' => $object->getDescription(),
+            'daily_price' => $object->getDailyPrice(),
+            'release_year' => $object->getReleaseYear(),
+            'fuel' => [
+                'id' => $object->getFuelId()->getId(),
+                'fuel' => $object->getFuelId()->getFuel()
+            ],
+            'brand' => [
+                'id' => $object->getBrandId()->getId(),
+                'brand' => $object->getBrandId()->getBrand()
+            ],
+            'model' => [
+                'id' => $object->getModelId()->getId(),
+                'model' => $object->getModelId()->getModel()
+            ],
+            'color' => [
+                'id' => $object->getColorId()->getId(),
+                'color' => $object->getColorId()->getColor()
+            ],
+            'gearbox' => [
+                'id' => $object->getGearboxId()->getId(),
+                'gearbox' => $object->getGearboxId()->getGearbox()
+            ],
             'types' => $typeArray,
             'options' => $optionArray,
-            'office' => array(
-                'id' => $car->getOfficeId()->getId()
-            )
-        );
+            'office' => [
+                'id' => $object->getOfficeId()->getId()
+            ]
+        ];
+    }
 
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return true;
     }
 }
