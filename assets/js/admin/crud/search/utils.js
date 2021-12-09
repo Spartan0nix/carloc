@@ -30,6 +30,22 @@ export function updateFormSearch(departmentContainer, departmentInputFormId, cit
     });
 }
 
+export function updateDepartmentSearch(departmentContainer, departmentInputFormId) {
+    let departmentInputHidden = departmentContainer.querySelector('input[type="hidden"]')
+    let departmentFormType = departmentContainer.querySelector(`#${departmentInputFormId}`)
+    let departmentId = ''
+
+    Object.defineProperty(departmentInputHidden, "value", {
+        set(newValue) {
+            departmentId = newValue;
+            departmentFormType.value = newValue;
+        },
+        get(){
+            return departmentId;
+        }
+    });
+}
+
 export async function getDepartement(department_id, departmentContainer) {
     let URL = `/api/search/department_id?id=${department_id}`
     let response = await fetch(URL)
