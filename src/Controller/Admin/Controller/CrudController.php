@@ -13,6 +13,7 @@ abstract class CrudController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
+            dump($data);
             if($this->template === 'user'){
                 $data->setPassword($this->passwordEnconder->encodePassword($data, $data->getPassword()));
             }
@@ -29,7 +30,8 @@ abstract class CrudController extends AbstractController
     }
 
     public function read(ContextAwareNormalizerInterface $normalizer) {
-        $entities = $this->em->getRepository($this->entity::class)->findBy([], ['id' => 'ASC'], 20);
+        // $entities = $this->em->getRepository($this->entity::class)->findBy([], ['id' => 'ASC'], 20);
+        $entities = $this->em->getRepository($this->entity::class)->findAll();
         $normalize_entities = [];
     
         foreach($entities as $entity){
