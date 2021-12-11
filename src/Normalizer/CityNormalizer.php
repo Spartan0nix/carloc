@@ -8,6 +8,8 @@ use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 
 class CityNormalizer implements ContextAwareNormalizerInterface, CacheableSupportsMethodInterface
 {
+    public function __construct(private DepartmentNormalizer $departmentNormalizer) {}
+
     public function supportsNormalization($data, ?string $format = null, array $context = [])
     {
         return $data instanceof City;
@@ -19,11 +21,17 @@ class CityNormalizer implements ContextAwareNormalizerInterface, CacheableSuppor
             throw new \InvalidArgumentException('Unexpected type for normalization, expected City, got '.get_class($object));
         }
 
-        return [
+        $city = [
             'id' => $object->getId(),
             'name' => $object->getName(),
             'code' => $object->getCode(),
         ];
+
+        if($format === 'extended') {
+            $city['department'] = $this->departmentNormalizer->normalize($object->getDepartmentId());
+        }
+
+        return $city;
     }
 
     public function hasCacheableSupportsMethod(): bool
