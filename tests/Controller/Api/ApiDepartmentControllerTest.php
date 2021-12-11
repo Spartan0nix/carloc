@@ -35,7 +35,7 @@ class ApiDepartmentControllerTest extends WebTestCase
         ]);
 
         $json_reponse = $client->getResponse()->getContent();
-        $response = json_decode($json_reponse, true)['department'];
+        $response = json_decode($json_reponse, true)['data'];
         $this->assertEquals($response, [
             'id' => $data['department1']->getId(),
             'name' => $data['department1']->getName(),
