@@ -44,12 +44,12 @@ class ApiCityController extends AbstractController
 
         if(!$city) {
             return new JsonResponse([
-                'message' => 'Aucune ville avec cet id.'
+                'message' => 'Aucune ville(s) trouvée(s).'
             ], 404);
         }
 
         return new JsonResponse([
-            'city' => [
+            'data' => [
                 'id' => $city->getId(),
                 'name' => $city->getName(),
                 'code' => $city->getCode(),

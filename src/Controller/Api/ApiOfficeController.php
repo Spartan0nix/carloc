@@ -38,4 +38,25 @@ class ApiOfficeController extends AbstractController
         ),200);
 
     }
+
+    #[Route('/api/search/office_id', name:'api_office_search_id', methods:['GET'])]
+    public function getOfficeId(Request $request, OfficeRepository $repository) {
+        $id = $request->query->get('id');
+        $office = $repository->findOneBy(['id' => $id]);
+
+        if(!$office) {
+            return new JsonResponse([
+                'message' => 'Aucune agence(s) trouvée(s).'
+            ], 404);
+        }
+
+        return new JsonResponse([
+            'data' => [
+                'id' => $office->getId(),
+                'street' => $office->getStreet(),
+                'tel_number' => $office->getTelNumber(),
+                'email' => $office->getEmail()
+            ]
+        ], 200);
+    }
 }
