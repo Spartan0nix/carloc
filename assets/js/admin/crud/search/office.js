@@ -1,16 +1,16 @@
-import { updateFormSearch, getDepartement, getCity } from '../search/utils'
+import { getDefault, updateDepartmentCitySearch } from '../search/utils'
 
-if(document.getElementById('admin_office_search')) {
+if(document.querySelector('.admin_office_search')) {
     let departmentContainer = document.querySelector('.department-container')
     let cityContainer = document.querySelector('.city-container')
 
     if(document.getElementById('admin_office_edit')){
-        let departmentFormType = departmentContainer.querySelector('#admin_office_department_id')
-        let cityFormType = cityContainer.querySelector('#admin_office_city_id')
+        let department_id = document.getElementById('admin_office_department_id').value
+        let city_id = document.getElementById('admin_office_city_id').value
 
-        getDepartement(departmentFormType.value, departmentContainer)
-        getCity(cityFormType.value, cityContainer)
+        getDefault(`/api/search/department_id?id=${department_id}`, 'department_input', ['name'])
+        getDefault(`/api/search/city_id?id=${city_id}`, 'city_input', ['name'])
     }
 
-    updateFormSearch(departmentContainer, 'admin_office_department_id', cityContainer, 'admin_office_city_id')
+    updateDepartmentCitySearch(departmentContainer, 'admin_office_department_id', cityContainer, 'admin_office_city_id')
 }
