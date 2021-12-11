@@ -26,4 +26,22 @@ class ApiOfficeControllerTest extends WebTestCase
             'email' => $data['office1']->getEmail(),
         ]);
     }
+
+    public function testGetOfficeId(): void {
+        $client = $this->createClient();
+        $data = $this->load(['office'], $client->getContainer());
+
+        $client->request('GET', '/api/search/office_id', [
+            'id' => $data['office1']->getId()
+        ]);
+
+        $json_response = $client->getResponse()->getContent();
+        $response = json_decode($json_response, true)['data'];
+        $this->assertEquals($response, [
+            'id' => $data['office1']->getId(),
+            'street' => $data['office1']->getStreet(),
+            'tel_number' => $data['office1']->getTelNumber(),
+            'email' => $data['office1']->getEmail()
+        ]);
+    }
 }

@@ -35,7 +35,7 @@ class ApiCityControllerTest extends WebTestCase
         ]);
 
         $json_response = $client->getResponse()->getContent();
-        $response = json_decode($json_response, true)['city'];
+        $response = json_decode($json_response, true)['data'];
         $this->assertEquals($response, [
             'id' => $data['city1']->getId(),
             'name' => $data['city1']->getName(),

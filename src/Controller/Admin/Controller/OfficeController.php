@@ -30,22 +30,22 @@ class OfficeController extends CrudController
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    #[Route('/admin/offices', name:'admin_office_index')]
+    #[Route('/admin/agences', name:'admin_office_index')]
     public function index(OfficeNormalizer $normalizer) {      
         return $this->read($normalizer);
     }
 
-    #[Route('/admin/offices/ajouter', name:'admin_office_add')]
+    #[Route('/admin/agences/ajouter', name:'admin_office_add')]
     public function new() {
         return $this->create();
     }
 
-    #[Route('/admin/offices/{id}/modifier', name:'admin_office_edit')]
+    #[Route('/admin/agences/{id}/modifier', name:'admin_office_edit')]
     public function edit(string $id) {
         return $this->update($id);       
     }
 
-    #[Route('/admin/offices/{id}/supprimer', name:'admin_office_delete')]
+    #[Route('/admin/agences/{id}/supprimer', name:'admin_office_delete')]
     public function remove(string $id) {
         return $this->delete($id);
     }

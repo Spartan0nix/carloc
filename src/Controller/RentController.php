@@ -43,27 +43,33 @@ class RentController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/location/recapitulatif', name:'rent_recap', methods: ['POST'])]
+    #[Route('/location/recapitulatif', name:'rent_recap', methods: ['POST', 'GET'])]
     public function summary(Request $request, CarRepository $repository, Session $session): Response {
         $rentInfo = $session->get('rentInfo');
         if(!$rentInfo){
             return $this->redirectToRoute('office_list');
         }
 
+        $req = $request->request->all();
+        if(!isset($req['carId'])){
+            $req = $request->query->all();
+            if(!isset($req['carId'])) {
+                $session->getFlashBag()->add('error', 'Erreur lors de la vérification de votre requête.');
+                return $this->redirectToRoute('car_list');
+            }
+        }
+
         if(!$this->getUser()){
             $session->set('redirect', array(
                 'redirect' => true,
-                'from' => 'rent_recap'
+                'from' => 'rent_recap',
+                'param' => [
+                    'carId' => $req['carId']
+                ]
             ));
             return $this->redirectToRoute('auth_login');
         }
         $session->get('redirect') ? $session->remove('redirect') : '';
-
-        $req = $request->request->all();
-        if(!$req['carId']){
-            $session->getFlashBag()->add('error', 'Erreur lors de la vérification de votre requête.');
-            return $this->redirectToRoute('car_list');
-        }
 
         $car = $repository->findOneBy(['id' => $req['carId']]);
         $normalizeCar = [

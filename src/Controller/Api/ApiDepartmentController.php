@@ -42,12 +42,12 @@ class ApiDepartmentController extends AbstractController
 
         if(!$departement) {
             return new JsonResponse([
-                'message' => "Aucun département avec cet id."
+                'message' => "Aucun département(s) trouvé(s)."
             ], 404);
         }
 
         return new JsonResponse([
-            'department' => [
+            'data' => [
                 'id' => $departement->getId(),
                 'name' => $departement->getName(),
                 'code' => $departement->getCode()

@@ -1,4 +1,20 @@
-export function updateFormSearch(departmentContainer, departmentInputFormId, cityContainer, cityInputFormId) {
+export function updateFormSearch(container, form_input_id) {
+    let input_hidden = container.querySelector('input[type="hidden"]')
+    let form_input = container.querySelector(`#${form_input_id}`)
+    let value = ''
+    
+    Object.defineProperty(input_hidden, "value", {
+        set(newValue) {
+            value = newValue
+            form_input.value = newValue
+        },
+        get() {
+            return value
+        }
+    })
+}
+
+export function updateDepartmentCitySearch(departmentContainer, departmentInputFormId, cityContainer, cityInputFormId) {
     let departmentInputHidden = departmentContainer.querySelector('input[type="hidden"]')
     let departmentFormType = departmentContainer.querySelector(`#${departmentInputFormId}`)
     let departmentId = ''
@@ -30,20 +46,27 @@ export function updateFormSearch(departmentContainer, departmentInputFormId, cit
     });
 }
 
-export function updateDepartmentSearch(departmentContainer, departmentInputFormId) {
-    let departmentInputHidden = departmentContainer.querySelector('input[type="hidden"]')
-    let departmentFormType = departmentContainer.querySelector(`#${departmentInputFormId}`)
-    let departmentId = ''
+export async function getDefault(URL, input_id, keys) {
+    let response = await fetch(URL)
 
-    Object.defineProperty(departmentInputHidden, "value", {
-        set(newValue) {
-            departmentId = newValue;
-            departmentFormType.value = newValue;
-        },
-        get(){
-            return departmentId;
+    if(response.ok) {
+        let json = await response.json()
+        let data = json.data
+        let input = document.getElementById(input_id)
+        let index = 0
+
+        if(keys.length > 1){
+            keys.forEach(key => {
+                index++
+                input.value = input.value.concat(data[key])
+                if(index != keys.length){
+                    input.value = input.value.concat(' - ')
+                }
+            })
+        } else {
+            input.value = data[keys[0]]
         }
-    });
+    }
 }
 
 export async function getDepartement(department_id, departmentContainer) {
