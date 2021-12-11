@@ -18,7 +18,6 @@ class ApiUserControllerTest extends WebTestCase
         ]);
 
         $json_response = $client->getResponse()->getContent();
-        print_r($json_response);
         $reponse = json_decode($json_response, true)['data'][0];
         $this->assertEquals($reponse, [
             'id' => $data['admin']->getId(),
