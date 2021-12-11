@@ -60,4 +60,18 @@ class CarRepository extends ServiceEntityRepository
                      
         ;
     }
+
+    public function searchCars(String $car) {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.brand_id', 'b')
+            ->innerJoin('c.model_id', 'm')
+            ->orWhere('b.brand LIKE :val')
+            ->orWhere('m.model LIKE :val')
+            ->setParameter('val', '%'.$car.'%')
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(8)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
