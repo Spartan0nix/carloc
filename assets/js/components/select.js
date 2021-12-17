@@ -1,224 +1,372 @@
-import { generateAlert } from './alert'
-
-export class Select extends HTMLElement {
-    connectedCallback() {
-        this.classList.add('search');
-        /**
-         * Retrieve search configuration element
-         */
-        const placeholder = this.dataset.placeholder
-        const id = this.dataset.id
-        const query = this.dataset.query
+export class Select extends HTMLElement 
+{
+    constructor() {
+        super()
 
         /**
-         * Add the default HTML structure of the search element
+         * Phase : Build the element
          */
-        this.innerHTML = `<input type="text" placeholder="${placeholder}" id="${id}">
-                            <span class="close-search">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M18 15l-6 -6l-6 6h12" transform="rotate(180 12 12)" />
-                                </svg>
-                            </span>
-                            <fieldset class="search-result"></fieldset> 
-                        `;
-        this.dataset.selected != undefined ? this.dataSelected = this.dataset.selected : this.dataSelected = '';
-        this.URL = `/api/search${this.dataset.query}`
-        this.name = this.dataset.name;
-    }
+        this.default_tags = []
+        let checkbox_container = this.dataset.id
+        // Check if a checkbox_container_id was passed as an argument
+        if(checkbox_container && checkbox_container != '') {
+            // Retrieve the checkbox_container element
+            this.checkbox_container = document.getElementById(checkbox_container)
+            let checkboxes = this.checkbox_container.querySelectorAll('input[type="checkbox"]')
+            checkboxes.forEach(checkbox => {
+                // Retrieve the label associate with the current checkbox
+                let label = this.checkbox_container.querySelector(`label[for="${checkbox.id}"]`)
+                // If the checkbox is checked, retrieve the value of the label and checkbox
+                // to later build a tag to inform the user that this value is checked by default
+                if(checkbox.checked) {
+                    this.default_tags.push({
+                        id: checkbox.value,
+                        value: label.innerHTML
+                    })
+                } else {
+                    this.checkbox_container.removeChild(checkbox)
+                }
+                this.checkbox_container.removeChild(label)
+            })
 
-    /**
-     * Update the search result container
-     * @param {Object} data 
-     */
-    updateSearchResult(data) {
-        let fieldset = this.children[2];
+        } else {
+            // If a checkboc_container was not passed as an argument, build one
+            let container = document.createElement('div')
+            container.classList.add('select-checkbox-container')
 
-        // Remove every unchecked input
-        let options = fieldset.querySelectorAll('input[type="checkbox"]');
-        options.forEach(option => {
-            if (!option.checked) {
-                let wrapper = option.closest('.select-result-element');
-                wrapper.parentNode.removeChild(wrapper);
-            }
-        })
-        // Remove not found message
-        let notFound = fieldset.querySelector('.search-not-found');
-        if(notFound){
-            notFound.parentNode.removeChild(notFound);
+            this.appendChild(container)
+            this.checkbox_container = this.querySelector('.select-checkbox-container')
         }
 
-        data.forEach(element => {
-            let array = Object.keys(element).map(function (key) { return element[key]; });
-            let id = array[0];
-            let attribute = array[1];
+        // Create a container containing the user input field and future tag(s)
+        let select_input_container = document.createElement('div')
+        select_input_container.classList.add('select-input-container')
 
-            // Check if the option is already present
-            if (!fieldset.querySelector(`#${attribute}`)) {
-                // Update the search result fielset with a new input and a new label
-                let wrapper = document.createElement('div');
-                wrapper.classList.add('select-result-element');
+        // Create the user input field
+        let input = document.createElement('input')
+        input.type = "text"
+        input.name = "select-input"
+        input.classList.add('select-input')
+        input.id = 'select-input'
+        let placeholder = this.dataset.placeholder
+        if(placeholder && placeholder != ''){
+            input.placeholder = placeholder
+        } else {
+            input.placeholder = "Sélectionner une entrée(s)."
+        }
+        select_input_container.appendChild(input)
 
-                let inputElement = document.createElement('input');
-                inputElement.type = 'checkbox';
-                inputElement.name = `${this.name}[${id}]`;
-                inputElement.value = id;
-                inputElement.id = attribute;
-                let labelElement = document.createElement('label');
-                labelElement.setAttribute('for', attribute)
-                labelElement.innerHTML = attribute;
+        // Create a container containing a list of the values returned
+        let select_result_container = document.createElement('div')
+        select_result_container.classList.add('select-result-container')
+        let ul = document.createElement('ul')
+        ul.classList.add('select-result-list')
+        select_result_container.appendChild(ul)
 
-                fieldset.appendChild(wrapper)
-                wrapper.appendChild(inputElement);
-                wrapper.appendChild(labelElement);
+        this.appendChild(select_input_container)
+        this.appendChild(select_result_container)
+
+        /**
+         * Phase : Define class properties
+         */
+        this.root = this
+        this.input_container = this.querySelector('.select-input-container')
+        this.input = this.input_container.querySelector('input[type="text"]')
+        this.result_container = this.querySelector('.select-result-container')
+        this.result_list = this.result_container.querySelector('.select-result-list')
+        this.list_open = false
+        this.url = this.dataset.url
+        this.data = []
+        this.array_name = this.dataset.name
+    }
+
+    connectedCallback() {
+        // Add a listener to update the click event on each tag when updating the input_container
+        this.input_container.addEventListener('update-tag-listener', () => {
+            let tags = this.input_container.querySelectorAll('.select-input-tag')
+            tags.forEach(tag => {
+                if(tag.dataset.listener != 'true') {
+                    tag.dataset.listener = 'true'
+                    tag.addEventListener('click', (event) => {
+                        let confirmation = confirm('Supprimer ?')
+                        if(confirmation) {
+                            let id = tag.dataset.reference
+                            let checkbox = this.checkbox_container.querySelector(`#${this.checkbox_container.id}_${id}`)
+                            this.input_container.removeChild(tag)
+                            this.checkbox_container.removeChild(checkbox)
+                        }
+                    })
+                }
+            })
+        })
+
+        // If their was default_tags, build the corresponding tags
+        if(this.default_tags.length != 0) {
+            this.default_tags.forEach(element => {;
+                let li = this.buildTag(element.id, element.value)
+                this.input_container.insertBefore(li, this.input)
+                this.input_container.dispatchEvent(new Event('update-tag-listener'))
+            });
+        }
+
+        // Retrieve values from the url passed as an argument
+        (async () => {
+            let response = await fetch(`/api/search${this.url}?q=`)
+            
+            if(response.ok) {
+                let json = await response.json()
+                this.data = Array.from(json.data)
+
+                // Build the corresponding item in the list
+                this.data.forEach(element => {
+                    let keys = Object.keys(element)
+                    let li = this.buildListItem(element[keys[0]], element[keys[1]])
+                    this.result_list.appendChild(li)
+                })
             }
+        })()
+        
+        this.input.addEventListener('click', () => {
+            this.root.classList.toggle('display-results')
+            this.list_open = !this.list_open
+
+            if(this.input.closest('.select-element').classList.contains('display-results')) {
+                // Focus on the input
+                this.input.focus()
+
+                // Retrieve all result from the result_container
+                const results_list = this.result_container.querySelectorAll('.select-result-item')
+                this.resultListItemsListener(results_list)
+            }
+        })
+
+        this.input.addEventListener('keydown', (event) => {
+            // Check if the backspace was pressed
+            if(event.code === 'Backspace' && this.input.value === '') {
+                // Retrieve all the tags from the input_container
+                let tags = this.input_container.querySelectorAll('.select-input-tag')
+                if(tags.length != 0) {
+                    // Retrieve the last tag
+                    let last_tag = tags[tags.length - 1]
+                    let id = last_tag.dataset.reference
+                    // Retrieve the associate <input> from the checkbox_container
+                    let checkbox = this.checkbox_container.querySelector(`input[value="${id}"]`)
+                    
+                    // Remove the tag and the <input>
+                    this.input_container.removeChild(last_tag)
+                    this.checkbox_container.removeChild(checkbox)
+
+                    // Close the result list
+                    this.root.classList.remove('display-results')
+                    this.list_open = false
+                } 
+            }
+        })
+
+        // this.input.addEventListener('input', (event) => {
+        //     // Reset the content of the result_list
+        //     this.result_list.innerHTML = ''
+        //     // Filter the results based on the user input
+        //     let filtered_results = this.data.filter(result => {
+        //         let keys = Object.keys(result)
+        //         return result[keys[1]].toLowerCase().includes(event.target.value.toLowerCase())
+        //     })
+            
+        //     filtered_results.forEach(result => {
+        //         let keys = Object.keys(result)
+        //         let li = this.buildListItem(result[keys[0]], result[keys[1]])
+        //         this.result_list.appendChild(li)
+        //     })
+
+        //     const results_list = this.result_container.querySelectorAll('.select-result-item')
+        //     this.resultListItemsListener(results_list)
+        // })
+
+        window.addEventListener('click', (event) => {
+            if(this.list_open) {
+                if(!event.target.closest('.select-element')) {
+                    this.root.classList.remove('display-results')
+                    this.list_open = false
+                }
+            }
+        })
+
+    }
+
+    /**
+     * Load fixtures for local testing
+     * @param {Array} fixtures 
+     */
+    loadFixtures(fixtures) {
+        fixtures.forEach(element => {
+            let li = document.createElement('li')
+            li.classList.add('select-result-item')
+            li.innerHTML = element.name
+            li.id = element.id
+            this.result_list.appendChild(li)
         })
     }
 
-    // /**
-    //  * Add the previous selected elements after the filter was applied
-    //  * @param {*} selected 
-    //  */
-    // setElement(selected) {
-    //     console.log(selected);
-    // }
     /**
-     * Toggle the search result container by adding the open-search-result class to the .search parent
+     * Load Defaults selected values
+     * @param {Object} selected_values 
      */
-    toggleSearchResult(searchContainer) {
-        searchContainer.classList.toggle('open-search-result')
+    loadSelectedValues(selected_values) {
+        if(selected_values.length != 0){
+            selected_values.forEach(selected_value => {
+                let tag = document.createElement('div')
+                tag.classList.add('select-input-tag')
+                tag.dataset.reference = selected_value.value
+                tag.innerHTML = selected_value.innerHTML
+                this.input_container.insertBefore(tag, this.input)
+                this.input_container.dispatchEvent(new Event('update-tag-listener'))
+            })
+        }
     }
 
-    async notFound(error) {
-        let container = this.children[2]
-        container.innerHTML = `<div class='search-result-element search-not-found'>
-                                    ${error.message}
-                                </div>`
+    /**
+     * Build an option element to add to the select element
+     * @param {String} id 
+     * @param {String} content 
+     * @returns {Object}
+     */
+    buildCheckbox(id) {
+        let checkbox = document.createElement('input')
+        let checkbox_container_id = this.checkbox_container.id
+        checkbox.type = "checkbox"
+        checkbox.checked = true
+        checkbox.value = id
+        checkbox.id = `${checkbox_container_id}_${id}`
+        checkbox.name = this.array_name
+
+        return checkbox
     }
-}
 
-export class DynamicSelect extends Select {
-    connectedCallback() {
-        super.connectedCallback();
+    /**
+     * Build tag to add to the input container
+     * @param {String} id 
+     * @param {String} content 
+     * @returns {Object}
+     */
+    buildTag(id, content) {
+        let tag = document.createElement('div')
+        tag.classList.add('select-input-tag')
+        tag.dataset.reference = id
+        tag.innerHTML = content
 
-        /**
-         * Set a timeout to allow the rendering in the dom of the previous HTML
-         */
-        setTimeout(() => {
-            let children = Array.from(this.children)
-            let input = children[0]
-            let timer;
+        return tag
+    }
 
-            if(this.dataSelected != ""){
-                let selected = JSON.parse(this.dataSelected);
-                let fieldset = this.children[2];
-                this.updateSearchResult(selected);
+    /**
+     * Build a list element
+     * @param {String} id 
+     * @param {String} content 
+     * @returns {Object}
+     */
+    buildListItem(id, content) {
+        let li = document.createElement('li')
+        li.classList.add('select-result-item')
+        li.id = id
+        li.innerHTML = content
 
-                let inputs = fieldset.querySelectorAll('input[type="checkbox"]');
-                inputs.forEach(input => {
-                    input.checked = true;
+        return li
+    }
+    
+    /**
+     * Listen for click event for earch items in the results list and build the corresponding option and tag element
+     * @param {Object} results_list 
+     */
+    resultListItemsListener(results_list) {
+        results_list.forEach(result => {
+            result.addEventListener('click', (event) => {
+
+                // Retrieve all options from the <select> element
+                let selected_options = this.checkbox_container.querySelectorAll('input[type="checkbox"]:checked')
+                // Build an array compose of each options id
+                let selected_options_values = Array.from(selected_options).map((element) => {
+                    return element.value
                 })
 
-            }
+                // Check if the clicked result has not been already selected
+                if(!selected_options_values.includes(event.target.id)){
+                    // Add an <input> to the checkbox_container
+                    let checkbox = this.buildCheckbox(event.target.id, event.target.innerHTML)
+                    this.checkbox_container.appendChild(checkbox)
 
-            /**
-             * Toggle the search result container
-             */
-            input.addEventListener('click', (event) => {
-                this.toggleSearchResult(event.target.closest('.search'));
-            })
+                    // Add an <div> to the input_container
+                    let tag = this.buildTag(event.target.id, event.target.innerHTML)
+                    this.input_container.insertBefore(tag, this.input)
+                    this.input_container.dispatchEvent(new Event('update-tag-listener'))
 
-            // /**
-            //  * Fetch the data
-            //  */
-            input.addEventListener('input', () => {
-                // Clear the timer
-                clearTimeout(timer);
-                /**
-                 * Wait 300ms before fetching the data to prevent multiple request
-                 */
-                timer = setTimeout(async () => {
-                    try {
-                        let response = await fetch(`${this.URL}?q=${encodeURI(input.value)}`)
-                        if (response.ok) {
-                            let data = await response.json()
-                            this.updateSearchResult(data.data)
-                        } else {
-                            let error = await response.json()
-                            this.notFound(error)
-                        }
-                    } catch (error) {
-                        generateAlert("error", "Erreur durant la résolution de la requête.")
-                    }
-                }, 300)
+                    this.root.classList.remove('display-results')
+                }
             })
-        }, 50)
+        })
     }
 }
 
-export class StaticSelect extends Select {
+export class SelectStatic extends Select
+{
+    constructor() {
+        super()
+    }
+
     connectedCallback() {
-        super.connectedCallback();
+        super.connectedCallback()
 
-        setTimeout(async () => {
-            let children = Array.from(this.children)
-            let input = children[0]
-            let timer;
-            /**
-             * Toggle the search result container
-             */
-            input.addEventListener('click', (event) => {
-                this.toggleSearchResult(event.target.closest('.search'));
+        this.input.addEventListener('input', (event) => {
+            // Reset the content of the result_list
+            this.result_list.innerHTML = ''
+            // Filter the results based on the user input
+            let filtered_results = this.data.filter(result => {
+                let keys = Object.keys(result)
+                return result[keys[1]].toLowerCase().includes(event.target.value.toLowerCase())
+            })
+            
+            filtered_results.forEach(result => {
+                let keys = Object.keys(result)
+                let li = this.buildListItem(result[keys[0]], result[keys[1]])
+                this.result_list.appendChild(li)
             })
 
-            /**
-             * Fetch the data
-             */
-            try {
-                let response = await fetch(`${this.URL}?q=`)
-                if (response.ok) {
-                    let data = await response.json()
-                    this.data = data.data;
-                    this.updateSearchResult(this.data)
-                    if(this.dataSelected != ""){
-                        let selected = JSON.parse(this.dataSelected);
-                        let fieldset = this.children[2];
+            const results_list = this.result_container.querySelectorAll('.select-result-item')
+            this.resultListItemsListener(results_list)
+        })
+    }
+}
 
-                        selected.forEach(element => {
-                            let keys = Object.keys(element);
-                            fieldset.querySelector(`#${element[keys[1]]}`).checked = true;
-                        })
-                    }
-                } else {
-                    let error = await response.json()
-                    this.notFound(error)
-                }
-            } catch (error) {
-                generateAlert("error", "Erreur durant la résolution de la requête.")
-                console.log(error)
-            }
+export class SelectDynamic extends Select
+{
+    constructor() {
+        super()
+    }
 
-            input.addEventListener('input', () => {
-                // Clear the timer
-                clearTimeout(timer);
-                /**
-                 * Wait 300ms before updating the data
-                 */
-                timer = setTimeout(() => {
-                    if (input.value === "") {
-                        this.updateSearchResult(this.data);
-                        return;
-                    }
-                    let result = [];
-                    this.data.forEach(element => {
-                        let key = Object.keys(element)[1];
-                        if (element[key].includes(input.value)) {
-                            result.push(element);
-                        }
+    connectedCallback() {
+        super.connectedCallback()
+
+        var timeout = null
+        this.input.addEventListener('input', (event) => {
+            // Reset the content of the result_list
+            this.result_list.innerHTML = ''
+            // Filter the results based on the user input
+            clearTimeout(timeout)
+
+            timeout = setTimeout(async () => {
+                let response = await fetch(`/api/search${this.url}?q=${event.target.value}`)
+
+                if(response.ok) {
+                    let json = await response.json()
+
+                    json.data.forEach(element => {
+                        let keys = Object.keys(element)
+                        let li = this.buildListItem(element[keys[0]], element[keys[1]])
+                        this.result_list.appendChild(li)
                     })
-                    this.updateSearchResult(result);
-                }, 300)
-            })
-        }, 50)
+                }
+
+                const results_list = this.result_container.querySelectorAll('.select-result-item')
+                this.resultListItemsListener(results_list)
+            }, 200)
+        })
     }
 }
