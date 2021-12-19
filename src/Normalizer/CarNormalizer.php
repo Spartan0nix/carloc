@@ -19,24 +19,9 @@ class CarNormalizer implements ContextAwareNormalizerInterface, CacheableSupport
         if(!$object instanceof Car){
             throw new \InvalidArgumentException('Unexpected type for normalization, expected User, got '.get_class($object));
         }
-        $typeArray = [];
-        foreach($object->getTypeId() as $type){
-            array_push($typeArray, [
-                'id' => $type->getId(),
-                'type' => $type->getType()
-            ]);
-        }
+        
 
-        $optionArray = [];
-        foreach($object->getOptionId() as $option){
-            array_push($optionArray, [
-                'id' => $option->getId(),
-                'name' => $option->getName(),
-                'description' => $option->getDescription()
-            ]);
-        }
-
-        return [
+        $car = [
             'id' => $object->getId(),
             'horsepower' => $object->getHorsepower(),
             'description' => $object->getDescription(),
@@ -62,12 +47,36 @@ class CarNormalizer implements ContextAwareNormalizerInterface, CacheableSupport
                 'id' => $object->getGearboxId()->getId(),
                 'gearbox' => $object->getGearboxId()->getGearbox()
             ],
-            'types' => $typeArray,
-            'options' => $optionArray,
-            'office' => [
-                'id' => $object->getOfficeId()->getId()
-            ]
         ];
+
+        if($format === 'extended') {
+            $typeArray = [];
+            foreach($object->getTypeId() as $type){
+                array_push($typeArray, [
+                    'id' => $type->getId(),
+                    'type' => $type->getType()
+                ]);
+            }
+            $optionArray = [];
+            foreach($object->getOptionId() as $option){
+                array_push($optionArray, [
+                    'id' => $option->getId(),
+                    'name' => $option->getName(),
+                    'description' => $option->getDescription()
+                ]);
+            }
+
+            $car['office'] = [
+                'id' => $object->getOfficeId()->getId(),
+                'street' => $object->getOfficeId()->getStreet(),
+                'tel_number' => $object->getOfficeId()->getTelNumber(),
+                'email' => $object->getOfficeId()->getEmail(),
+            ];
+            $car['types'] = $typeArray;
+            $car['options'] = $optionArray;
+        }
+
+        return $car;
     }
 
     public function hasCacheableSupportsMethod(): bool
