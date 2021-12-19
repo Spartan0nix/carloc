@@ -1,68 +1,54 @@
 <section id="filter-section">
     <div id="filter-section-wrapper">
-        <form action="{{ path('car_list_filter') }}" id="filter-form" method="GET">
-            <input type="hidden" name="token" value="{{ csrf_token('token') }}">
-            <div class="filter-input input-text">
-                <js-select-dynamic
-                    data-placeholder="Toutes les marques"
-                    data-id="brand_filter"
-                    data-name="brand_filter"
-                    data-query="/brand"
-                    {% if filter.brand is defined %}
-                        data-selected="{{ filter.brand }}"
-                    {% endif %}
-                ></js-select-dynamic>
+        {{ form_start(form) }}
+            <div class="select-container">
+                {{ form_widget(form.brand_id, {'attr': {'class': 'hidden-type'}})}}
+                <select-dynamic class='select-element select-dynamic'
+                    data-placeholder='Marque du véhicule'
+                    data-id='car_filter_brand_id'
+                    data-name='car_filter[brand_id][]'
+                    data-url='/brand'
+                ></select-dynamic>
             </div>
-            <div class="filter-input input-text">
-                <js-select-dynamic
-                    data-placeholder="Tous les modèles"
-                    data-id="model_filter"
-                    data-name="model_filter"
-                    data-query="/model"
-                    {% if filter.model is defined %}
-                        data-selected="{{ filter.model }}"
-                    {% endif %}
-                ></js-select-dynamic>
+            <div class="select-container">
+                {{ form_widget(form.model_id, {'attr': {'class': 'hidden-type'}})}}
+                <select-dynamic class='select-element select-dynamic'
+                    data-placeholder='Modèle du véhicule'
+                    data-id='car_filter_model_id'
+                    data-name='car_filter[model_id][]'
+                    data-url='/model'
+                ></select-dynamic>
             </div>
-            <div class="filter-input input-text">
-                <js-select-static 
-                    data-placeholder="Toutes les catégories"
-                    data-id="type_filter"
-                    data-name="type_filter"
-                    data-query="/type"
-                    {% if filter.type is defined %}
-                        data-selected="{{ filter.type }}"
-                    {% endif %}
-                ></js-select-static>
+            <div class="select-container">
+                {{ form_widget(form.type_id, {'attr': {'class': 'hidden-type'}})}}
+                <select-dynamic class='select-element select-dynamic'
+                    data-placeholder='Type du véhicule'
+                    data-id='car_filter_type_id'
+                    data-name='car_filter[type_id][]'
+                    data-url='/type'
+                ></select-dynamic>
             </div>
-            <div class="filter-input input-text">
-                <js-search-static 
-                    data-placeholder="Toutes les énergies"
-                    data-id="fuel_filter"
-                    data-name="fuel_filter"
-                    data-query="/fuel"
-                    {% if filter.fuel[0] is defined %}
-                        data-selected="{{ filter.fuel[0] }}"
-                    {% endif %}
-                ></js-search-static>
+            <div class="select-container">
+                {{ form_widget(form.fuel_id, {'attr': {'class': 'hidden-type'}})}}
+                <select-static class='select-element select-static'
+                    data-placeholder='Énergie du véhicule'
+                    data-id='car_filter_fuel_id'
+                    data-name='car_filter[fuel_id][]'
+                    data-url='/fuel'
+                ></select-static>
             </div>
-            <div class="filter-input input-text">
-                <js-search-static
-                    data-placeholder="Toutes les boites"
-                    data-id="gearbox_filter"
-                    data-name="gearbox_filter"
-                    data-query="/gearbox"
-                    {% if filter.gearbox[0] is defined %}
-                        data-selected="{{ filter.gearbox[0] }}"
-                    {% endif %}
-                ></js-search-static>
+            <div class="search-container">
+                {{ form_widget(form.gearbox_id, {'attr': {'class': 'hidden-type'}})}}
+                <search-static class='search-element search-static'
+                    data-placeholder='Boite du véhicule'
+                    data-id='car_filter_gearbox_id'
+                    data-name='car_filter[gearbox_id]'
+                    data-url='/gearbox'
+                ></search-static>
             </div>
-            <div class="filter-input filter-submit">
-                <button type="submit" class="btn btn-primary">Rechercher</button>
-                {% if filter is defined %}
-                    <button class="btn btn-danger btn-clear-filter">Annuler</button>
-                {% endif %}
+            <div class="submit">
+                {{ form_widget(form.submit) }}
             </div>
-        </form>
+        {{ form_end(form) }}
     </div>
 </section>

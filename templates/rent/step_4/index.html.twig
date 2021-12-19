@@ -11,7 +11,7 @@
             <img class="car-recap-img" src="/images/temp/m2.jpg" alt="Voiture">
             <div class="car-recap-specs">
                 <section class="specs-title">
-                    <h4>{{ car.brand }} {{ car.model }}</h4>
+                    <h4>{{ car.brand.brand }} {{ car.model.model }}</h4>
                 </section>
                 <section class="specs-content">
                     <div class="spec">
@@ -24,15 +24,15 @@
                     </div>
                     <div class="spec">
                         <p><strong>Boite</strong></p>
-                        <p>{{ car.gearbox }}</p>
+                        <p>{{ car.gearbox.gearbox }}</p>
                     </div>
                     <div class="spec">
                         <p><strong>Énergie</strong></p>
-                        <p>{{ car.fuel }}</p>
+                        <p>{{ car.fuel.fuel }}</p>
                     </div>
                     <div class="spec">
                         <p><strong>Couleur</strong></p>
-                        <p>{{ car.color }}</p>
+                        <p>{{ car.color.color }}</p>
                     </div>
                 </section>
             </div>
@@ -48,7 +48,7 @@
                 </section>
                 <section class="content">
                     <div class="element">
-                        <p>{{ car.daily_price }} pour 24h</p>
+                        <p>{{ car.daily_price }}€ pour 24h</p>
                     </div>
                     <div class="element">
                         <p>Durée de {{ rent_day_duration }} jour(s)</p>

@@ -4,48 +4,49 @@
 
 {% block body %}
     <main id="rent_step_1">
-        <form id="rent_step_1_form" action="{{ path('car_list') }}" method="POST">
+        {{ form_start(form, {'attr': {'class' : 'rent_step_1_form'}})}}
             <div class="container">
-                <input type="hidden" name="token" value="{{ csrf_token('token') }}">
                 <h4>Réserver votre véhicule dès maintenant.</h4>
                 <div class="container-input">
                     <section class="office-selector">
-                        <div class="office-pickup input-text">
-                            <label>Agence de départ :</label>
-                            <js-search-dynamic
-                                data-placeholder="Entrez une ville ou code postal"
-                                data-id="office-pickup-input"
-                                data-name="pickup_office"
-                                data-query="/office"
-                            ></js-search-dynamic>
-                        </div>
-                        <div class="office-return input-text">
-                            <div>
-                                <input type="checkbox" id="same-return-office" checked>
-                                <label for="same-return-office">Agence de retour identique à l’agence de départ :</label>
+                            <div class="search-container office-pickup">
+                                {{ form_widget(form.pickup_office, {'attr': {'class': 'hidden-type'}})}}
+                                <label for="pickup_office">Agence de départ :</label>
+                                <search-dynamic class='search-element search-dynamic'
+                                    data-placeholder='Entrez une ville ou code postal'
+                                    data-id='user_reservation_pickup_office'
+                                    data-name='user_reservation[pickup_office]'
+                                    data-url='/office'
+                                ></search-dynamic>
                             </div>
-                             <js-search-dynamic
-                                data-placeholder="Entrez une ville ou code postal"
-                                data-id="office-return-input"
-                                data-name="return_office"
-                                data-query="/office"
-                            ></js-search-dynamic>
-                        </div>
+                            <div class="search-container office-return">
+                                <div>
+                                    <input type="checkbox" id="same-return-office" checked>
+                                    <label for="same-return-office">Agence de retour identique à l’agence de départ :</label>
+                                </div>
+                                {{ form_widget(form.return_office, {'attr': {'class': 'hidden-type'}})}}
+                                <search-dynamic class='search-element search-dynamic'
+                                    data-placeholder='Entrez une ville ou code postal'
+                                    data-id='user_reservation_return_office'
+                                    data-name='user_reservation[return_office]'
+                                    data-url='/office'
+                                ></search-dynamic>
+                            </div>
                     </section>
                     <section class="start-date input-date">
                         <label for="start-date-input">Date de départ :</label>
-                        <input type="date" id="start-date-input" name="start_date" required>
+                        {{ form_widget(form.pickup_date) }}
                     </section>
                     <section class="end-date input-date">
                         <label for="end-date-input">Date de retour :</label>
-                        <input type="date" id="end-date-input" name="end_date" required>
+                        {{ form_widget(form.return_date) }}
                     </section>
                 </div>
                 <div class="form-button">
                     <button type='submit' class="btn btn-success" aria-label="Rechercher un véhicule">Rechercher</button>
                 </div>
             </div>
-        </form>
+        {{ form_end(form)}}
         {% cache 'step_1_tuto' %}
             <section class="tuto-container">
                 <h3>Comment effectuer votre réservation ?</h3>
