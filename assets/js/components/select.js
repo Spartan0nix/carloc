@@ -163,25 +163,6 @@ export class Select extends HTMLElement
             }
         })
 
-        // this.input.addEventListener('input', (event) => {
-        //     // Reset the content of the result_list
-        //     this.result_list.innerHTML = ''
-        //     // Filter the results based on the user input
-        //     let filtered_results = this.data.filter(result => {
-        //         let keys = Object.keys(result)
-        //         return result[keys[1]].toLowerCase().includes(event.target.value.toLowerCase())
-        //     })
-            
-        //     filtered_results.forEach(result => {
-        //         let keys = Object.keys(result)
-        //         let li = this.buildListItem(result[keys[0]], result[keys[1]])
-        //         this.result_list.appendChild(li)
-        //     })
-
-        //     const results_list = this.result_container.querySelectorAll('.select-result-item')
-        //     this.resultListItemsListener(results_list)
-        // })
-
         window.addEventListener('click', (event) => {
             if(this.list_open) {
                 if(!event.target.closest('.select-element')) {
@@ -191,37 +172,6 @@ export class Select extends HTMLElement
             }
         })
 
-    }
-
-    /**
-     * Load fixtures for local testing
-     * @param {Array} fixtures 
-     */
-    loadFixtures(fixtures) {
-        fixtures.forEach(element => {
-            let li = document.createElement('li')
-            li.classList.add('select-result-item')
-            li.innerHTML = element.name
-            li.id = element.id
-            this.result_list.appendChild(li)
-        })
-    }
-
-    /**
-     * Load Defaults selected values
-     * @param {Object} selected_values 
-     */
-    loadSelectedValues(selected_values) {
-        if(selected_values.length != 0){
-            selected_values.forEach(selected_value => {
-                let tag = document.createElement('div')
-                tag.classList.add('select-input-tag')
-                tag.dataset.reference = selected_value.value
-                tag.innerHTML = selected_value.innerHTML
-                this.input_container.insertBefore(tag, this.input)
-                this.input_container.dispatchEvent(new Event('update-tag-listener'))
-            })
-        }
     }
 
     /**
