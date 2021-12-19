@@ -27,22 +27,22 @@
             <div class='input-text department-container'>
                 {{ form_widget(form.department_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='office_department'>Département :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='department_input'
-                    data-name='department_id'
-                    data-query='/department'
-                ></js-search-dynamic>
+                    data-id='admin_office_department_id'
+                    data-name='admin_office[department_id]'
+                    data-url='/department'
+                ></search-dynamic>
             </div>
             <div class='input-text city-container'>
                 {{ form_widget(form.city_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='office_city'>Ville :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='city_input'
-                    data-name='city_id'
-                    data-query='/city'
-                ></js-search-dynamic>
+                    data-id='admin_office_city_id'
+                    data-name='admin_office[city_id]'
+                    data-url='/city'
+                ></search-dynamic>
             </div>
         </div>
         <div class='submit'>
