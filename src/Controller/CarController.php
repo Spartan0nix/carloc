@@ -19,90 +19,42 @@ class CarController extends AbstractController
         private CarNormalizer $normalizer
     ) {}
 
+    private function createFilter($form_data) {
+        return [
+            'brand_id' => $form_data['brand_id']->map(fn($brand) => $brand->getId())->toArray(),
+            'model_id' => $form_data['model_id']->map(fn($model) => $model->getId())->toArray(),
+            'type_id' => $form_data['type_id']->map(fn($type) => $type->getId())->toArray(),
+            'fuel_id' => $form_data['fuel_id']->map(fn($fuel) => $fuel->getId())->toArray(),
+            'gearbox_id' => $form_data['gearbox_id'] != null ? $form_data['gearbox_id']->getId() : ''
+        ];
+    }
+
     /**
      * List available car
      * @param Request $request
      * @return void
      */
-    #[Route('/voitures', name: 'car_list', methods: ["POST"])]
+    #[Route('/voitures', name: 'car_list', methods: ["GET", "POST"])]
     public function listAvailableCar(Request $request) {
+        $rent_info = $this->session->get('rent_info');
+        if(!$rent_info) {
+            return $this->redirectToRoute('office_list');
+        }
+
         $form = $this->createForm(CarFilterType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('car_list_filter', $form->getData(), 307);
+            $cars = $this->repository->filterAvailableCar($rent_info['pickup_office'], $this->createFilter($form->getData()));
+        } else {
+            $cars = $this->repository->findAvailableCar($rent_info['pickup_office']);
         }
 
-        $req = $request->request->all();
-
-        if(!isset($req['user_reservation']) || empty($req['user_reservation'])) {
-            return $this->redirectToRoute('office_list');
-        }
-    
-        $pickup_office = $req['user_reservation']['pickup_office'];
-        $return_office = $req['user_reservation']['return_office'];
-        if($return_office === '') {
-            $return_office = $pickup_office;
-        }
-
-        $this->session->set('rent_info', [
-            'pickup_office' => $pickup_office,
-            'return_office' => $return_office,
-            'pickup_date' => $req['user_reservation']['pickup_date'],
-            'return_date' => $req['user_reservation']['return_date']
-        ]);
-
-        $cars = $this->repository->findAvailableCar($pickup_office);
         $normalize_cars = [];
         foreach($cars as $car) {
             array_push($normalize_cars, $this->normalizer->normalize($car));
         }
  
-        return $this->render('rent/step_2/index.html.twig', [
-            'cars' => $normalize_cars,
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * Filter available car
-     * @param Request $request
-     * @return Response
-     */
-    #[Route('/voitures/filtre', name:'car_list_filter', methods: ["POST"])]
-    public function filterAvailableCar(Request $request): Response {
-        $form = $this->createForm(CarFilterType::class);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){}
-
-        $req = $request->request->all();
-        if(!isset($req['car_filter']) || empty($req['car_filter'])) {
-            return $this->redirectToRoute('car_list');
-        }
-
-        $rent_info = $this->session->get('rent_info');
-        if(!isset($rent_info) || empty($rent_info)) {
-            return $this->redirectToRoute('office_list');
-        }
-
-        $filter_data = $req['car_filter'];
-        unset($filter_data['submit']);
-        unset($filter_data['_token']);
-
-        $cars = $this->repository->filterAvailableCar($rent_info['pickup_office'], $filter_data);
-
-        if(!$cars) {
-            return $this->render('rent/step_2/not_found.html.twig', [
-                'form' => $form->createView()
-            ]);
-        }
-
-        $normalize_cars = [];
-        foreach($cars as $car) {
-            array_push($normalize_cars, $this->normalizer->normalize($car));
-        }
-
         return $this->render('rent/step_2/index.html.twig', [
             'cars' => $normalize_cars,
             'form' => $form->createView()
