@@ -1,0 +1,116 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title 'Ajouter des véhicules' %}
+
+{% block body %}
+<main id='admin_car_add' class='admin_crud_create'>
+    <div class="header">
+        <h2>Ajouter des véhicules</h2>
+    </div>
+    <div class="form">
+    {{ form_start(form) }}
+        <div class="grid-two">
+            <div class="input-text">
+                <label>Chevaux :</label>
+                {{ form_widget(form.horsepower)}}
+            </div>
+            <div class="input-text">
+                <label>Prix / jour :</label>
+                {{ form_widget(form.daily_price)}}
+            </div>
+        </div>
+        <div class="grid-two">
+            <div class="input-text">
+                <label>Date de sortie :</label>
+                {{ form_widget(form.release_year)}}
+            </div>
+            <div class="input-text">
+                <label>Description :</label>
+                {{ form_widget(form.description)}}
+            </div>
+        </div>
+        <div class="grid-two">
+            <div class="search-container brand-container">
+                {{ form_widget(form.brand_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for="car_brand">Marque :</label>
+                <search-dynamic class='search-element search-dynamic'
+                    data-placeholder='Marque du véhicule.'
+                    data-id='admin_car_brand_id'
+                    data-name='admin_car[brand_id]'
+                    data-url='/brand'
+                ></search-dynamic>
+            </div>
+            <div class="search-container model-container">
+                {{ form_widget(form.model_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for="car_model">Modèle :</label>
+                <search-dynamic class='search-element search-dynamic'
+                    data-placeholder='Modèle du véhicule.'
+                    data-id='admin_car_model_id'
+                    data-name='admin_car[model_id]'
+                    data-url='/model'
+                ></search-dynamic>
+            </div>
+        </div>
+        <div class="grid-two">
+            <div class="search-container fuel-container">
+                {{ form_widget(form.fuel_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for="car_fuel">Énergie :</label>
+                <search-static class='search-element search-static'
+                    data-placeholder='Énergie du véhicule.'
+                    data-id='admin_car_fuel_id'
+                    data-name='admin_car[fuel_id]'
+                    data-url='/fuel'
+                ></search-static>
+            </div>
+            <div class="search-container gearbox-container">
+                {{ form_widget(form.gearbox_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for="car_gearbox">Boite de vitesse :</label>
+                <search-static class='search-element search-static'
+                    data-placeholder='Boite du véhicule.'
+                    data-id='admin_car_gearbox_id'
+                    data-name='admin_car[gearbox_id]'
+                    data-url='/gearbox'
+                ></search-static>
+            </div>
+        </div>
+        <div class="grid-two">
+            <div class="search-container color-container">
+                {{ form_widget(form.color_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for="car_color">Couleur :</label>
+                <search-dynamic class='search-element search-dynamic'
+                    data-placeholder='Couleur du véhicule.'
+                    data-id='admin_car_color_id'
+                    data-name='admin_car[color_id]'
+                    data-url='/color'
+                ></search-dynamic>
+            </div>
+            <div class="select-container type-container">
+                {{ form_widget(form.type_id, {'attr': {'class': 'hidden-type'}})}}
+                <label for="admin_car_type_id">Type(s) :</label>
+                <select-static class='select-element select-static'
+                    data-placeholder='Type(s) du véhicule.'
+                    data-id='admin_car_type_id'
+                    data-name='admin_car[type_id][]'
+                    data-url='/type'
+                >
+                </select-static>
+            </div>
+        </div>
+        <div class="search-container office-container">
+            {{ form_widget(form.office_id, {'attr': {'class': 'hidden-type'}})}}
+            <label for="car_office">Agence :</label>
+            <search-dynamic class='search-element search-dynamic'
+                data-placeholder='Agent de départ.'
+                data-id='admin_car_office_id'
+                data-name='admin_car[office_id]'
+                data-url='/office'
+            ></search-dynamic>
+        </div>
+        <div class="submit">
+            {{ form_widget(form.submit) }}
+        </div>
+    {{ form_end(form) }}
+    </div>
+</main>
+
+{% endblock %}

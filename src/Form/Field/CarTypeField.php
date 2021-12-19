@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller\Admin\Form;
+namespace App\Form\Field;
 
-use App\Entity\User;
+use App\Entity\Car;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class UserTypeField extends TextType implements DataTransformerInterface
+class CarTypeField extends TextType implements DataTransformerInterface
 {
     public function __construct(private EntityManagerInterface $em) {}
 
@@ -17,19 +17,19 @@ class UserTypeField extends TextType implements DataTransformerInterface
         $builder->addViewTransformer($this);
     }
 
-    public function transform($user)
+    public function transform($car)
     {
-        return null === $user ? '' : $user->getId();
+        return null === $car ? '' : $car->getId();
     }
 
-    public function reverseTransform($userId)
+    public function reverseTransform($carId)
     {
-        if(!$userId) {
+        if(!$carId) {
             return null;
         }
 
-        $user = $this->em->getRepository(User::class)->find($userId);
+        $car = $this->em->getRepository(Car::class)->find($carId);
 
-        return $user;
+        return $car;
     }
 }

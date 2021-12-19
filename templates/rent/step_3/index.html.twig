@@ -6,13 +6,13 @@
     <main id="rent_step_3">
         <div class="wrapper">
             <section class="car-title">
-                <h3> {{ car.brand }} - {{ car.model }}</h3>
+                <h3> {{ car.brand.brand }} - {{ car.model.model }}</h3>
             </section>
             <section class="car-image">
                 <img src="/images/temp/m2.jpg" alt="image voiture">
             </section>
             <form class="car-price" method="POST" action="{{ path('rent_recap') }}">
-                <input type="hidden" name="carId" value={{ car.id }}>
+                <input type="hidden" name="car_id" value={{ car.id }}>
                 <h4>Prix TTC : {{ car.daily_price }} / 24h</h4>
                 <button class="btn">Réserver</button>
             </form>
@@ -35,15 +35,15 @@
                         </div>
                         <div class="spec">
                             <p><strong>Boite</strong></p>
-                            <p>{{ car.gearbox }}</p>
+                            <p>{{ car.gearbox.gearbox }}</p>
                         </div>
                         <div class="spec">
                             <p><strong>Énergie</strong></p>
-                            <p>{{ car.fuel }}</p>
+                            <p>{{ car.fuel.fuel }}</p>
                         </div>
                         <div class="spec">
                             <p><strong>Couleur</strong></p>
-                            <p>{{ car.color }}</p>
+                            <p>{{ car.color.color }}</p>
                         </div>
                     </section>
                 </div>

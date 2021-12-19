@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Form;
 
+use App\Form\Field\DepartmentTypeField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

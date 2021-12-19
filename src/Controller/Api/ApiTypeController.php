@@ -35,4 +35,23 @@ class ApiTypeController extends AbstractController
             'data' => $array
         ),200);
     }
+
+    #[Route('/api/search/type_id', name: 'api_type_search_id', methods:['GET'])]
+    public function getTypeId(Request $request, TypeRepository $repository) {
+        $id = $request->query->get('id');
+        $type = $repository->findOneBy(['id' => $id]);
+
+        if(!$type) {
+            return new JsonResponse([
+                'message' => "Aucun type trouvé."
+            ], 404);
+        }
+
+        return new JsonResponse([
+            'data' => [
+                'id' => $type->getId(),
+                'color' => $type->getType(),
+            ]
+        ], 200);
+    }
 }

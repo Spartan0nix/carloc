@@ -1,5 +1,7 @@
 import { Alert } from './components/alert';
-import { DynamicSearch, StaticSearch } from './components/search';
+import { DynamicSearch, StaticSearch } from './components/old_search';
+
+import { SearchDynamic, SearchStatic } from './components/search';
 
 import { DynamicSelect, StaticSelect } from './components/old_select';
 
@@ -17,6 +19,9 @@ customElements.define('js-select-dynamic', DynamicSelect);
 
 customElements.define('select-dynamic', SelectDynamic)
 customElements.define('select-static', SelectStatic)
+
+customElements.define('search-dynamic', SearchDynamic)
+customElements.define('search-static', SearchStatic)
 
 
 

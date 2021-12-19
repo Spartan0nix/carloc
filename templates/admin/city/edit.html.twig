@@ -3,7 +3,7 @@
 {% block title 'Modification de la ville' %}
 
 {% block body %}
-<main id='admin_city_edit' class='admin_crud_edit admin_city_search'>
+<main id='admin_city_edit' class='admin_crud_edit'>
     <div class="header">
         <h2>Modification de la ville</h2>
     </div>
@@ -17,15 +17,15 @@
             <label>Code</label>
             {{ form_widget(form.code)}}
         </div>
-        <div class='input-text department-container'>
+        <div class='search-container department-container'>
             {{ form_widget(form.department_id, {'attr': {'class': 'hidden-type'}})}}
-            <label for='office_department'>Département :</label>
-            <js-search-dynamic
-                data-placeholder=''
-                data-id='department_input'
-                data-name='department_id'
-                data-query='/department'
-            ></js-search-dynamic>
+            <label for='city_department'>Département :</label>
+            <search-dynamic class='search-element search-dynamic'
+                data-placeholder='Sélectionner un département'
+                data-id='admin_city_department_id'
+                data-name='admin_city[department_id]'
+                data-url='/department'
+            ></search-dynamic>
         </div>
         <div class="submit">
             {{ form_widget(form.submit) }}

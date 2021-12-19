@@ -132,7 +132,7 @@ class SecurityController extends AbstractController
                 ])
             ];
         
-        return $this->render('security/account.html.twig', [
+        return $this->render('user/account.html.twig', [
             'user' => $data
         ]);
     }

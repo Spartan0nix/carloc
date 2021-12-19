@@ -3,7 +3,7 @@
 {% block title "Ajouter des locations" %}
 
 {% block body %}
-<main id='admin_rent_add' class='admin_crud_create admin_rent_search'>
+<main id='admin_rent_add' class='admin_crud_create'>
     <div class='header'>
         <h2>Ajouter des locations</h2>
     </div>
@@ -24,58 +24,58 @@
             </div>
         </div>
         <div class='grid-two'>
-            <div class='input-text pickup-office-container'>
+            <div class='search-container pickup-office-container'>
                 {{ form_widget(form.pickup_office_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='rent_pickup_office'>Agence de départ :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='pickup_office_input'
-                    data-name='pickup_office_id'
-                    data-query='/office'
-                ></js-search-dynamic>
+                    data-id='admin_rent_pickup_office_id'
+                    data-name='admin_rent[pickup_office_id]'
+                    data-url='/office'
+                ></search-dynamic>
             </div>
-            <div class='input-text return-office-container'>
+            <div class='search-container return-office-container'>
                 {{ form_widget(form.return_office_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='rent_return_office'>Agence de retour :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='return_office_input'
-                    data-name='return_office_id'
-                    data-query='/office'
-                ></js-search-dynamic>
+                    data-id='admin_rent_return_office_id'
+                    data-name='admin_rent[return_office_id]'
+                    data-url='/office'
+                ></search-dynamic>
             </div>
         </div>
         <div class='grid-two'>
-            <div class='input-text user-container'>
+            <div class='search-container user-container'>
                 {{ form_widget(form.user_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='rent_user'>Utilisateur :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='user_input'
-                    data-name='user_id'
-                    data-query='/user'
-                ></js-search-dynamic>
+                    data-id='admin_rent_user_id'
+                    data-name='admin_rent[user_id]'
+                    data-url='/user'
+                ></search-dynamic>
             </div>
-            <div class='input-text car-container'>
+            <div class='search-container car-container'>
                 {{ form_widget(form.car_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='rent_car'>Véhicule :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='car_input'
-                    data-name='car_id'
-                    data-query='/car'
-                ></js-search-dynamic>
+                    data-id='admin_rent_car_id'
+                    data-name='admin_rent[car_id]'
+                    data-url='/car'
+                ></search-dynamic>
             </div>
         </div>
-        <div class='input-text status-container'>
+        <div class='search-container status-container'>
             {{ form_widget(form.status_id, {'attr': {'class': 'hidden-type'}})}}
             <label for='rent_status'>État :</label>
-            <js-search-static
+            <search-static class='search-element search-static'
                 data-placeholder=''
-                data-id='status_input'
-                data-name='status_id'
-                data-query='/status'
-            ></js-search-static>
+                data-id='admin_rent_status_id'
+                data-name='admin_rent[status_id]'
+                data-url='/status'
+            ></search-static>
         </div>
         <div class='submit'>
             {{ form_widget(form.submit) }}

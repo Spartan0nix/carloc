@@ -15,7 +15,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class UserController extends AbstractController
 {
-    #[Route('/account/change-identity', name:'user_change_identity')]
+    #[Route('/user/change-identity', name:'user_change_identity')]
     public function changeIdentity(Request $request, EntityManagerInterface $em, GuardAuthenticatorHandler $guardAuthenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator){
         $user = $this->getUser();
         if(!$user){
@@ -53,7 +53,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('auth_account');
     }
 
-    #[Route('/account/change-address', name:'user_change_address')]
+    #[Route('/user/change-address', name:'user_change_address')]
     public function changeAddress(Request $request, EntityManagerInterface $em): Response {
         $user = $this->getUser();
         if(!$user){
@@ -122,7 +122,7 @@ class UserController extends AbstractController
             ]);
         }
 
-        return $this->render('security/rent_list.html.twig', [
+        return $this->render('user/rent_list.html.twig', [
             'rents' => $normalize_rents
         ]);
     }
@@ -172,7 +172,7 @@ class UserController extends AbstractController
                 ]
             ]);
         }
-        return $this->render('security/rent_cancel.html.twig', [
+        return $this->render('user/rent_cancel.html.twig', [
             'rents' => $normalize_rents
         ]);
     }

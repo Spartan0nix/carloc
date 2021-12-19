@@ -43,7 +43,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->orWhere('u.first_name LIKE :val')
             ->setParameter('val', '%'.$user.'%')
             ->orderBy('u.id', 'ASC')
-            ->setMaxResults(8)
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult()
         ;

@@ -16,16 +16,16 @@ class CarControllerTest extends WebTestCase
     public function testListAvailableCar(): void {
         $client = $this->createClient();
         $container = $client->getContainer();
-        $csrf_token = $container->get('security.csrf.token_manager')->refreshToken('token');
         $offices = $this->load(['office'], $container);
         $office_id = $offices['office1']->getId();
     
         $client->request('POST', '/voitures', [
-            'pickup_office' => $office_id,
-            'return_office' => $office_id,
-            'start_date' => date('Y-M-D'),
-            'end_date' => date('Y-M-D', strtotime(date('Y-M-D'). '+ 2 days')),
-            'token' => $csrf_token
+            'user_reservation' => [
+                'pickup_office' => $office_id,
+                'return_office' => $office_id,
+                'pickup_date' => date('Y-M-D'),
+                'return_date' => date('Y-M-D', strtotime(date('Y-M-D'). '+ 2 days')),
+            ]
         ]);
         
         $this->assertResponseIsSuccessful($client->getResponse());
@@ -35,26 +35,32 @@ class CarControllerTest extends WebTestCase
         $request = New Request();
         $request->setSession(new Session((new MockArraySessionStorage())));
         $container = $this->createClient()->getContainer();
-        $csrf_token = $container->get('security.csrf.token_manager')->refreshToken('token');
+        $csrf_token = $container->get('security.csrf.token_manager')->refreshToken('_token');
         $data = $this->load(['office', 'brand', 'model', 'type', 'fuel', 'gearbox'], $container);
 
-        $request->getSession()->set('rentInfo', [
+        $request->getSession()->set('rent_info', [
             'pickup_office' => $data['office1']->getId()
         ]);
 
         $request->create('/voitures/filtre', 'GET', [
-            'brand_filter' => [
-                '0' => $data['bmw']->getId()
-             ],
-             'model_filter' => [
-                 '0' => $data['m2']->getId()
-             ],
-             'type_filter' => [
-                 '0' => $data['sportive']->getId()
-             ],
-             'fuel_filter' => $data['essence']->getId(),
-             'gearbox_filter' => $data['manuelle']->getId(),
-             'token' => $csrf_token
+            'car_filter' => [
+                'brand_id' => [
+                    '0' => $data['bmw']->getId()
+                ],
+                'model_id' => [
+                    '0' => $data['m2']->getId()
+                ],
+                'type_id' => [
+                    '0' => $data['sportive']->getId()
+                ],
+                'fuel_id' => [
+                    '0' => $data['essence']->getId()
+                ],
+                'gearbox_id' => [
+                    '0' => $data['manuelle']->getId()
+                ],
+                '_token' => $csrf_token
+            ]
         ]);
 
         $response = new Response();

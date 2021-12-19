@@ -14,7 +14,7 @@ class ApiBrandControllerTest extends WebTestCase
         $data = $this->load(['brand'], $client->getContainer());
 
         $client->request('GET', '/api/search/brand', [
-            'q' => 'bmw'
+            'q' => $data['bmw']->getBrand()
         ]);
 
         $json_response = $client->getResponse()->getContent();
