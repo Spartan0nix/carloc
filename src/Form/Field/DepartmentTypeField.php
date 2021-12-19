@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Form;
+namespace App\Form\Field;
 
 use App\Entity\Address\Department;
 use Doctrine\ORM\EntityManagerInterface;

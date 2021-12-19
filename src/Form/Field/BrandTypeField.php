@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller\Admin\Form;
+namespace App\Form\Field;
 
-use App\Entity\Address\City;
+use App\Entity\Components\Brand;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class CityTypeField extends TextType implements DataTransformerInterface
+class BrandTypeField extends TextType implements DataTransformerInterface
 {
     public function __construct(private EntityManagerInterface $em) {}
 
@@ -17,20 +17,20 @@ class CityTypeField extends TextType implements DataTransformerInterface
         $builder->addModelTransformer($this);
     }
 
-    public function transform($city): string
+    public function transform($brand): string
     {
-        return null === $city ? '' : $city->getId();
+        return null === $brand ? '' : $brand->getId();
     }
 
-    public function reverseTransform($cityId): ?City
+    public function reverseTransform($brandId): ?Brand
     {
-        if(!$cityId){
+        if(!$brandId){
             return null;
         }
 
-        $city = $this->em->getRepository(City::class)->find($cityId);
+        $brand = $this->em->getRepository(Brand::class)->find($brandId);
 
-        return $city;
+        return $brand;
 
     }
 }
