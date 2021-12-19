@@ -9,7 +9,7 @@ use App\Entity\Rent;
 use App\Entity\Status;
 use App\Normalizer\CarNormalizer;
 use App\Repository\CarRepository;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RentController extends AbstractController
 {
+    public function __construct(private SessionInterface $session){}
 
-    public function calculDuration(string $start_date, string $end_date): string {
-        $rent_start = DateTime::createFromFormat('Y-m-d', $start_date);
-        $rent_end = DateTime::createFromFormat('Y-m-d', $end_date);
-
-        return intval(date_diff($rent_start, $rent_end)->format('%a'));
+    public function calculDuration(DateTimeInterface $start_date, DateTimeInterface $end_date): string {
+        return intval(date_diff($start_date, $end_date)->format('%a'));
     }
 
     public function calculReduction(string $rent_day_duration): float {
@@ -44,33 +42,25 @@ class RentController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/location/recapitulatif', name:'rent_recap', methods: ['POST', 'GET'])]
-    public function summary(Request $request, CarRepository $repository, Session $session, CarNormalizer $normalizer): Response {
-        $rent_info = $session->get('rent_info');
-        if(!$rent_info){
-            return $this->redirectToRoute('office_list');
-        }
-        
-        $req = $request->request->all();
-        if(!isset($req['car_id'])){
-            $session->getFlashBag()->add('error', 'Erreur lors de la validation de votre requête.');
-            return $this->redirectToRoute('car_list');
-        }
-
+    #[Route('/location/{id}/recapitulatif', name:'rent_recap', methods: ['GET'])]
+    public function summary(String $id, CarRepository $repository, CarNormalizer $normalizer): Response {
         if(!$this->getUser()){
-            $session->set('redirect', array(
+            $this->session->set('redirect', array(
                 'redirect' => true,
                 'from' => 'rent_recap',
                 'param' => [
-                    'car_id' => $req['car_id']
+                    'id' => $id
                 ]
             ));
             return $this->redirectToRoute('auth_login');
         }
 
-        $session->get('redirect') ? $session->remove('redirect') : '';
+        $rent_info = $this->session->get('rent_info');
+        if(!$rent_info){
+            return $this->redirectToRoute('office_list');
+        }
 
-        $car = $repository->findOneBy(['id' => $req['car_id']]);
+        $car = $repository->findOneBy(['id' => $id]);
         $normalize_car = $normalizer->normalize($car);
 
         $daily_price = intval($normalize_car['daily_price']);
@@ -93,35 +83,34 @@ class RentController extends AbstractController
      * @return Response
      */
     #[Route('/location/confirmation', name:'rent_confirm', methods: ['POST'])]
-    public function confirm(Request $request, EntityManagerInterface $em, Session $session): Response {
-        $rent_info = $session->get('rent_info');
+    public function confirm(Request $request, EntityManagerInterface $em): Response {
+        $rent_info = $this->session->get('rent_info');
         if(!$rent_info) {
             return $this->redirectToRoute('office_list');
         }
 
         $req = $request->request->all();
         if(!$req['car_id']) {
-            $session->getFlashBag()->add('error', 'Erreur lors de la validation de votre requête.');
+            $this->addFlash('error', 'Erreur lors de la validation de votre requête.');
             return $this->redirectToRoute('car_list');
         }
 
-        $car_id = $req['car_id'];
         $user = $this->getUser();
         if(!$user){
-            $session->getFlashBag()->add('error', 'Vous devez vous authentifier pour effectuer cette action.');
+            $this->addFlash('error', 'Vous devez vous authentifier pour effectuer cette action.');
             return $this->redirectToRoute('auth_login');
         }
 
-        $existing_rent = $em->getRepository(Rent::class)->findOneBy(['car_id' => $car_id]);
+        $existing_rent = $em->getRepository(Rent::class)->findOneBy(['car_id' => $req['car_id']]);
         if($existing_rent){
-            $session->getFlashBag()->add('warning', 'Ce véhicule est déjà associé à une location.');
+            $this->addFlash('warning', 'Ce véhicule est déjà associé à une location.');
             return $this->redirectToRoute('car_list');
         }
 
-        $car = $em->getRepository(Car::class)->find($car_id);
+        $car = $em->getRepository(Car::class)->find($req['car_id']);
         $status = $em->getRepository(Status::class)->find(2);
         $pickup_office = $em->getRepository(Office::class)->find($rent_info['pickup_office']);
-
+        
         if($rent_info['pickup_office'] === $rent_info['return_office']){
             $return_office = $pickup_office;
         } else {
@@ -129,13 +118,11 @@ class RentController extends AbstractController
         }
 
         $rent_price = (int) $req['rent_price'];
-        $rent_start = DateTime::createFromFormat('Y-m-d', $rent_info['pickup_date']);
-        $rent_end = DateTime::createFromFormat('Y-m-d', $rent_info['return_date']);
 
         $rent = new Rent();
         $rent->setPrice($rent_price);
-        $rent->setPickupDate($rent_start);
-        $rent->setReturnDate($rent_end);
+        $rent->setPickupDate($rent_info['pickup_date']);
+        $rent->setReturnDate($rent_info['return_date']);
         $rent->setPickupOfficeId($pickup_office);
         $rent->setReturnOfficeId($return_office);
         $rent->setUserId($user);
@@ -144,7 +131,7 @@ class RentController extends AbstractController
 
         $em->persist($rent);
         $em->flush();
-        $session->remove('rent_info');
+        $this->session->remove('rent_info');
     
         return $this->render('rent/step_5/index.html.twig');
     }
