@@ -47,7 +47,7 @@ class CarRepository extends ServiceEntityRepository
         }
         if(isset($filter_data['gearbox_id']) && !empty($filter_data['gearbox_id'])) {
             $query->andWhere('c.gearbox_id = :gearbox_id')
-                  ->setParameter('gearbox_id', $filter_data['gearbox_id'][0])
+                  ->setParameter('gearbox_id', $filter_data['gearbox_id'])
             ;
         }
         if(isset($filter_data['brand_id']) && !empty($filter_data['brand_id'])) {
