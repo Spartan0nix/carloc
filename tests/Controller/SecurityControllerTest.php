@@ -13,19 +13,22 @@ class SecurityControllerTest extends WebTestCase
 
     public function testLogin(): void {
         $client = $this->createClient();
-        $this->load(['user'], $client->getContainer());
+        $data = $this->load(['user'], $client->getContainer());
         $crawler = $client->request('GET', '/connexion');
-
-        $button = $crawler->selectButton('btn-form-submit');
-        $client->followRedirects();
-
-        $form = $button->form();
-        $form['email'] = 'test@local.com';
-        $form['password'] = 'password';
-        $client->submit($form);
-
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h2', 'Mon compte');
+
+        dump($crawler);
+        // $button = $crawler->selectButton('btn-form-submit');
+        // $client->followRedirects();
+
+        // $form = $button->form();
+        // dump($data['admin']->getEmail());
+        // $form['email'] = $data['admin']->getEmail();
+        // $form['password'] = $data['admin']->getPassword();
+        // dump($data['admin']->getPassword());
+        // $client->submit($form);
+
+        // $this->assertSelectorTextContains('h2', 'Mon compte');
     }
 
     public function testRegister(): void {

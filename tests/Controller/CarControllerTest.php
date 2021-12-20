@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Tests\FixtureTrait;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,50 +19,17 @@ class CarControllerTest extends WebTestCase
         $container = $client->getContainer();
         $offices = $this->load(['office'], $container);
         $office_id = $offices['office1']->getId();
-    
-        $client->request('POST', '/voitures', [
-            'user_reservation' => [
-                'pickup_office' => $office_id,
-                'return_office' => $office_id,
-                'pickup_date' => date('Y-M-D'),
-                'return_date' => date('Y-M-D', strtotime(date('Y-M-D'). '+ 2 days')),
-            ]
-        ]);
-        
-        $this->assertResponseIsSuccessful($client->getResponse());
-    }
 
-    public function testFilterAvailableCar(): void {
-        $request = New Request();
-        $request->setSession(new Session((new MockArraySessionStorage())));
-        $container = $this->createClient()->getContainer();
-        $csrf_token = $container->get('security.csrf.token_manager')->refreshToken('_token');
-        $data = $this->load(['office', 'brand', 'model', 'type', 'fuel', 'gearbox'], $container);
-
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
         $request->getSession()->set('rent_info', [
-            'pickup_office' => $data['office1']->getId()
+            'pickup_office' => $office_id,
+            'return_office' => $office_id,
+            'pickup_date' =>  new DateTime('now'),
+            'return_date' =>  new DateTime('+2 day'),
         ]);
-
-        $request->create('/voitures/filtre', 'GET', [
-            'car_filter' => [
-                'brand_id' => [
-                    '0' => $data['bmw']->getId()
-                ],
-                'model_id' => [
-                    '0' => $data['m2']->getId()
-                ],
-                'type_id' => [
-                    '0' => $data['sportive']->getId()
-                ],
-                'fuel_id' => [
-                    '0' => $data['essence']->getId()
-                ],
-                'gearbox_id' => [
-                    '0' => $data['manuelle']->getId()
-                ],
-                '_token' => $csrf_token
-            ]
-        ]);
+    
+        $request->create('/voitures', 'GET');
 
         $response = new Response();
         $this->assertEquals(200, $response->getStatusCode());
