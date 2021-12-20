@@ -171,7 +171,7 @@ App\Entity\Status:
 App\Entity\User:
   user{1..10} (extends user):
   admin:
-    email: 'test@humblole.com'
+    email: 'test@test.com'
     roles: ['ROLE_USER', 'ROLE_ADMIN']
     password: <hashPassword('password')>
     last_name: 'test'

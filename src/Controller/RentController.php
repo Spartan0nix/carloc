@@ -14,7 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,18 +21,18 @@ class RentController extends AbstractController
 {
     public function __construct(private SessionInterface $session){}
 
-    public function calculDuration(DateTimeInterface $start_date, DateTimeInterface $end_date): string {
-        return intval(date_diff($start_date, $end_date)->format('%a'));
+    private function calculDuration(DateTimeInterface $start_date, DateTimeInterface $end_date): int {
+        return intval($start_date->diff($end_date)->format('%a'));
     }
 
-    public function calculReduction(string $rent_day_duration): float {
+    private function calculReduction(string $rent_day_duration): float {
         $reduction = (0.02) * $rent_day_duration;
         $reduction > 0.25 ? $reduction = 0.25 : '';
 
         return $reduction;
     }
 
-    public function calculTotalPrice(string $daily_price, string $rent_day_duration, string $reduction) {
+    private function calculTotalPrice(string $daily_price, string $rent_day_duration, string $reduction) {
         return ($daily_price * $rent_day_duration) - (($daily_price * $rent_day_duration)* $reduction);
     }
     

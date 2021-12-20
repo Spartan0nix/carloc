@@ -4,8 +4,10 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\BrowserKit\Request as BrowserKitRequest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -106,15 +108,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
-        }
+        // if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+        //     dump($targetPath);
+        //     return new RedirectResponse($targetPath);
+        // }
 
         if($this->session->get('redirect')) {
             $redirect = $this->session->get('redirect');
-            $params = isset($redirect['param']) ? $redirect['param'] : null;
+            $from = $redirect['from'];
+            $params = isset($redirect['param']) ? $redirect['param'] : [];
 
-            return new RedirectResponse($this->urlGenerator->generate($redirect['from'], $params), 307);
+            $this->session->remove('redirect');
+            return new RedirectResponse($this->urlGenerator->generate($from, $params));
         }
 
         return new RedirectResponse($this->urlGenerator->generate('auth_account'));
