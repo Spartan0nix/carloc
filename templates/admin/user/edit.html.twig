@@ -3,7 +3,7 @@
 {% block title "Modification de l'utilisateur " %}
 
 {% block body %}
-<main id='admin_user_edit' class='admin_crud_edit admin_user_search'>
+<main id='admin_user_edit' class='admin_crud_edit'>
     <div class='header'>
         <h2>Modification de l'utilisateur</h2>
     </div>
@@ -32,25 +32,25 @@
             {{ form_widget(form.address)}}
         </div>
         <div class='grid-two'>
-            <div class='input-text department-container'>
+            <div class='search-container department-container'>
                 {{ form_widget(form.department_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='user_department'>Département :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='department_input'
-                    data-name='department_id'
-                    data-query='/department'
-                ></js-search-dynamic>
+                    data-id='admin_user_department_id'
+                    data-name='admin_user[department_id]'
+                    data-url='/department'
+                ></search-dynamic>
             </div>
-            <div class='input-text city-container'>
+            <div class='search-container city-container'>
                 {{ form_widget(form.city_id, {'attr': {'class': 'hidden-type'}})}}
                 <label for='user_city'>Ville :</label>
-                <js-search-dynamic
+                <search-dynamic class='search-element search-dynamic'
                     data-placeholder=''
-                    data-id='city_input'
-                    data-name='city_id'
-                    data-query='/city'
-                ></js-search-dynamic>
+                    data-id='admin_user_city_id'
+                    data-name='admin_user[city_id]'
+                    data-url='/city'
+                ></search-dynamic>
             </div>
         </div>
         <div class='submit'>
