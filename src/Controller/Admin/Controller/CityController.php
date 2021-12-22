@@ -50,7 +50,7 @@ class CityController extends CrudController
         try {
             return $this->delete($id);
         } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $exception) {
-            $this->addFlash('error', 'Impossible de supprimer cette ville, car elle est associée à un ou plusieurs utilisateurs.');
+            $this->addFlash('error', 'Impossible de supprimer cette ville, car elle est associée à un ou plusieurs utilisateurs/agences.');
             return $this->redirectToRoute('admin_city_index');
         }
     }

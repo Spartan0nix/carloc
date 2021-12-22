@@ -30,22 +30,22 @@ class DepartmentController extends CrudController
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    #[Route('/admin/département', name:'admin_department_index')]
+    #[Route('/admin/departement', name:'admin_department_index')]
     public function index(DepartmentNormalizer $normalizer) {      
         return $this->read($normalizer);
     }
 
-    #[Route('/admin/département/ajouter', name:'admin_department_add')]
+    #[Route('/admin/departement/ajouter', name:'admin_department_add')]
     public function new() {
         return $this->create();
     }
 
-    #[Route('/admin/département/{id}/modifier', name:'admin_department_edit')]
+    #[Route('/admin/departement/{id}/modifier', name:'admin_department_edit')]
     public function edit(string $id) {
         return $this->update($id);  
     }
 
-    #[Route('/admin/département/{id}/supprimer', name:'admin_department_delete')]
+    #[Route('/admin/departement/{id}/supprimer', name:'admin_department_delete')]
     public function remove(string $id) {
         try {
             return $this->delete($id);

@@ -1,0 +1,23 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title "Modification de la couleur " %}
+
+{% block body %}
+<main id='admin_color_edit' class='admin_crud_edit'>
+    <div class="header">
+        <h2>Modification de la couleur</h2>
+    </div>
+    <div class="form">
+    {{ form_start(form) }}
+        <div class="input-text">
+            <label>Nom :</label>
+            {{ form_widget(form.color)}}
+        </div>
+        <div class="submit">
+            {{ form_widget(form.submit) }}
+        </div>
+    {{ form_end(form) }}
+    </div>
+</main>
+
+{% endblock %}

@@ -30,27 +30,27 @@ class GearboxController extends CrudController
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    #[Route('/admin/boite-vitesse', name:'admin_gearbox_index')]
+    #[Route('/admin/boites-vitesse', name:'admin_gearbox_index')]
     public function index(GearboxNormalizer $normalizer) {      
         return $this->read($normalizer);
     }
 
-    #[Route('/admin/boite-vitesse/ajouter', name:'admin_gearbox_add')]
+    #[Route('/admin/boites-vitesse/ajouter', name:'admin_gearbox_add')]
     public function new() {
         return $this->create();
     }
 
-    #[Route('/admin/boite-vitesse/{id}/modifier', name:'admin_gearbox_edit')]
+    #[Route('/admin/boites-vitesse/{id}/modifier', name:'admin_gearbox_edit')]
     public function edit(string $id) {
         return $this->update($id);  
     }
 
-    #[Route('/admin/boite-vitesse/{id}/supprimer', name:'admin_gearbox_delete')]
+    #[Route('/admin/boites-vitesse/{id}/supprimer', name:'admin_gearbox_delete')]
     public function remove(string $id) {
         try {
             return $this->delete($id);
         } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $exception) {
-            $this->addFlash('error', 'Impossible de supprimer ce type de boite, car celui-ci est associé à un ou plusieurs éléments.');
+            $this->addFlash('error', 'Impossible de supprimer ce type de boite, car celui-ci est associé à un ou plusieurs véhicules.');
             return $this->redirectToRoute('admin_gearbox_index');
         }
     }
