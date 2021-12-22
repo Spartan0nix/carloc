@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin\Form;
 
-use App\Repository\Components\GearboxRepository;
+use App\Repository\Components\FuelRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -10,20 +10,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class AdminGearboxType extends AbstractType
+class AdminFuelType extends AbstractType
 {
 
-    public function __construct(private GearboxRepository $repository, private RequestStack $request){}
+    public function __construct(private FuelRepository $repository, private RequestStack $request){}
     function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Get the last entity
-        $gearboxs = $this->repository->findBy([], ['id' => 'DESC']);
-        $last_id = $gearboxs[0]->getId();
+        $fuels = $this->repository->findBy([], ['id' => 'DESC']);
+        $last_id = $fuels[0]->getId();
         // Get the current url
         $current_url = $this->request->getCurrentRequest()->getRequestUri();
 
         // if a user when to edit the last element, the min number should be the last id and not last + 1
-        if($current_url === "/admin/boites-vitesse/{$last_id}/modifier") {
+        if($current_url === "/admin/energies/{$last_id}/modifier") {
             $builder->add('id', IntegerType::class, [
                 'attr' => [
                     'min' => $last_id
@@ -37,7 +37,7 @@ class AdminGearboxType extends AbstractType
             ]);
         }
         
-        $builder->add('gearbox', TextType::class)
+        $builder->add('fuel', TextType::class)
                 ->add('submit', SubmitType::class, [
                     'attr' => ['class' => 'btn'],
                     'label' => 'Confirmer'

@@ -65,6 +65,11 @@ class UserController extends CrudController
 
     #[Route('/admin/utilisateur/{id}/supprimer', name:'admin_user_delete')]
     public function remove(string $id) {
-        return $this->delete($id);
+        try {
+            return $this->delete($id);
+        } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $exception) {
+            $this->addFlash('error', 'Impossible de supprimer cet utilisateur, car il est associé à une ou plusieurs locations.');
+            return $this->redirectToRoute('admin_user_index');
+        }
     }
 }

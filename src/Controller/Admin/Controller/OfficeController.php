@@ -47,6 +47,11 @@ class OfficeController extends CrudController
 
     #[Route('/admin/agences/{id}/supprimer', name:'admin_office_delete')]
     public function remove(string $id) {
-        return $this->delete($id);
+        try {
+            return $this->delete($id);
+        } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $exception) {
+            $this->addFlash('error', 'Impossible de supprimer cette agence, car elle est associée à un ou plusieurs véhicules/location.');
+            return $this->redirectToRoute('admin_color_index');
+        }
     }
 }

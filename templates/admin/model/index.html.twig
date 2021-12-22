@@ -1,62 +1,33 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title 'Gestion des vehicules' %}
+{% block title 'Gestion des modeles' %}
 
 
 {% block body %}
-<main id='admin_car_index' class='admin_crud_read'>
+<main id='admin_model_index' class='admin_crud_read'>
     <div class="header">
-        <h2>Gestion des véhicules</h2>
+        <h2>Gestion des modèles</h2>
     </div>
     <div class="control-pannel">
-        <button class='btn btn-primary'><a href='{{ path('admin_car_add') }}'>Ajouter un véhicule</a></button>
+        <button class='btn btn-primary'><a href='{{ path('admin_model_add') }}'>Ajouter un modele</a></button>
     </div>
     <div class="table-wrapper">
         <div class="table">
             <table>
                 <thead>
                     <tr>
-                        <th>Chevaux</th>
-                        <th>Prix</th>
-                        <th>Date de sortie</th>
-                        <th>Description</th>
-                        <th>Marque</th>
-                        <th>Model</th>
-                        <th>Énergie</th>
-                        <th>Boite de vitesse</th>
-                        <th>Coleur</th>
-                        <th>Type(s)</th>
-                        <th>Agence</th>
+                        <th>Id</th>
+                        <th>Nom</th>
                         <th class='action-column-title'>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for car in entities %}
+                {% for model in entities %}
                     <tr>
-                        <td>{{ car.horsepower }}</td>
-                        <td>{{ car.daily_price }}</td>
-                        <td>{{ car.release_year }}</td>
-                        <td>{{ car.description }}</td>
-                        <td class='car-brand'>{{ car.brand.brand }}</td>
-                        <td class='car-model'>{{ car.model.model }}</td>
-                        <td class='car-fuel'>{{ car.fuel.fuel }}</td>
-                        <td class='car-gearbox'>{{ car.gearbox.gearbox }}</td>
-                        <td class='car-color'>{{ car.color.color }}</td>
-                        <td class='car-types'>
-                            {% for type in car.types %}
-                            <div>
-                                {{ type.type }}
-                            </div>
-                            {% endfor %}
-                        </td>
-                        
-                        <td class='car-office'>
-                            <div>{{ car.office.street }}</div>
-                            <div>{{ car.office.tel_number }}</div>
-                            <div>{{ car.office.email }}</div>
-                        </td>
+                        <td>{{ model.id }}</td>
+                        <td>{{ model.model }}</td>
                         <td>
-                            <a href='{{ path('admin_car_edit', { id: car.id }) }}' class='action-edit'>
+                            <a href='{{ path('admin_model_edit', { id: model.id }) }}' class='action-edit'>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="35" height="35" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
@@ -64,7 +35,7 @@
                                     <line x1="16" y1="5" x2="19" y2="8" />
                                 </svg>
                             </a>
-                            <a href='{{ path('admin_car_delete', { id: car.id }) }}' class='action-delete'>
+                            <a href='{{ path('admin_model_delete', { id: model.id }) }}' class='action-delete'>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="35" height="35" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <line x1="4" y1="7" x2="20" y2="7" />

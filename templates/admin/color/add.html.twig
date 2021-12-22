@@ -1,17 +1,17 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title "Modification d'une marque" %}
+{% block title 'Ajouter une couleur' %}
 
 {% block body %}
-<main id='admin_brand_edit' class='admin_crud_edit'>
+<main id='admin_color_add' class='admin_crud_create'>
     <div class="header">
-        <h2>Modification d'une marque</h2>
+        <h2>Ajouter une couleur</h2>
     </div>
     <div class="form">
     {{ form_start(form) }}
         <div class="input-text">
-            <label>Nom</label>
-            {{ form_widget(form.brand)}}
+            <label>Nom :</label>
+            {{ form_widget(form.color)}}
         </div>
         <div class="submit">
             {{ form_widget(form.submit) }}

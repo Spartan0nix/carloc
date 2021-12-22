@@ -47,6 +47,11 @@ class BrandController extends CrudController
 
     #[Route('/admin/marques/{id}/supprimer', name:'admin_brand_delete')]
     public function remove(string $id) {
-        return $this->delete($id);
+        try {
+            return $this->delete($id);
+        } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $exception) {
+            $this->addFlash('error', 'Impossible de supprimer cette marque, car elle est associée à un ou plusieurs véhicules.');
+            return $this->redirectToRoute('admin_brand_index');
+        }
     }
 }
