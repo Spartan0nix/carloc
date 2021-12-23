@@ -13,14 +13,20 @@
                 background-color: var(--dark-contrast);
             }
         }
-        .user-email {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px , 1fr));
-            .submit-input-identity {
-                align-self: center;
-                justify-self: center;
-                padding-top: 1.8rem;
+        .user-info {
+            margin-top: 1rem;
+            .user-email {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px , 1fr));
+                .submit-input-identity {
+                    align-self: center;
+                    justify-self: center;
+                    padding-top: 1.8rem;
+                }
             }
+        }
+        .user-address {
+            margin-top: 1.5rem;
         }
         .submit-input-address {
             margin: 1rem;
