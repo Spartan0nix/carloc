@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Rent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,7 +21,7 @@ class RentRepository extends ServiceEntityRepository
     }
 
     public function findCancelableRent(string $user_id) {
-        return $this->createQueryBuilder('r')
+        return new ArrayCollection($this->createQueryBuilder('r')
             ->andWhere('r.status_id NOT IN (4,5)')
             ->andWhere('r.pickup_date > CURRENT_DATE()')
             ->andWhere('r.user_id = :user_id')
@@ -28,7 +29,7 @@ class RentRepository extends ServiceEntityRepository
             ->orderBy('r.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
+            ->getResult())
         ;
     }
 }
