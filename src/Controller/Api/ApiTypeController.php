@@ -50,7 +50,7 @@ class ApiTypeController extends AbstractController
         return new JsonResponse([
             'data' => [
                 'id' => $type->getId(),
-                'color' => $type->getType(),
+                'type' => $type->getType(),
             ]
         ], 200);
     }

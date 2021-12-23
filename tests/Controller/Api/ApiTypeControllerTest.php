@@ -24,4 +24,20 @@ class ApiTypeControllerTest extends WebTestCase
             'type' => $data['sportive']->getType(),
         ]);
     }
+
+    public function testGetTypeId(): void {
+        $client = $this->createClient();
+        $data = $this->load(['type'], $client->getContainer());
+
+        $client->request('GET', '/api/search/type_id', [
+            'id' => $data['sportive']->getId()
+        ]);
+
+        $json_response = $client->getResponse()->getContent();
+        $response = json_decode($json_response, true)['data'];
+        $this->assertEquals($response, [
+            'id' => $data['sportive']->getId(),
+            'type' => $data['sportive']->getType(),
+        ]);
+    }
 }
