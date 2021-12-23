@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\AuthRegisterType;
 use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +22,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('auth_account');
+            return $this->redirectToRoute('user_account');
         }
 
         // get the login error if there is one
@@ -35,9 +34,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername]);
     }
 
-    /**
-     * @Route("/nouveau-compte", name="auth_register")
-     */
+    #[Route("/nouveau-compte", name:"auth_register")]
     public function register(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, UrlGeneratorInterface $router): Response
     {
         $user = new User();
@@ -88,7 +85,7 @@ class SecurityController extends AbstractController
             $loginFormAuthenticator, 
             'main'
         ) 
-        ? $this->redirectToRoute('auth_account') 
+        ? $this->redirectToRoute('user_account') 
         : $this->redirectToRoute('auth_login');
     }
 
@@ -98,40 +95,5 @@ class SecurityController extends AbstractController
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
-
-    /**
-     * @Route("/compte/details", name="auth_account")
-     */
-    public function account()
-    {
-        $user = $this->getUser();
-        if(!$user) {
-            $response = new Response();
-            $response->setStatusCode(401);
-            return $this->render('exceptions/unauthorized.html.twig', [], $response);
-        }
-        
-        $data = [
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'last_name' => $user->getLastName(),
-            'first_name' => $user->getFirstName(),
-            'address' => $user->getAddress(),
-            'city' => json_encode([
-                'id' => $user->getCityId()->getId(),
-                'name' => $user->getCityId()->getName(),
-                'code' => $user->getCityId()->getCode(),
-            ]),
-            'department' => json_encode([
-                'id' => $user->getDepartmentId()->getId(),
-                'name' => $user->getDepartmentId()->getName(),
-                'code' => $user->getDepartmentId()->getCode(),
-                ])
-            ];
-        
-        return $this->render('user/account.html.twig', [
-            'user' => $data
-        ]);
     }
 }

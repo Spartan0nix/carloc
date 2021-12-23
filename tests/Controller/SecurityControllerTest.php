@@ -3,7 +3,6 @@
 namespace App\Tests\Controller;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Tests\FixtureTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -14,21 +13,20 @@ class SecurityControllerTest extends WebTestCase
     public function testLogin(): void {
         $client = $this->createClient();
         $data = $this->load(['user'], $client->getContainer());
+
         $crawler = $client->request('GET', '/connexion');
         $this->assertResponseIsSuccessful();
 
-        dump($crawler);
-        // $button = $crawler->selectButton('btn-form-submit');
-        // $client->followRedirects();
+        $button = $crawler->selectButton('btn-form-submit');
+        $client->followRedirects();
 
-        // $form = $button->form();
-        // dump($data['admin']->getEmail());
-        // $form['email'] = $data['admin']->getEmail();
-        // $form['password'] = $data['admin']->getPassword();
-        // dump($data['admin']->getPassword());
-        // $client->submit($form);
+        $form = $button->form();
+        $form['email'] = $data['admin']->getEmail();
+        $form['password'] = 'password';
+        $client->submit($form);
 
-        // $this->assertSelectorTextContains('h2', 'Mon compte');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h2', 'Mon compte');
     }
 
     public function testRegister(): void {
@@ -62,20 +60,6 @@ class SecurityControllerTest extends WebTestCase
         $this->assertEquals($data['department1']->getId(), $user->getDepartmentId()->getId());
     }
 
-    public function testRegisterLogin(): void {
-        $client = $this->createClient();
-        $data = $this->load(['user'], $client->getContainer());
-        $client->followRedirects();
-
-        $client->request('GET', '/nouveau-compte/authentification', [
-            'email' => $data['test']->getEmail(),
-            'password' => sha1($data['test']->getPassword())
-        ]);
-
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h2', 'Mon compte');
-    }
-
     public function testLogout(): void {
         $client = $this->createClient();
         $data = $this->load(['user'], $client->getContainer());
@@ -83,24 +67,11 @@ class SecurityControllerTest extends WebTestCase
         $client->loginUser($data['test']);
         $client->followRedirects();
 
-        $client->request('GET', '/compte/details');
+        $client->request('GET', '/compte');
         $this->assertResponseIsSuccessful();
 
         $client->request('GET', '/logout');
-        $client->request('GET', '/compte/details');
+        $client->request('GET', '/compte');
         $this->assertEquals(401 ,$client->getResponse()->getStatusCode());
-    }
-
-    public function testAccount(): void {
-        $client = $this->createClient();
-        $data = $this->load(['user'], $client->getContainer());
-        $client->followRedirects();
-
-        $client->request('GET', '/compte/details');
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-
-        $client->loginUser($data['test']);
-        $client->request('GET', '/compte/details');
-        $this->assertSelectorTextContains('h2', 'Mon compte');
     }
 }
