@@ -1,7 +1,7 @@
 <section id="filter-section">
     <div id="filter-section-wrapper">
         {{ form_start(form) }}
-            <div class="select-container">
+            <div class="select-container" id='select-brand-container'>
                 {{ form_widget(form.brand_id, {'attr': {'class': 'hidden-type'}})}}
                 <select-dynamic class='select-element select-dynamic'
                     data-placeholder='Marque du véhicule'
@@ -10,7 +10,7 @@
                     data-url='/brand'
                 ></select-dynamic>
             </div>
-            <div class="select-container">
+            <div class="select-container" id='select-model-container'>
                 {{ form_widget(form.model_id, {'attr': {'class': 'hidden-type'}})}}
                 <select-dynamic class='select-element select-dynamic'
                     data-placeholder='Modèle du véhicule'
@@ -19,7 +19,7 @@
                     data-url='/model'
                 ></select-dynamic>
             </div>
-            <div class="select-container">
+            <div class="select-container" id='select-type-container'>
                 {{ form_widget(form.type_id, {'attr': {'class': 'hidden-type'}})}}
                 <select-dynamic class='select-element select-dynamic'
                     data-placeholder='Type du véhicule'
@@ -28,7 +28,7 @@
                     data-url='/type'
                 ></select-dynamic>
             </div>
-            <div class="select-container">
+            <div class="select-container" id='select-fuel-container'>
                 {{ form_widget(form.fuel_id, {'attr': {'class': 'hidden-type'}})}}
                 <select-static class='select-element select-static'
                     data-placeholder='Énergie du véhicule'
@@ -37,7 +37,7 @@
                     data-url='/fuel'
                 ></select-static>
             </div>
-            <div class="search-container">
+            <div class="search-container" id='search-gearbox-container'>
                 {{ form_widget(form.gearbox_id, {'attr': {'class': 'hidden-type'}})}}
                 <search-static class='search-element search-static'
                     data-placeholder='Boite du véhicule'
@@ -48,6 +48,7 @@
             </div>
             <div class="submit">
                 {{ form_widget(form.submit) }}
+                <button class="btn btn-danger" id="btn-reset-filter" type="reset">Annuler</button>
             </div>
         {{ form_end(form) }}
     </div>

@@ -4,13 +4,11 @@
 
 {% block body %}
     <main id='rent_user_list' class='account'>
-        <h2>Mes Locations</h2>
+        <header class='header'>
+            <h2>Mes locations</h2>
+        </header>
         <div class='account-container'>
-            <section class='account-menu'>
-                <a href='{{ path('auth_account') }}'>Paramètres du compte</a>
-                <a href='{{ path('user_rent_list') }}' class='active'>Mes locations</a>
-                <a href='{{ path('user_rent_cancel_form') }}'>Annulation location</a>
-            </section>
+            {% include 'user/_menu.html.twig' with {active_class: 'user_rent_list'} %}
             <section class='account-info'>
                 <div class='rent-list'>
                     {% if rents == [] %}
@@ -25,7 +23,7 @@
                                     <img src="/images/temp/m2.jpg" alt="temp">
                                 </div>
                                 <div class='rent-details'>
-                                    <h4>{{ rent.car.brand }} - {{ rent.car.model }}</h4>
+                                    <h4>{{ rent.car.brand.brand }} - {{ rent.car.model.model }}</h4>
                                     <div class='rent-sub-details'>
                                         <div class="rent-date sub-detail">
                                             <h6>Dates :</h6>
@@ -37,11 +35,11 @@
                                         </div>
                                         <div class="rent-pickup-office sub-detail">
                                             <h6>Agence de départ :</h6>
-                                            <p> {{ rent.pickup_office.street }}, {{ rent.pickup_office.city}} - {{ rent.pickup_office.city_code }}</p>
+                                            <p> {{ rent.pickup_office.street }}, {{ rent.pickup_office.city.name}} - {{ rent.pickup_office.city.code }}</p>
                                         </div>
                                         <div class="rent-return-office sub-detail">
                                             <h6>Agence de retour :</h6>
-                                            <p> {{ rent.return_office.street }}, {{ rent.return_office.city}} - {{ rent.return_office.city_code }}</p>
+                                            <p> {{ rent.return_office.street }}, {{ rent.return_office.city.name }} - {{ rent.return_office.city.code }}</p>
                                         </div>
                                     </div>
                                 </div>

@@ -4,73 +4,61 @@
 
 {% block body %}
     <main id='account' class='account'>
-        <h2>Mon compte</h2>
+        <header class='header'>
+            <h2>Mon compte</h2>
+        </header>
         <div class='account-container'>
-            <section class='account-menu'>
-                <a href='{{ path('auth_account') }}' class='active'>Paramètres du compte</a>
-                <a href='{{ path('user_rent_list') }}'>Mes locations</a>
-                <a href='{{ path('user_rent_cancel_form') }}'>Annulation location</a>
-            </section>
+            {% include 'user/_menu.html.twig' with {active_class: 'user_account'} %}
             <section class='account-info'>
                 <div class='user-info'>
                     <h4>Informations générales</h4>
-                    <form class='user-info-inputs' action="{{ path('user_change_identity') }}" method='POST'>
-                        <div class='user-identity grid-two'>
-                            <section class='last-name input-text'>
-                                <label for='last-name-input'>Nom</label>
-                                <input type='text' id='last-name-input' name='last_name' value='{{ user.last_name }}' required>
-                            </section>
-                            <section class='first-name input-text'>
-                                <label for='first-name-input'>Prénom</label>
-                                <input type='text' id='first-name-input' name='first_name' value='{{ user.first_name }}' required>
-                            </section>
-                        </div>
-                        <div class="user-email">
-                            <section class='email input-text'>
-                                <label for='email-input'>Adresse mail</label>
-                                <input type='email' id='email-input' name='email' value='{{ user.email }}' required>
-                            </section>
-                            <div class='submit-input-identity'>
-                                <button type='submit' class='btn btn-success'>Valider</button>
+                    {{form_start(info_form)}}
+                        <div class="grid-two">
+                            <div class="input-text">
+                                <label for="user_last_name">Nom :</label>
+                                {{ form_widget(info_form.last_name)}}
+                            </div>
+                            <div class="input-text">
+                                <label for="user_last_name">Prénom :</label>
+                                {{ form_widget(info_form.first_name)}}
                             </div>
                         </div>
-                    </form>
+                        <div class="input-text">
+                            <label for="user_email">Adresse mail :</label>
+                            {{ form_widget(info_form.email)}}
+                        </div>
+                    {{form_end(info_form)}}
                 </div>
                 <div class='user-address'>
                     <h4>Adresse</h4>
-                    <form class='user-address-inputs' action='{{ path('user_change_address') }}' method='POST'>
-                        <section class='address input-text'>
-                            <label for='address-input'>Adresse</label>
-                            <input type='text' id='address-input' name='address' value='{{ user.address }}' disabled>
-                        </section>
+                    {{form_start(address_form)}}
+                        <div class="input-text">
+                            <label for="user_address">Adresse :</label>
+                            {{ form_widget(address_form.address)}}
+                        </div>
                         <div class="grid-two">
-                            <section class='city input-text'>
-                                <label for='city-input'>Ville</label>
-                                <js-search-dynamic
-                                    data-placeholder='Ville'
-                                    data-id='city-input'
-                                    data-name='city_id'
-                                    data-type='city'
-                                    data-selected="{{ user.city }}"
-                                ></js-search-dynamic>
-                            </section>
-                            <section class='department input-text'>
-                                <label for='department-input'>Département</label>
-                                <js-search-dynamic
-                                    data-placeholder='Departement'
-                                    data-id='department-input'
-                                    data-name='department_id'
-                                    data-type='department'
-                                    data-selected="{{ user.department }}"
-                                ></js-search-dynamic>
-                            </section>
+                            <div class="search-container input-text">
+                                {{ form_widget(address_form.department_id, {'attr': {'class': 'hidden-type'}})}}
+                                <label for="user_department">Département :</label>
+                                <search-dynamic class='search-element search-dynamic'
+                                    data-placeholder=''
+                                    data-id='user_change_address_department_id'
+                                    data-name='user_change_address[department_id]'
+                                    data-url='/department'
+                                ></search-dynamic>
+                            </div>
+                            <div class="search-container input-text">
+                                <label for="user_city">Ville :</label>
+                                {{ form_widget(address_form.city_id, {'attr': {'class': 'hidden-type'}})}}
+                                <search-dynamic class='search-element search-dynamic'
+                                    data-placeholder=''
+                                    data-id='user_change_address_city_id'
+                                    data-name='user_change_address[city_id]'
+                                    data-url='/city'
+                                ></search-dynamic>
+                            </div>
                         </div>
-                        <div class='submit-input-address'>
-                            <button type='button' class='btn btn-info'>Modifier</button>
-                            <button type='submit' class='btn btn-submit btn-success'>Valider</button>
-                            <button type='button' class='btn btn-warning'>Annuler</button>
-                        </div>
-                    </form>
+                    {{form_end(address_form)}}
                 </div>
             </section>
         </div>
