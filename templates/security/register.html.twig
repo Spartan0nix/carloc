@@ -6,7 +6,6 @@
 {% block body %}
 	<main id="auth_modal" class="auth_register">
         {{ form_start(form, {attr: {class: 'auth-form'}} )}}
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             <div class="wrapper"></div>
             <div>
                 <div class="auth-wrapper">

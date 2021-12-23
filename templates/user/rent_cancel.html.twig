@@ -4,13 +4,11 @@
 
 {% block body %}
     <main id='rent_user_list' class='account'>
-        <h2>Mes Locations</h2>
+        <header class='header'>
+            <h2>Mes Locations</h2>
+        </header>
         <div class='account-container'>
-            <section class='account-menu'>
-                <a href='{{ path('auth_account') }}'>Paramètres du compte</a>
-                <a href='{{ path('user_rent_list') }}'>Mes locations</a>
-                <a href='{{ path('user_rent_cancel_form') }}' class='active'>Annulation location</a>
-            </section>
+            {% include 'user/_menu.html.twig' with {active_class: 'user_rent_cancel_form'} %}
             <section class='account-info'>
                 <div class="cancel-info">
                     <h4><u>Remarque concernant l'annulation d'une location :</u></h4>
@@ -55,7 +53,7 @@
                                 </section>
                                 <section class='status-bar'>
                                     <div class='rent-status'>
-                                        {% include 'security/_status.html.twig' %}
+                                        {% include 'user/_status.html.twig' %}
                                         <p> {{ rent.status.status }} </p>
                                     </div>
                                     <div class='total-price submit'>

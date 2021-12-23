@@ -11,7 +11,8 @@ class RentNormalizer implements ContextAwareNormalizerInterface, CacheableSuppor
     public function __construct(
         private OfficeNormalizer $officeNormalizer,
         private UserNormalizer $userNormalizer,
-        private CarNormalizer $carNormalizer
+        private CarNormalizer $carNormalizer,
+        private StatusNormalizer $statusNormalizer
     ) {}
 
     public function supportsNormalization($data, ?string $format = null, array $context = [])
@@ -40,6 +41,7 @@ class RentNormalizer implements ContextAwareNormalizerInterface, CacheableSuppor
             $rent['return_office'] = $this->officeNormalizer->normalize($object->getReturnOfficeId(), 'extended');
             $rent['user'] = $this->userNormalizer->normalize($object->getUserId(), 'extended');
             $rent['car'] = $this->carNormalizer->normalize($object->getCarId(), 'extended');
+            $rent['status'] = $this->statusNormalizer->normalize($object->getStatusId());
         }
 
         return $rent;

@@ -1,18 +1,27 @@
 .account {
-    padding: 3rem;
-    background-color: var(--light-contrast);
-    h2 {
-        font-size: 2rem;
-        padding: 2rem 0;
+    margin: 0;
+    width: 100%;
+    .header {
+        height: 4rem;
+        background-color: var(--dark-contrast);
+        font-size: 1.4em;
+        line-height: 4rem;
+        color: var(--font);
+        h2 {
+            margin-left: 2rem;
+            font-size: 2rem;
+        }
     }
     .account-container {
         display: flex;
+        margin: 3rem 2rem;
         .account-menu {
             display: flex;
             flex-direction: column;
             width: 18rem;
             background-color: var(--font);
             border-radius: 18px;
+            box-shadow: 0 1px 3px 0 var(--primary);
             a {
                 text-align: center;
                 text-decoration: none;
@@ -35,6 +44,9 @@
                     background-color: var(--dark-contrast);
                     color: var(--gold);
                 }
+                &:first-child {
+                    margin-top: 1rem;
+                }
             }
             .active {
                 color: var(--gold);
@@ -47,6 +59,7 @@
             border-radius: 18px;
             margin-left: 1.2rem;
             padding: 1.3rem;
+            box-shadow: 0 1px 3px 0 var(--primary);
             .no-rent {
                 padding-top: 0.2rem;
                 text-align: center;

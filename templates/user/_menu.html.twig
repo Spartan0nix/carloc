@@ -1,0 +1,5 @@
+<section class='account-menu'>
+    <a href='{{ path('user_account') }}' class="{{ active_class == 'user_account' ? 'active' : '' }}">Paramètres du compte</a>
+    <a href='{{ path('user_rent_list') }}' class="{{ active_class == 'user_rent_list' ? 'active' : '' }}">Mes locations</a>
+    <a href='{{ path('user_rent_cancel_form') }}' class="{{ active_class == 'user_rent_cancel_form' ? 'active' : '' }}">Annulation location</a>
+</section>
