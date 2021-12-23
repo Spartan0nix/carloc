@@ -9,10 +9,7 @@ if(document.getElementById('rent_step_1')){
     returnOfficeCheckbox.addEventListener('click', () => {
         if(returnOfficeContainer.classList.contains('diff-return-office')){
             returnOfficeContainer.querySelector('input[type="text"]').value = ''
-            returnOfficeContainer.querySelector('input[type="hidden"]').value = ''
         }
         returnOfficeContainer.classList.toggle('diff-return-office');
-    })
-
-    
+    }) 
 }
