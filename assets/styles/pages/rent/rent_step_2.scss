@@ -4,23 +4,13 @@
         background-color: var(--font);
         #filter-section-wrapper {
             padding: 2rem;
-            #filter-form {
+            form {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-                grid-gap: 0.5rem;
-    
-                .filter-input {
-                    margin: 0.5rem !important;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                .submit {
                     display: flex;
-                    flex-direction: row;
-
-                    button {
-                        margin: 0 1rem 0 0;
-                    }
-                }
-                .filter-submit {
-                    align-self: center;
-                    justify-self: center;
+                    justify-content: space-around;
+                    align-items: center;
                 }
             }
         }
@@ -89,5 +79,7 @@
             }
         }
     }
-    
+    &.not_found {
+        width: 100%;
+    }
 }
