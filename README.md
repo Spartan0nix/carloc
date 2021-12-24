@@ -14,6 +14,6 @@ I don't think so but who knows what might happen :) (EN)
 Je ne pense pas, mais qui peut savoir ce qu'il adviendra :) (FR)
 
 ## !! Be Aware !!
-Was build using symfony 4.26.11, since symfony ~5.2, a lots of parts had been deprecated. (EN)
+Was build using symfony 5.2, since symfony ~5.3, a lots of parts had been deprecated. (EN)
 
-Construit avec symfony 4.26.11, depuis symfony ~5.2, de nombreux éléments ont été dépréciés. (FR)
+Construit avec symfony 5.2, depuis symfony ~5.3, de nombreux éléments ont été dépréciés. (FR)
